@@ -2,16 +2,12 @@ clone_depth: 1
 init:
   - git config --global core.autocrlf true
 
-build_script:
-  - ps: .\run.ps1 default-build
-
 environment:
   global:
     DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
     DOTNET_CLI_TELEMETRY_OPTOUT: 1
 
 test: off
-deploy: off
 os: Visual Studio 2017
 
 install:
