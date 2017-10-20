@@ -21,7 +21,7 @@ before_build:
   - cmd: bash ./script/git-version.sh --verbose get
 
 build_script:
-  - cmd: dotnet build /v:n
+  - cmd: dotnet build
 
 artifacts:
   - path: artifacts/*.nupkg
