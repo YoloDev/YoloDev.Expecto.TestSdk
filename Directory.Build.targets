@@ -2,7 +2,6 @@
   <Target Name="SetVersion" BeforeTargets="Build;Pack">
     <PropertyGroup>
       <GitVersionExec><![CDATA[
-        set -m > /dev/null || true > /dev/null
         set PATH="/usr/bin;$PATH"
         sh -c "bash '$(MSBuildThisFileDirectory)/script/git-version.sh' get"
       ]]></GitVersionExec>
