@@ -1,0 +1,13 @@
+<Project>
+  <PropertyGroup>
+    <Authors>Aleksander Heintz</Authors>
+    <Product>YoloDev Expecto TestSdk</Product>
+    <RepositoryUrl>https://github.com/YoloDev/YoloDev.Expecto.TestSdk</RepositoryUrl>
+    <PackageLicenseUrl>https://opensource.org/licenses/MIT</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/YoloDev/YoloDev.Expecto.TestSdk</PackageProjectUrl>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryRoot>$(MSBuildThisFileDirectory)</RepositoryRoot>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <DebugType>embedded</DebugType>
+  </PropertyGroup>
+</Project>

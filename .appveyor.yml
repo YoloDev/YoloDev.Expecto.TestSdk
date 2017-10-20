@@ -1,0 +1,42 @@
+clone_depth: 1
+init:
+  - git config --global core.autocrlf true
+
+build_script:
+  - ps: .\run.ps1 default-build
+
+environment:
+  global:
+    DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+    DOTNET_CLI_TELEMETRY_OPTOUT: 1
+
+test: off
+deploy: off
+os: Visual Studio 2017
+
+install:
+  - cmd: git fetch --depth 50
+  - cmd: git fetch --tags --depth 50
+  - cmd: git fetch origin master:master --depth 50
+  - cmd: bash ./script/prepare-appveyor.sh
+  - cmd: dotnet restore build
+
+before_build:
+  - cmd: bash ./script/git-version.sh --verbose get
+
+build_script:
+  - cmd: dotnet build /v:n
+
+artifacts:
+  - path: artifacts/*.nupkg
+
+deploy:
+  - provider: Environment
+    name: YoloDev MyGet
+    on:
+      branch: master
+
+  - provider: Environment
+    name: NuGet Central
+    on:
+      appveyor_repo_tag: true

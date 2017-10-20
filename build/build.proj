@@ -1,0 +1,23 @@
+<Project>
+  <ItemGroup>
+    <RestoreProject Include="..\YoloDev.Expecto.TestSdk.sln" />
+    <PublishProject Include="..\src\**\*.*proj" />
+    <TestProject Include="..\test\**\*.Test.*proj" />
+  </ItemGroup>
+
+  <Target Name="Restore">
+    <MSBuild Projects="@(RestoreProject)" Targets="Restore" ContinueOnError="ErrorAndStop" UnloadProjectsOnCompletion="true" UseResultsCache="false" />
+  </Target>
+
+  <Target Name="Build">
+    <PropertyGroup>
+      <OutputBaseDir>$(MSBuildThisFileDirectory)..\</OutputBaseDir>
+      <PackageOutputPath>$(OutputBaseDir)artifacts</PackageOutputPath>
+      <BuildProperties>Configuration=$(Configuration)</BuildProperties>
+    </PropertyGroup>
+
+    <MSBuild Projects="@(PublishProject);@(TestProject)" Targets="Clean" ContinueOnError="ErrorAndStop" />
+    <MSBuild Projects="@(TestProject)" Targets="VSTest" Properties="VSTestLogger=trx" ContinueOnError="ErrorAndStop" />
+    <MSBuild Projects="@(PublishProject)" Targets="Pack" Properties="Configuration=Release;PackageOutputPath=$(PackageOutputPath);SourceLinkCreate=true;SourceLinkTest=true" ContinueOnError="ErrorAndStop" />
+  </Target>
+</Project>
