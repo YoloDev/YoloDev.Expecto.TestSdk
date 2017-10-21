@@ -11,6 +11,7 @@
     <Compile Include="discovery.fs" />
     <Compile Include="execution.fs" />
     <Compile Include="adapter.fs" />
+    <Compile Include="main.fs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectCapability Include="TestContainer" />
