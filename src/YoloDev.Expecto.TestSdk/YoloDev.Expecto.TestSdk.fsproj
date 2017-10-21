@@ -5,7 +5,7 @@
     <!-- puts build outputs in build folder in nupkg -->
     <BuildOutputTargetFolder>build</BuildOutputTargetFolder>
     <OutputType>Library</OutputType>
-    <OutputType Condition="'$(TargetFrameworkIdentifier)' == '.NETCoreApp'">Exe</OutputType>
+    <OutputType Condition=" '$(TargetFramework)' == 'netcoreapp2.0' ">Exe</OutputType>
   </PropertyGroup>
 
   <ItemGroup>
