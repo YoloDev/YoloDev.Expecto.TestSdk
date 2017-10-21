@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="build/expecto.visualstudio.dotnetcore.props">
+    <None Include="build/netcoreapp2.0/YoloDev.Expecto.TestSdk.props">
       <Pack>true</Pack>
       <PackagePath>build\netcoreapp2.0\</PackagePath>
     </None>
