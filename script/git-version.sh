@@ -9,6 +9,15 @@ REGEX_BRANCH="^[a-z/]+/(.*)$"
 DIR_ROOT="$(git rev-parse --show-toplevel 2> /dev/null)"
 CHANGELOG="CHANGELOG.md"
 
+pushd . > /dev/null
+SCRIPT_PATH="${BASH_SOURCE[0]}";
+if ([ -h "${SCRIPT_PATH}" ]) then
+  while([ -h "${SCRIPT_PATH}" ]) do cd `dirname "$SCRIPT_PATH"`; SCRIPT_PATH=`readlink "${SCRIPT_PATH}"`; done
+fi
+cd `dirname ${SCRIPT_PATH}` > /dev/null
+SCRIPT_PATH=`pwd`;
+popd  > /dev/null
+
 # Use in the the functions: eval $invocation
 invocation='say_verbose "Calling: ${yellow:-}${FUNCNAME[0]} ${green:-}$*${normal:-}"'
 
@@ -295,11 +304,13 @@ function update-changelog() {
   local nextVersion=$(get-next-full-version "$lastVersionTag")
   say_set "next-full-version" "$nextVersion"
 
-  cp package.json package.json.tmp
-  jq ".version=\"$nextVersion\"" < package.json.tmp > package.json
-  yarn run conventional-changelog -- -p eslint -i CHANGELOG.md -s
-  rm package.json
-  mv package.json.tmp package.json
+  local projectName=$(basename "$DIR_ROOT")
+  echo "{\"name\":\"$projectName\",\"version\":\"$nextVersion\"}" > "$SCRIPT_PATH/package.json"
+
+  pushd "$SCRIPT_PATH"
+  npx -p "conventional-changelog-cli" conventional-changelog -p eslint -i ../CHANGELOG.md -s
+  popd
+  rm "$SCRIPT_PATH/package.json"
 }
 
 function create-version-tag() {
