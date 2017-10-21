@@ -33,7 +33,6 @@
 
   <ItemGroup>
     <PackageReference Include="Expecto" Version="5.0.1" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.3.0" ExcludeAssets="Build" />
     <PackageReference Include="Microsoft.TestPlatform.ObjectModel" Version="15.3.0" PrivateAssets="All" />
     <PackageReference Include="MSBuild.Sdk.Extras" Version="1.1.0" PrivateAssets="All" />
     <PackageReference Include="System.Collections.Immutable" Version="1.4.0" />
