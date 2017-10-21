@@ -3,7 +3,6 @@
     <AssemblyName Condition=" '$(TargetFramework)' == 'net461' ">expecto.visualstudio.testadapter</AssemblyName>
     <AssemblyName Condition=" '$(TargetFramework)' == 'netcoreapp2.0' ">expecto.visualstudio.dotnetcore.testadapter</AssemblyName>
   </PropertyGroup>
-
   <ItemGroup>
     <Compile Include="constants.fs" />
     <Compile Include="helpers.fs" />
@@ -13,17 +12,15 @@
     <Compile Include="execution.fs" />
     <Compile Include="adapter.fs" />
   </ItemGroup>
-
   <ItemGroup>
     <ProjectCapability Include="TestContainer" />
   </ItemGroup>
-
   <ItemGroup>
     <PackageReference Include="Expecto" Version="5.0.1" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.3.0" />
     <PackageReference Include="Microsoft.TestPlatform.ObjectModel" Version="15.3.0" PrivateAssets="All" />
     <PackageReference Include="MSBuild.Sdk.Extras" Version="1.1.0" PrivateAssets="All" />
     <PackageReference Include="System.Collections.Immutable" Version="1.4.0" />
   </ItemGroup>
-  
   <Import Project="$(MSBuildSDKExtrasTargets)" Condition="Exists('$(MSBuildSDKExtrasTargets)')" />
 </Project>
