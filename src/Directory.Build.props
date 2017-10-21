@@ -2,8 +2,7 @@
   <Import Project="..\Directory.Build.props" />
 
   <PropertyGroup>
-    <DebugType>embedded</DebugType>
-    <DebugType Condition="$([MSBuild]::IsOSUnixLike())">portable</DebugType>
+    <DebugType>portable</DebugType>
     <TargetFrameworks>netcoreapp2.0;net461</TargetFrameworks>
     <TargetFrameworks Condition="$([MSBuild]::IsOSUnixLike())">netcoreapp2.0</TargetFrameworks>
     <IsPackable>true</IsPackable>
