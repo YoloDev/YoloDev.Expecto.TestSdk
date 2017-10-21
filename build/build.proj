@@ -15,7 +15,7 @@
       <PackageOutputPath>$(OutputBaseDir)artifacts</PackageOutputPath>
       <BuildProperties>Configuration=$(Configuration)</BuildProperties>
       <VSTestLogger>trx</VSTestLogger>
-      <VSTestLogger Condition="'$(APPVEYOR)' == 'True'">Appveyor</VSTestLogger>
+      <!--<VSTestLogger Condition="'$(APPVEYOR)' == 'True'">Appveyor</VSTestLogger>-->
     </PropertyGroup>
 
     <MSBuild Projects="@(PublishProject);@(TestProject)" Targets="Clean" ContinueOnError="ErrorAndStop" />
