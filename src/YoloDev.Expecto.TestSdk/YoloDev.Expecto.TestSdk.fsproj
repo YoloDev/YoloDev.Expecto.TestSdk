@@ -2,7 +2,10 @@
   <PropertyGroup>
     <AssemblyName Condition=" '$(TargetFramework)' == 'net461' ">expecto.visualstudio.testadapter</AssemblyName>
     <AssemblyName Condition=" '$(TargetFramework)' == 'netcoreapp2.0' ">expecto.visualstudio.dotnetcore.testadapter</AssemblyName>
+    <!-- puts build outputs in build folder in nupkg -->
     <BuildOutputTargetFolder>build</BuildOutputTargetFolder>
+    <OutputType>Library</OutputType>
+    <OutputType Condition=" '$(TargetFramework)' == 'netcoreapp2.0' ">Exe</OutputType>
   </PropertyGroup>
 
   <ItemGroup>
@@ -30,7 +33,6 @@
 
   <ItemGroup>
     <PackageReference Include="Expecto" Version="5.0.1" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.3.0" />
     <PackageReference Include="Microsoft.TestPlatform.ObjectModel" Version="15.3.0" PrivateAssets="All" />
     <PackageReference Include="MSBuild.Sdk.Extras" Version="1.1.0" PrivateAssets="All" />
     <PackageReference Include="System.Collections.Immutable" Version="1.4.0" />

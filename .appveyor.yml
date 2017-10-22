@@ -1,6 +1,8 @@
 clone_depth: 1
 init:
-  - git config --global core.autocrlf true
+  # SoureLink requires the files to have the same checksum.
+  # Make sure git doesn't mess with line endings.
+  - git config --global core.autocrlf false
 
 environment:
   global:
