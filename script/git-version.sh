@@ -307,9 +307,7 @@ function update-changelog() {
   local projectName=$(basename "$DIR_ROOT")
   echo "{\"name\":\"$projectName\",\"version\":\"$nextVersion\"}" > "$SCRIPT_PATH/package.json"
 
-  pushd "$SCRIPT_PATH"
-  npx -p "conventional-changelog-cli" conventional-changelog -p eslint -i ../CHANGELOG.md -s
-  popd
+  npx -p "conventional-changelog-cli" conventional-changelog -k "$SCRIPT_PATH/package.json" -i ./CHANGELOG.md -s -r 0 -p jquery
   rm "$SCRIPT_PATH/package.json"
 }
 
