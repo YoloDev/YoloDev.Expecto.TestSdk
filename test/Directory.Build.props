@@ -6,8 +6,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Expecto" Version="5.1.2" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.3.0" />
+    <PackageReference Include="Expecto" Version="$(ExpectoVersion)" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="$(TestSdkVersion)" />
     <ProjectReference Include="$(MSBuildThisFileDirectory)\..\src\YoloDev.Expecto.TestSdk\YoloDev.Expecto.TestSdk.fsproj" />
   </ItemGroup>
 </Project>
