@@ -10,4 +10,10 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <DebugType>embedded</DebugType>
   </PropertyGroup>
+
+  <!-- Versions -->
+  <PropertyGroup>
+    <ExpectoVersion>5.1.2</ExpectoVersion>
+    <TestSdkVersion>15.5.0</TestSdkVersion>
+  </PropertyGroup>
 </Project>
