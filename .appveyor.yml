@@ -12,15 +12,14 @@ environment:
 test: off
 os: Previous Visual Studio 2017
 
-before_install:
-  # Display .NET Core info
-  - cmd: dotnet --info
-
 install:
   - cmd: git fetch --depth 50
   - cmd: git fetch --tags --depth 50
   - cmd: git fetch origin master:master --depth 50
   - cmd: bash ./script/prepare-appveyor.sh
+  # Display .NET Core info
+  - cmd: dotnet --info
+  # Restore build script
   - cmd: dotnet restore build
 
 before_build:
