@@ -1,4 +1,3 @@
-clone_depth: 1
 init:
   # SoureLink requires the files to have the same checksum.
   # Make sure git doesn't mess with line endings.
@@ -17,6 +16,9 @@ install:
   - cmd: git fetch --tags --depth 50
   - cmd: git fetch origin master:master --depth 50
   - cmd: bash ./script/prepare-appveyor.sh
+  # Display .NET Core info
+  - cmd: dotnet --info
+  # Restore build script
   - cmd: dotnet restore build
 
 before_build:
