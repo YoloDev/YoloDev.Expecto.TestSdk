@@ -1,3 +1,9 @@
+<a name="0.4.0"></a>
+# [0.4.0](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/compare/v0.3.1...v0.4.0) (2018-03-06)
+
+
+
+
 <a name="0.3.1"></a>
 ## [0.3.1](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/compare/v0.3.0...v0.3.1) (2018-02-02)
 
