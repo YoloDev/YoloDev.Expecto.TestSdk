@@ -13,7 +13,7 @@
 
   <!-- Versions -->
   <PropertyGroup>
-    <ExpectoVersion>5.1.2</ExpectoVersion>
+    <ExpectoVersion>6.0.0</ExpectoVersion>
     <TestSdkVersion>15.5.0</TestSdkVersion>
   </PropertyGroup>
 </Project>
