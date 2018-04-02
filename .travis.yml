@@ -1,8 +1,8 @@
 language: csharp
 sudo: required
 dist: trusty
-mono: none
-dotnet: 2.0.0
+mono: 5.8.0
+dotnet: 2.1.101
 
 env:
   global:
