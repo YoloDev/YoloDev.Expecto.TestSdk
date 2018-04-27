@@ -1,0 +1,12 @@
+version: 1
+
+cli:
+  server: https://app.fossa.io
+  project: git@github.com:YoloDev/YoloDev.Expecto.TestSdk.git
+  fetcher: custom
+
+analyze:
+  modules:
+  - name: YoloDev.Expecto.TestSdk
+    path: ./src/YoloDev.Expecto.TestSdk
+    type: nuget

@@ -56,3 +56,7 @@ Many of the [ExpectoConfig](https://github.com/haf/expecto#the-config) settings 
 ```
 dotnet test -- Expecto.parallel=false Expecto.fail-on-focused-tests=true Expecto.stress-memory-limit=120.0
 ```
+
+## License
+
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FYoloDev%2FYoloDev.Expecto.TestSdk.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2FYoloDev%2FYoloDev.Expecto.TestSdk?ref=badge_large)
