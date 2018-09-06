@@ -19,3 +19,4 @@ nuget.exe
 .vscode/
 korebuild-lock.txt
 global.json
+.ionide/
