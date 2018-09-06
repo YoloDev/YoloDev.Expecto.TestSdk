@@ -1,11 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <AssemblyName Condition=" '$(TargetFramework)' == 'net461' ">expecto.visualstudio.testadapter</AssemblyName>
-    <AssemblyName Condition=" '$(TargetFramework)' == 'netcoreapp2.0' ">expecto.visualstudio.dotnetcore.testadapter</AssemblyName>
+    <AssemblyName Condition=" '$(TargetFramework)' == 'netstandard2.0' ">expecto.visualstudio.dotnetcore.testadapter</AssemblyName>
     <!-- puts build outputs in build folder in nupkg -->
     <BuildOutputTargetFolder>build</BuildOutputTargetFolder>
     <OutputType>Library</OutputType>
-    <OutputType Condition=" '$(TargetFramework)' == 'netcoreapp2.0' ">Exe</OutputType>
   </PropertyGroup>
 
   <ItemGroup>
@@ -16,13 +15,12 @@
     <Compile Include="discovery.fs" />
     <Compile Include="execution.fs" />
     <Compile Include="adapter.fs" />
-    <Compile Include="main.fs" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="build/netcoreapp2.0/YoloDev.Expecto.TestSdk.props">
+    <None Include="build/netstandard2.0/YoloDev.Expecto.TestSdk.props">
       <Pack>true</Pack>
-      <PackagePath>build\netcoreapp2.0\</PackagePath>
+      <PackagePath>build\netstandard2.0\</PackagePath>
     </None>
 
     <None Include="build/net461/YoloDev.Expecto.TestSdk.props">
