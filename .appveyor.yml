@@ -8,7 +8,6 @@ environment:
     DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
     DOTNET_CLI_TELEMETRY_OPTOUT: 1
 
-test: off
 os: Visual Studio 2017
 
 install:
@@ -26,6 +25,10 @@ before_build:
 
 build_script:
   - cmd: dotnet build build
+
+test_script:
+  - cmd: dotnet test --no-build --logger "trx;LogFileName=testresult.xml" test/Sample.Test/Sample.Test.fsproj
+  - ps: (New-Object 'System.Net.WebClient').UploadFile("https://ci.appveyor.com/api/testresults/mstest/$($env:APPVEYOR_JOB_ID)", (Resolve-Path test/Sample.Test/TestResults/testresult.xml))
 
 artifacts:
   - path: artifacts/*.nupkg
