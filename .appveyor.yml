@@ -27,6 +27,9 @@ before_build:
 build_script:
   - cmd: dotnet build build
 
+test_script:
+  - ps: (New-Object 'System.Net.WebClient').UploadFile("https://ci.appveyor.com/api/testresults/mstest/$($env:APPVEYOR_JOB_ID)", (Resolve-Path artifacts\VSTestResults.trx))
+
 artifacts:
   - path: artifacts/*.nupkg
 

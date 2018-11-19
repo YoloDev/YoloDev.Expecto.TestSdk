@@ -14,7 +14,7 @@
       <OutputBaseDir>$(MSBuildThisFileDirectory)..\</OutputBaseDir>
       <PackageOutputPath>$(OutputBaseDir)artifacts</PackageOutputPath>
       <BuildProperties>Configuration=$(Configuration)</BuildProperties>
-      <VSTestLogger>trx</VSTestLogger>
+      <VSTestLogger>trx%3BLogFileName=$(PackageOutputPath)\VSTestResults.trx</VSTestLogger>
       <!--<VSTestLogger Condition="'$(APPVEYOR)' == 'True'">Appveyor</VSTestLogger>-->
     </PropertyGroup>
 
