@@ -16,7 +16,7 @@
 
   <!-- Versions -->
   <PropertyGroup>
-    <ExpectoVersion>7.0.0</ExpectoVersion>
+    <ExpectoVersion>[8.4, 9.0)</ExpectoVersion>
     <TestSdkVersion>15.5.0</TestSdkVersion>
     <FSharpCoreVersion>4.3.2</FSharpCoreVersion>
   </PropertyGroup>
