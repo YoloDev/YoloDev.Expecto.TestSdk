@@ -133,8 +133,15 @@ module Execution =
     let config = { ExpectoConfig.defaultConfig with printer = printAdapter }
     Expecto.Logging.Global.initialise <| { Expecto.Logging.Global.defaultConfig with getLogger = getLogger }
     
-    // todo: filter test
-    let tests = ExpectoTest.test test
+    let testNames =
+      cases
+      |> Seq.map (fun c -> c.DisplayName)
+      |> Set.ofSeq
+
+    let tests = 
+      ExpectoTest.test test
+      |> Expecto.Test.filter (fun name -> Seq.contains name testNames)
+
     let duplicates = duplicatedNames tests
     match duplicates with
     | [] -> Expecto.Impl.runEval config tests |> Async.Ignore
@@ -152,9 +159,30 @@ module Execution =
         |> List.ofSeq
       runMatchingTests logger test cases frameworkHandle
   
+  let private runSpecifiedTestsForSource logger frameworkHandle source (tests: TestCase seq) =
+    let nameSet = tests |> Seq.map (fun t -> t.FullyQualifiedName) |> Set.ofSeq
+    match Discovery.discoverTestForSource logger source with
+    | None -> async.Zero ()
+    | Some test ->
+      let cases =
+        Discovery.getTestCasesFromTest logger test
+        |> Seq.map ExpectoTestCase.case
+        |> Seq.filter (fun c -> Set.contains c.FullyQualifiedName nameSet)
+        |> List.ofSeq
+      
+      runMatchingTests logger test cases frameworkHandle
+  
   let runTests logger frameworkHandle sources =
     async {
       for source in sources do
         do! runTestsForSource logger frameworkHandle source
+    }
+  
+  let runSpecifiedTests logger frameworkHandle (tests: TestCase seq) =
+    let bySource = tests |> Seq.groupBy (fun t -> t.Source)
+    
+    async {
+      for source, tests in bySource do
+        do! runSpecifiedTestsForSource logger frameworkHandle source tests
     }
 
