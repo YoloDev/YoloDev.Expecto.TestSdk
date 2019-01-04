@@ -46,7 +46,22 @@ type VsTestAdapter () =
   interface ITestExecutor with
     member x.Cancel () = cts.Cancel ()
 
-    member x.RunTests (tests: TestCase seq, runContext: IRunContext, frameworkHandle: IFrameworkHandle) : unit = failwith "Not implemented (run testcases)"
+    member x.RunTests (tests: TestCase seq, runContext: IRunContext, frameworkHandle: IFrameworkHandle) : unit = 
+      let tests = Guard.argNotNull "tests" tests
+      let runContext = Guard.argNotNull "runContext" runContext
+      let frameworkHandle = Guard.argNotNull "frameworkHandle" frameworkHandle
+
+      let stopwatch = Stopwatch.StartNew ()
+      let logger = Logger (frameworkHandle, stopwatch)
+
+      let runSettings =
+        Option.ofObj runContext
+        |> Option.bind (fun c -> Option.ofObj c.RunSettings)
+        |> Option.map RunSettings.read
+        |> Option.defaultValue RunSettings.defaultSettings
+      
+      Execution.runSpecifiedTests logger frameworkHandle tests
+      |> Async.RunSynchronously
 
     member x.RunTests (sources: string seq, runContext: IRunContext, frameworkHandle: IFrameworkHandle) : unit =
       let sources = Guard.argNotNull "sources" sources
