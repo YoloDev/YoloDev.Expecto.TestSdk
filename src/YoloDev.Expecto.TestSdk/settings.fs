@@ -2,6 +2,8 @@
 module internal YoloDev.Expecto.TestSdk.Settings
 
 open Microsoft.VisualStudio.TestPlatform.ObjectModel.Adapter
+open Expecto.Impl
+open Expecto.Tests
 
 type RunSettings = 
   { /// Gets a value which indicates whether we should attempt to get source line information.
@@ -14,7 +16,10 @@ type RunSettings =
     disableParallelization: bool
 
     /// Gets a value which indicates the target framework the tests are being run in.
-    targetFrameworkVersion: string option }
+    targetFrameworkVersion: string option 
+
+    /// Gets the [ExpectoConfig](https://github.com/haf/expecto#the-config) that was set via RunSettings
+    expectoConfig : ExpectoConfig}
 
 [<RequireQualifiedAccess>]
 module RunSettings = 
@@ -22,9 +27,10 @@ module RunSettings =
     { collectSourceInformation = true
       designMode = true
       disableParallelization = false
-      targetFrameworkVersion = None }
+      targetFrameworkVersion = None
+      expectoConfig = ExpectoConfig.defaultConfig }
   
-  let read (runSettings: IRunSettings) = 
+  let read (runSettings: IRunSettings) =
     let settings = defaultSettings
     
     let confNode = 
@@ -65,7 +71,6 @@ module RunSettings =
       |> Option.bind Xml.value
       |> Option.map (fun v -> { settings with targetFrameworkVersion = Some v })
       |> Option.defaultValue settings
-    
     settings
 
 type TestPlatformContext = 

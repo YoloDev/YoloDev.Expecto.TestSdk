@@ -119,7 +119,7 @@ module Execution =
         None
     )
 
-  let private runMatchingTests logger (test: ExpectoTest) (cases: TestCase list) (frameworkHandle: IFrameworkHandle) =
+  let private runMatchingTests logger config (test: ExpectoTest) (cases: TestCase list) (frameworkHandle: IFrameworkHandle) =
     // TODO: Context passing
     // TODO: fail on focused tests
     let discovered =
@@ -130,7 +130,7 @@ module Execution =
     let getLogger = LogAdapter.create logger (Some <| ExpectoTest.source test)
     let printAdapter = PrinterAdapter.create discovered frameworkHandle
 
-    let config = { ExpectoConfig.defaultConfig with printer = printAdapter }
+    let config = { config with printer = printAdapter }
     Expecto.Logging.Global.initialise <| { Expecto.Logging.Global.defaultConfig with getLogger = getLogger }
     
     let testNames =
@@ -149,7 +149,7 @@ module Execution =
       Logger.send LogLevel.Error (Some <| ExpectoTest.source test) (sprintf "Found duplicated test names, these names are: %A" duplicates) logger
       async.Zero ()
   
-  let private runTestsForSource logger frameworkHandle source =
+  let private runTestsForSource logger config frameworkHandle source =
     match Discovery.discoverTestForSource logger source with
     | None -> async.Zero ()
     | Some test ->
@@ -157,9 +157,9 @@ module Execution =
         Discovery.getTestCasesFromTest logger test 
         |> Seq.map ExpectoTestCase.case
         |> List.ofSeq
-      runMatchingTests logger test cases frameworkHandle
+      runMatchingTests logger config test cases frameworkHandle
   
-  let private runSpecifiedTestsForSource logger frameworkHandle source (tests: TestCase seq) =
+  let private runSpecifiedTestsForSource logger config frameworkHandle source (tests: TestCase seq) =
     let nameSet = tests |> Seq.map (fun t -> t.FullyQualifiedName) |> Set.ofSeq
     match Discovery.discoverTestForSource logger source with
     | None -> async.Zero ()
@@ -170,19 +170,19 @@ module Execution =
         |> Seq.filter (fun c -> Set.contains c.FullyQualifiedName nameSet)
         |> List.ofSeq
       
-      runMatchingTests logger test cases frameworkHandle
+      runMatchingTests logger config test cases frameworkHandle
   
-  let runTests logger frameworkHandle sources =
+  let runTests logger config frameworkHandle sources =
     async {
       for source in sources do
-        do! runTestsForSource logger frameworkHandle source
+        do! runTestsForSource logger config frameworkHandle source
     }
   
-  let runSpecifiedTests logger frameworkHandle (tests: TestCase seq) =
+  let runSpecifiedTests logger config frameworkHandle (tests: TestCase seq) =
     let bySource = tests |> Seq.groupBy (fun t -> t.Source)
     
     async {
       for source, tests in bySource do
-        do! runSpecifiedTestsForSource logger frameworkHandle source tests
+        do! runSpecifiedTestsForSource logger config frameworkHandle source tests
     }
 

@@ -60,7 +60,7 @@ type VsTestAdapter () =
         |> Option.map RunSettings.read
         |> Option.defaultValue RunSettings.defaultSettings
       
-      Execution.runSpecifiedTests logger frameworkHandle tests
+      Execution.runSpecifiedTests logger runSettings.expectoConfig frameworkHandle tests
       |> Async.RunSynchronously
 
     member x.RunTests (sources: string seq, runContext: IRunContext, frameworkHandle: IFrameworkHandle) : unit =
@@ -81,5 +81,5 @@ type VsTestAdapter () =
         requireSourceInformation = runSettings.collectSourceInformation
         requireTestProperty = true }
       
-      Execution.runTests logger frameworkHandle sources
+      Execution.runTests logger runSettings.expectoConfig frameworkHandle sources
       |> Async.RunSynchronously
