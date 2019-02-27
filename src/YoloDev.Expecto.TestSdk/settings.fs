@@ -6,6 +6,7 @@ open Expecto.Impl
 open Expecto.Tests
 open System
 open Expecto
+open System.Xml.Linq
 
 type RunSettings = 
   { /// Gets a value which indicates whether we should attempt to get source line information.
@@ -21,7 +22,7 @@ type RunSettings =
     targetFrameworkVersion: string option 
 
     /// Gets the [ExpectoConfig](https://github.com/haf/expecto#the-config) that was set via RunSettings
-    expectoConfig : ExpectoConfig}
+    expectoConfig : ExpectoConfig }
 
 [<RequireQualifiedAccess>]
 module RunSettings = 
@@ -36,6 +37,7 @@ module RunSettings =
     | Sequenced -> fun o -> { o with ``parallel`` = false }
     | Parallel -> fun o -> { o with ``parallel`` = true }
     | Parallel_Workers n -> fun o -> { o with parallelWorkers = n }
+    | Stress s  -> fun o -> { o with stress = Some (TimeSpan.FromMinutes s) }
     | Stress_Timeout n -> fun o -> { o with stressTimeout = TimeSpan.FromMinutes n }
     | Stress_Memory_Limit n -> fun o -> { o with stressMemoryLimit = n }
     | Fail_On_Focused_Tests -> fun o -> { o with failOnFocusedTests = true }
@@ -48,7 +50,18 @@ module RunSettings =
     | FsCheck_End_Size n -> fun o -> {o with fsCheckEndSize = Some n }
     | Allow_Duplicate_Names -> fun o -> { o with allowDuplicateNames = true }
     | No_Spinner -> fun o -> { o with noSpinner = true }
-    | _ -> id
+    | Filter_Test_List _ -> id
+    | Filter_Test_Case _  -> id
+    // Not applicable 
+    | List_Tests -> id
+    // Not applicable 
+    | Summary -> id
+    // Not applicable 
+    | Summary_Location -> id
+    // Not applicable 
+    | Version -> id
+    // Not applicable 
+    | My_Spirit_Is_Weak -> id 
 
   let readValueParse parser elementName confNode =
       confNode
@@ -58,72 +71,43 @@ module RunSettings =
 
   let readValueString elementName confNode = readValueParse Option.ofObj elementName confNode
   let readValueBool elementName confNode = readValueParse TryParse.bool elementName confNode
-  let readValueInt32 elementName confNode = readValueParse TryParse.int32 elementName confNode
-  let readValueFloat32 elementName confNode = readValueParse TryParse.float32 elementName confNode
 
-  let readExpectoConfig expectoConfig (confNode: Xml.Linq.XElement option) =
-    let parallelTests = 
-      readValueBool "parallel" 
-      >> Option.map ( function | true -> CLIArguments.Parallel | false -> CLIArguments.Sequenced)
-    let parallelWorkers = 
-      readValueInt32 "parallel-workers"
-      >> Option.map CLIArguments.Parallel_Workers
-    let stress = 
-      readValueFloat32 "stress"
-      >> Option.map CLIArguments.Stress
-    let stressTimeout = 
-      readValueFloat32 "stress-timeout"
-      >> Option.map CLIArguments.Stress_Timeout
-    let stressMemoryLimit = 
-      readValueFloat32 "stress-memory-limit"
-      >> Option.map CLIArguments.Stress_Memory_Limit
-    let failOnFocusedTests =
-      readValueBool "fail-on-focused-tests"
-      >> Option.bind ( function | true -> Some CLIArguments.Fail_On_Focused_Tests | false -> None)
-    let debug =
-      readValueBool "debug"
-      >> Option.bind ( function | true -> Some CLIArguments.Debug | false -> None)
-    let logName =
-      readValueString "log-name"
-      >> Option.map CLIArguments.Log_Name
-    let filter =
-      readValueString "filter"
-      >> Option.map CLIArguments.Filter
-    //TODO: Run_tests.  Need to figure out how to parse it
-    let fsCheckMaxTests =
-      readValueInt32 "fscheck-max-tests"
-      >> Option.map CLIArguments.FsCheck_Max_Tests
-    let fsCheckStartSize =
-      readValueInt32 "fscheck-start-size"
-      >> Option.map CLIArguments.FsCheck_Start_Size
-    let fsCheckEndSize =
-      readValueInt32 "fscheck-end-size"
-      >> Option.map CLIArguments.FsCheck_End_Size
-    let allowDuplicateNames =
-      readValueBool "allow-duplicate-name"
-      >> Option.bind (function | true -> Some CLIArguments.Allow_Duplicate_Names | false -> None)
-    let spinner =
-      readValueBool "no-spinner"
-      >> Option.bind (function | true -> Some CLIArguments.No_Spinner | false -> None)
+  let (|Element|_|) (name : string) (node : XElement) =
+    if name.Equals (node.Name.LocalName, StringComparison.OrdinalIgnoreCase)
+    then Some node.Value
+    else None
+
+  let (|Bool|_|) str = TryParse.bool str
+  let (|Int|_|) str = TryParse.int32 str
+  let (|Float|_|) str = TryParse.float str
+  let (|String|_|) (str : string) = Option.ofObj str
+
+  let readExpectoConfig expectoConfig (confNode: Xml.Linq.XElement) =
+    let configMapper node = 
+      match node with
+      | Element "sequenced" (Bool true) -> Some CLIArguments.Sequenced
+      | Element "sequenced" (Bool false) -> Some CLIArguments.Parallel
+      | Element "parallel" (Bool true) -> Some CLIArguments.Parallel
+      | Element "parallel" (Bool false) -> Some CLIArguments.Sequenced
+      | Element "parallel-workers" (Int i) -> Some (CLIArguments.Parallel_Workers i)
+      | Element "stress" (Float f) -> Some (CLIArguments.Stress f)
+      | Element "stress-timeout" (Float f) -> Some (CLIArguments.Stress_Timeout f)
+      | Element "stress-memory-limit" (Float f) -> Some (CLIArguments.Stress_Memory_Limit f)
+      | Element "stress-memory-limit" (Float f) -> Some (CLIArguments.Stress_Memory_Limit f)
+      | Element "fail-on-focused-tests" (Bool true) -> Some CLIArguments.Fail_On_Focused_Tests
+      | Element "debug" (Bool true) -> Some CLIArguments.Debug
+      | Element "log-name" (String s) -> Some (CLIArguments.Log_Name s)
+      | Element "filter" (String s) -> Some (CLIArguments.Filter s)
+      | Element "fscheck-max-tests" (Int i) -> Some (CLIArguments.FsCheck_Max_Tests i)
+      | Element "fscheck-start-size" (Int i) -> Some (CLIArguments.FsCheck_Max_Tests i)
+      | Element "fscheck-end-size" (Int i) -> Some (CLIArguments.FsCheck_End_Size i)
+      | Element "allow-duplicate-name" (Bool true) -> Some CLIArguments.Allow_Duplicate_Names
+      | Element "no-spinner" (Bool true) -> Some CLIArguments.No_Spinner
+      | _ -> None
 
     let args =
-      [
-        parallelTests
-        parallelWorkers
-        stress
-        stressTimeout
-        stressMemoryLimit
-        failOnFocusedTests
-        debug
-        logName
-        filter
-        fsCheckMaxTests
-        fsCheckStartSize
-        fsCheckEndSize
-        allowDuplicateNames
-        spinner
-      ]
-      |> Seq.choose (fun readSetting -> readSetting confNode)
+      confNode.Descendants()
+      |> Seq.choose configMapper
 
     (expectoConfig, args)
     ||> Seq.fold(fun state next -> foldCLIArgumentToConfig next state)
@@ -131,11 +115,13 @@ module RunSettings =
 
   let read (runSettings: IRunSettings) =
     let settings = defaultSettings
+
     let runSettingsNode =
       Option.ofObj runSettings
       |> Option.bind (fun s -> Option.ofObj s.SettingsXml)
       |> Option.bind Xml.read
       |> Option.bind Xml.root //This gets the RunSettings element
+
     let confNode = 
       runSettingsNode
       |> Option.bind (Xml.element "RunConfiguration")
@@ -168,9 +154,15 @@ module RunSettings =
       runSettingsNode
       |> Option.bind (Xml.element "Expecto")
 
+    let expectoConfig =
+      expectoRunSettings
+      |> Option.map(readExpectoConfig settings.expectoConfig)
+      |> Option.defaultValue settings.expectoConfig
+
     let settings = 
       { settings 
-        with expectoConfig = readExpectoConfig settings.expectoConfig expectoRunSettings }
+        with expectoConfig =  expectoConfig }
+    
     settings
 
 type TestPlatformContext = 

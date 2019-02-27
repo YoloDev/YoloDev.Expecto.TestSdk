@@ -43,7 +43,7 @@ module internal TryParse =
     | true,v -> Some v
     | _ -> None
 
-  let float32 (str : string) =
+  let float (str : string) =
     match Double.TryParse str with
     | true,v -> Some v
     | _ -> None
