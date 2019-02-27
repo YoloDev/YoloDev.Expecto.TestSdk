@@ -52,16 +52,21 @@ module RunSettings =
     | No_Spinner -> fun o -> { o with noSpinner = true }
     | Filter_Test_List _ -> id
     | Filter_Test_Case _  -> id
-    // Not applicable 
+    // Not applicable
     | List_Tests -> id
-    // Not applicable 
+    // Not applicable
     | Summary -> id
-    // Not applicable 
+    // Not applicable
     | Summary_Location -> id
-    // Not applicable 
+    // Not applicable
     | Version -> id
+    // Not applicable
+    | My_Spirit_Is_Weak -> id
+    // Not applicable, printer gets overriden in execution.fs
+    | Printer _ -> id
+    | Verbosity l -> fun o -> { o with verbosity = l }
     // Not applicable 
-    | My_Spirit_Is_Weak -> id 
+    | Append_Summary_Handler(_) -> id
 
   let readValueParse parser elementName confNode =
       confNode
@@ -103,6 +108,7 @@ module RunSettings =
       | Element "fscheck-end-size" (Int i) -> Some (CLIArguments.FsCheck_End_Size i)
       | Element "allow-duplicate-name" (Bool true) -> Some CLIArguments.Allow_Duplicate_Names
       | Element "no-spinner" (Bool true) -> Some CLIArguments.No_Spinner
+      | Element "verbosity" (String s) -> Expecto.Logging.LogLevel.ofString s |> CLIArguments.Verbosity |> Some
       | _ -> None
 
     let args =
