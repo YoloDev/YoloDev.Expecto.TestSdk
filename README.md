@@ -21,7 +21,7 @@ RunSettings arguments:
   Example: dotnet test -- MSTest.DeploymentEnabled=false MSTest.MapInconclusiveToFailed=True
   ```
 
-Many of the [ExpectoConfig](https://github.com/haf/expecto#the-config) settings are settable throughusing the CLI or .runsettings file.  This test adapter has chosen to use the naming from  Expecto's [CLI arguments](https://github.com/haf/expecto#main-argv--how-to-run-console-apps) without the `--`.  You must also prefix `Expecto.` to the front of the parameter. Additionally any args that are a switch must take a boolean value.
+Many of the [ExpectoConfig](https://github.com/haf/expecto#the-config) settings are settable throughusing the CLI or .runsettings file.  This test adapter uses the naming from  Expecto's [CLI arguments](https://github.com/haf/expecto#main-argv--how-to-run-console-apps) (without the leading `--`), namespaced with `Expecto.`. Additionally, any args that are switches must take a boolean value.
 
 #### RunSettings Example: 
 
