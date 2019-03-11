@@ -11,7 +11,7 @@ You can configure some of Expecto via `dotnet test`. `dotnet test` allows you to
 
 ### dotnet test RunSettings 
 
-To familiarize yourself with how dotnet test expects the CLI args, the help from it is shown below.
+From dotnet test cli help:
 
 ```
 RunSettings arguments:
