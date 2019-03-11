@@ -34,6 +34,8 @@ module RunSettings =
       targetFrameworkVersion = None
       expectoConfig = ExpectoConfig.defaultConfig }
 
+  /// Derived from Expecto https://github.com/haf/expecto/blob/dd1f486183cc5f2198b016b04285f5be7cfc8866/Expecto/Expecto.fs
+  /// If made public https://github.com/haf/expecto/issues/307 this can go away
   let private foldCLIArgumentToConfig = function
     | Sequenced -> fun o -> { o with ``parallel`` = false }
     | Parallel -> fun o -> { o with ``parallel`` = true }
