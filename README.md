@@ -13,13 +13,12 @@ You can configure some of Expecto via `dotnet test`. `dotnet test` allows you to
 
 From dotnet test cli help:
 
-```
-RunSettings arguments:
-  Arguments to pass as RunSettings configurations. Arguments are specified as '[name]=[value]' pairs after "-- " (note the space after --).
-  Use a space to separate multiple '[name]=[value]' pairs.
-  See https://aka.ms/vstest-runsettings-arguments for more information on RunSettings arguments.
-  Example: dotnet test -- MSTest.DeploymentEnabled=false MSTest.MapInconclusiveToFailed=True
-  ```
+> RunSettings arguments:
+>   Arguments to pass as RunSettings configurations. Arguments are specified as '[name]=[value]' pairs after "-- " (note the space after --).
+>   Use a space to separate multiple '[name]=[value]' pairs.
+>   See https://aka.ms/vstest-runsettings-arguments for more information on RunSettings arguments.
+>   Example: dotnet test -- MSTest.DeploymentEnabled=false MSTest.MapInconclusiveToFailed=True
+
 
 Many of the [ExpectoConfig](https://github.com/haf/expecto#the-config) settings are settable throughusing the CLI or .runsettings file.  This test adapter uses the naming from  Expecto's [CLI arguments](https://github.com/haf/expecto#main-argv--how-to-run-console-apps) (without the leading `--`), namespaced with `Expecto.`. Additionally, any args that are switches must take a boolean value.
 
