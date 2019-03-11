@@ -7,6 +7,7 @@ open Expecto.Tests
 open System
 open Expecto
 open System.Xml.Linq
+open Expecto.Logging
 
 type RunSettings = 
   { /// Gets a value which indicates whether we should attempt to get source line information.
@@ -41,7 +42,7 @@ module RunSettings =
     | Stress_Timeout n -> fun o -> { o with stressTimeout = TimeSpan.FromMinutes n }
     | Stress_Memory_Limit n -> fun o -> { o with stressMemoryLimit = n }
     | Fail_On_Focused_Tests -> fun o -> { o with failOnFocusedTests = true }
-    | Debug -> fun o -> { o with verbosity = Expecto.Logging.LogLevel.Debug }
+    | CLIArguments.Debug -> fun o -> { o with verbosity = Expecto.Logging.LogLevel.Debug }
     | Log_Name name -> fun o -> { o with logName = Some name }
     | Filter hiera -> fun o -> {o with filter = Test.filter (fun s -> s.StartsWith hiera )}
     | Run tests -> fun o -> {o with filter = Test.filter (fun s -> tests |> List.exists ((=) s) )}
@@ -87,7 +88,7 @@ module RunSettings =
   let (|Float|_|) str = TryParse.float str
   let (|String|_|) (str : string) = Option.ofObj str
 
-  let readExpectoConfig expectoConfig (confNode: Xml.Linq.XElement) =
+  let readExpectoConfig (logger : YoloDev.Expecto.TestSdk.Logging.Logger) expectoConfig (confNode: Xml.Linq.XElement) =
     let configMapper node = 
       match node with
       | Element "sequenced" (Bool true) -> Some CLIArguments.Sequenced
@@ -109,7 +110,9 @@ module RunSettings =
       | Element "allow-duplicate-name" (Bool true) -> Some CLIArguments.Allow_Duplicate_Names
       | Element "no-spinner" (Bool true) -> Some CLIArguments.No_Spinner
       | Element "verbosity" (String s) -> Expecto.Logging.LogLevel.ofString s |> CLIArguments.Verbosity |> Some
-      | _ -> None
+      | unknown ->  
+          sprintf "Unknown config key for Expecto : %s=%s" unknown.Name.LocalName unknown.Value |> logger.Send LogLevel.Warning "" 
+          None
 
     let args =
       confNode.Descendants()
@@ -119,7 +122,7 @@ module RunSettings =
     ||> Seq.fold(fun state next -> foldCLIArgumentToConfig next state)
     
 
-  let read (runSettings: IRunSettings) =
+  let read logger (runSettings: IRunSettings) =
     let settings = defaultSettings
 
     let runSettingsNode =
@@ -162,7 +165,7 @@ module RunSettings =
 
     let expectoConfig =
       expectoRunSettings
-      |> Option.map(readExpectoConfig settings.expectoConfig)
+      |> Option.map(readExpectoConfig logger settings.expectoConfig)
       |> Option.defaultValue settings.expectoConfig
 
     let settings = 
