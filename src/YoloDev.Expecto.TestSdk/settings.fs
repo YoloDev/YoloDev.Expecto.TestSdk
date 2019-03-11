@@ -129,7 +129,7 @@ module RunSettings =
       Option.ofObj runSettings
       |> Option.bind (fun s -> Option.ofObj s.SettingsXml)
       |> Option.bind Xml.read
-      |> Option.bind Xml.root //This gets the RunSettings element
+      |> Option.bind Xml.root
 
     let confNode = 
       runSettingsNode
@@ -168,11 +168,7 @@ module RunSettings =
       |> Option.map(readExpectoConfig logger settings.expectoConfig)
       |> Option.defaultValue settings.expectoConfig
 
-    let settings = 
-      { settings 
-        with expectoConfig =  expectoConfig }
-    
-    settings
+    { settings with expectoConfig =  expectoConfig }
 
 type TestPlatformContext = 
   { /// Indicates if VSTestCase object must have FileName or LineNumber information.
