@@ -130,7 +130,7 @@ module Execution =
     let getLogger = LogAdapter.create logger (Some <| ExpectoTest.source test)
     let printAdapter = PrinterAdapter.create discovered frameworkHandle
 
-    let config = { config with printer = printAdapter }
+    let config = CLIArguments.Printer printAdapter :: config
     Expecto.Logging.Global.initialise <| { Expecto.Logging.Global.defaultConfig with getLogger = getLogger }
     
     let testNames =
@@ -144,7 +144,9 @@ module Execution =
 
     let duplicates = duplicatedNames tests
     match duplicates with
-    | [] -> Expecto.Impl.runEval config tests |> Async.Ignore
+    | [] -> 
+      Expecto.Tests.runTestsWithCLIArgs config [||] tests |> ignore
+      async.Zero ()
     | _  ->
       Logger.send LogLevel.Error (Some <| ExpectoTest.source test) (sprintf "Found duplicated test names, these names are: %A" duplicates) logger
       async.Zero ()

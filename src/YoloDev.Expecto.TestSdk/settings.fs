@@ -9,6 +9,64 @@ open Expecto
 open System.Xml.Linq
 open Expecto.Logging
 
+[<RequireQualifiedAccess>]
+module internal SettingsParser =
+
+  type ParserState = YoloDev.Expecto.TestSdk.Logging.Logger * Map<string, CLIArguments option>
+  type SettingParser = ParserState * XElement -> CLIArguments option
+
+  type SettingsParser = 
+    { state: ParserState
+      parsers: Map<string, SettingParser> }
+  
+  let build logger parsers =
+    { state = logger, Map.empty
+      parsers = Map.ofList parsers }
+  
+  let bool (_: ParserState, x: XElement) =
+    TryParse.bool x.Value
+  
+  let int (_: ParserState, x: XElement) =
+    TryParse.int32 x.Value
+  
+  let float (_: ParserState, x: XElement) =
+    TryParse.float x.Value
+  
+  let exclusive (name: string) ((logger, s): ParserState, x: XElement) =
+    match Map.tryFind name s with
+    | None -> ()
+    | Some _ ->
+      sprintf "Setting %s provided with %s, but they are mutually exclusive." name x.Name.LocalName |> logger.Send LogLevel.Warning ""
+      ()
+  
+  let parse (parser: SettingsParser) (x: XElement) =
+    let name = x.Name.LocalName.ToLowerInvariant ()
+    match Map.tryFind name parser.parsers with
+    | None -> parser
+    | Some p ->
+      let arg = p (parser.state, x)
+      let (logger, args) = parser.state
+      let args = Map.add name arg args
+      { parser with state = (logger, args) }
+  
+  let result (parser: SettingsParser) =
+    let (_, args) = parser.state
+    args
+
+
+let private (>?>) (f: 'a -> 'b option) (g: 'b -> 'c option) =
+  fun (a: 'a) ->
+    match f a with
+    | None -> None
+    | Some b -> g b
+
+let private (>->) f g = f >?> (g >> Some)
+
+let private ( *>) (f: 'a -> unit) (g: 'a -> 'b) =
+  fun (a: 'a) ->
+    f a
+    g a
+
 type RunSettings = 
   { /// Gets a value which indicates whether we should attempt to get source line information.
     collectSourceInformation: bool
@@ -23,7 +81,7 @@ type RunSettings =
     targetFrameworkVersion: string option 
 
     /// Gets the [ExpectoConfig](https://github.com/haf/expecto#the-config) that was set via RunSettings
-    expectoConfig : ExpectoConfig }
+    expectoConfig : CLIArguments list }
 
 [<RequireQualifiedAccess>]
 module RunSettings = 
@@ -32,44 +90,7 @@ module RunSettings =
       designMode = true
       disableParallelization = false
       targetFrameworkVersion = None
-      expectoConfig = ExpectoConfig.defaultConfig }
-
-  /// Derived from Expecto https://github.com/haf/expecto/blob/dd1f486183cc5f2198b016b04285f5be7cfc8866/Expecto/Expecto.fs
-  /// If made public https://github.com/haf/expecto/issues/307 this can go away
-  let private foldCLIArgumentToConfig = function
-    | Sequenced -> fun o -> { o with ``parallel`` = false }
-    | Parallel -> fun o -> { o with ``parallel`` = true }
-    | Parallel_Workers n -> fun o -> { o with parallelWorkers = n }
-    | Stress s  -> fun o -> { o with stress = Some (TimeSpan.FromMinutes s) }
-    | Stress_Timeout n -> fun o -> { o with stressTimeout = TimeSpan.FromMinutes n }
-    | Stress_Memory_Limit n -> fun o -> { o with stressMemoryLimit = n }
-    | Fail_On_Focused_Tests -> fun o -> { o with failOnFocusedTests = true }
-    | CLIArguments.Debug -> fun o -> { o with verbosity = Expecto.Logging.LogLevel.Debug }
-    | Log_Name name -> fun o -> { o with logName = Some name }
-    | Filter hiera -> fun o -> {o with filter = Test.filter (fun s -> s.StartsWith hiera )}
-    | Run tests -> fun o -> {o with filter = Test.filter (fun s -> tests |> List.exists ((=) s) )}
-    | FsCheck_Max_Tests n -> fun o -> {o with fsCheckMaxTests = n }
-    | FsCheck_Start_Size n -> fun o -> {o with fsCheckStartSize = n }
-    | FsCheck_End_Size n -> fun o -> {o with fsCheckEndSize = Some n }
-    | Allow_Duplicate_Names -> fun o -> { o with allowDuplicateNames = true }
-    | No_Spinner -> fun o -> { o with noSpinner = true }
-    | Filter_Test_List _ -> id
-    | Filter_Test_Case _  -> id
-    // Not applicable
-    | List_Tests -> id
-    // Not applicable
-    | Summary -> id
-    // Not applicable
-    | Summary_Location -> id
-    // Not applicable
-    | Version -> id
-    // Not applicable
-    | My_Spirit_Is_Weak -> id
-    // Not applicable, printer gets overriden in execution.fs
-    | Printer _ -> id
-    | Verbosity l -> fun o -> { o with verbosity = l }
-    // Not applicable 
-    | Append_Summary_Handler(_) -> id
+      expectoConfig = [] }
 
   let readValueParse parser elementName confNode =
       confNode
@@ -91,37 +112,32 @@ module RunSettings =
   let (|String|_|) (str : string) = Option.ofObj str
 
   let readExpectoConfig (logger : YoloDev.Expecto.TestSdk.Logging.Logger) expectoConfig (confNode: Xml.Linq.XElement) =
-    let configMapper node = 
-      match node with
-      | Element "sequenced" (Bool true) -> Some CLIArguments.Sequenced
-      | Element "sequenced" (Bool false) -> Some CLIArguments.Parallel
-      | Element "parallel" (Bool true) -> Some CLIArguments.Parallel
-      | Element "parallel" (Bool false) -> Some CLIArguments.Sequenced
-      | Element "parallel-workers" (Int i) -> Some (CLIArguments.Parallel_Workers i)
-      | Element "stress" (Float f) -> Some (CLIArguments.Stress f)
-      | Element "stress-timeout" (Float f) -> Some (CLIArguments.Stress_Timeout f)
-      | Element "stress-memory-limit" (Float f) -> Some (CLIArguments.Stress_Memory_Limit f)
-      | Element "stress-memory-limit" (Float f) -> Some (CLIArguments.Stress_Memory_Limit f)
-      | Element "fail-on-focused-tests" (Bool true) -> Some CLIArguments.Fail_On_Focused_Tests
-      | Element "debug" (Bool true) -> Some CLIArguments.Debug
-      | Element "log-name" (String s) -> Some (CLIArguments.Log_Name s)
-      | Element "filter" (String s) -> Some (CLIArguments.Filter s)
-      | Element "fscheck-max-tests" (Int i) -> Some (CLIArguments.FsCheck_Max_Tests i)
-      | Element "fscheck-start-size" (Int i) -> Some (CLIArguments.FsCheck_Max_Tests i)
-      | Element "fscheck-end-size" (Int i) -> Some (CLIArguments.FsCheck_End_Size i)
-      | Element "allow-duplicate-name" (Bool true) -> Some CLIArguments.Allow_Duplicate_Names
-      | Element "no-spinner" (Bool true) -> Some CLIArguments.No_Spinner
-      | Element "verbosity" (String s) -> Expecto.Logging.LogLevel.ofString s |> CLIArguments.Verbosity |> Some
-      | unknown ->  
-          sprintf "Unknown config key for Expecto : %s=%s" unknown.Name.LocalName unknown.Value |> logger.Send LogLevel.Warning "" 
-          None
+    let parser =
+      SettingsParser.build logger [
+        "sequenced", SettingsParser.exclusive "parallel" *> SettingsParser.bool >?> function | true -> Some CLIArguments.Sequenced | false -> Some CLIArguments.Parallel
+        "parallel", SettingsParser.exclusive "parallel" *> SettingsParser.bool >?> function | true -> Some CLIArguments.Parallel | false -> Some CLIArguments.Sequenced
+        "parallel-workers", SettingsParser.int >-> CLIArguments.Parallel_Workers
+        "stress", SettingsParser.float >-> CLIArguments.Stress
+        "stress-timeout", SettingsParser.float >-> CLIArguments.Stress_Timeout
+        "stress-memory-limit", SettingsParser.float >-> CLIArguments.Stress_Memory_Limit
+        "fail-on-focused-tests", SettingsParser.bool >?> function | true -> Some CLIArguments.Fail_On_Focused_Tests | false -> None
+        "debug", SettingsParser.bool >?> function | true -> Some CLIArguments.Debug | false -> None
+      ]
 
     let args =
       confNode.Descendants()
-      |> Seq.choose configMapper
-
-    (expectoConfig, args)
-    ||> Seq.fold(fun state next -> foldCLIArgumentToConfig next state)
+      |> Seq.fold SettingsParser.parse parser
+      |> SettingsParser.result
+    
+    let args =
+      match Map.tryFind "fail-on-focused-tests" args with
+      | Some _ -> args
+      | None   -> Map.add "fail-on-focused-tests" (Some CLIArguments.Fail_On_Focused_Tests) args
+    
+    args
+    |> Map.toSeq
+    |> Seq.choose snd
+    |> List.ofSeq
     
 
   let read logger (runSettings: IRunSettings) =
