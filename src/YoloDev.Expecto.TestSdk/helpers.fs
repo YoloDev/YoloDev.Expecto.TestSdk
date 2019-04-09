@@ -37,3 +37,13 @@ module internal TryParse =
     match Boolean.TryParse str with
     | true, v -> Some v
     | _ -> None
+
+  let int32 (str : string) =
+    match Int32.TryParse str with
+    | true,v -> Some v
+    | _ -> None
+
+  let float (str : string) =
+    match Double.TryParse str with
+    | true,v -> Some v
+    | _ -> None

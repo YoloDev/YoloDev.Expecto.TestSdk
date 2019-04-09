@@ -13,7 +13,7 @@ open Microsoft.VisualStudio.TestPlatform.ObjectModel.Logging
 [<ExtensionUri(Constants.executorUriString)>]
 type VsTestAdapter () =
   let cts = new CancellationTokenSource ()
-
+  
   interface System.IDisposable with
     member x.Dispose () =
       match cts with
@@ -32,7 +32,7 @@ type VsTestAdapter () =
       let runSettings =
         Option.ofObj discoveryContext
         |> Option.bind (fun c -> Option.ofObj c.RunSettings)
-        |> Option.map RunSettings.read
+        |> Option.map (RunSettings.read logger)
         |> Option.defaultValue RunSettings.defaultSettings
 
       let testPlatformContext = {
@@ -57,10 +57,10 @@ type VsTestAdapter () =
       let runSettings =
         Option.ofObj runContext
         |> Option.bind (fun c -> Option.ofObj c.RunSettings)
-        |> Option.map RunSettings.read
+        |> Option.map (RunSettings.read logger)
         |> Option.defaultValue RunSettings.defaultSettings
       
-      Execution.runSpecifiedTests logger frameworkHandle tests
+      Execution.runSpecifiedTests logger runSettings.expectoConfig frameworkHandle tests
       |> Async.RunSynchronously
 
     member x.RunTests (sources: string seq, runContext: IRunContext, frameworkHandle: IFrameworkHandle) : unit =
@@ -74,12 +74,12 @@ type VsTestAdapter () =
       let runSettings =
         Option.ofObj runContext
         |> Option.bind (fun c -> Option.ofObj c.RunSettings)
-        |> Option.map RunSettings.read
+        |> Option.map (RunSettings.read logger)
         |> Option.defaultValue RunSettings.defaultSettings
 
       let testPlatformContext = {
         requireSourceInformation = runSettings.collectSourceInformation
         requireTestProperty = true }
       
-      Execution.runTests logger frameworkHandle sources
+      Execution.runTests logger runSettings.expectoConfig frameworkHandle sources
       |> Async.RunSynchronously
