@@ -27,3 +27,24 @@ Many of the [ExpectoConfig](https://github.com/haf/expecto#the-config) settings 
 ```
 dotnet test -- Expecto.parallel=false Expecto.fail-on-focused-tests=true Expecto.stress-memory-limit=120.0 
 ```
+
+#### Visual Studio test adapter
+
+To use as the Expecto test adapter, add the following to the paket.dependencies file
+
+```
+nuget Microsoft.NET.Test.Sdk 16.4.0
+nuget YoloDev.Expecto.TestSdk
+```
+
+And include in the unit test project's paket.references file.
+
+The unit test project must target netcoreapp2.2 (net472 was tested, but does not work. No other frameworks have been tested.)
+
+Add 
+
+```
+<GenerateProgramFile>false</GenerateProgramFile>
+```
+
+to the unit test project PropertyGroup.
