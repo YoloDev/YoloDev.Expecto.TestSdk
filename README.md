@@ -39,6 +39,8 @@ nuget YoloDev.Expecto.TestSdk
 
 And include in the unit test project's paket.references file.
 
+For native nuget rather than paket implementation use the equivalent ```<PackageReference>``` entries.
+
 The unit test project must target netcoreapp2.2 (net472 was tested, but does not work. No other frameworks have been tested.)
 
 Add 
