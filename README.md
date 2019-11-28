@@ -4,49 +4,56 @@
 | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | [![Build history](https://buildstats.info/appveyor/chart/YoloDev/yolodev-expecto-testsdk?branch=master)](https://ci.appveyor.com/project/YoloDev/yolodev-expecto-testsdk/history) | [![Build history](https://buildstats.info/travisci/chart/YoloDev/YoloDev.Expecto.TestSdk?branch=master)](https://travis-ci.org/YoloDev/YoloDev.Expecto.TestSdk) |
 
+## Using Expecto with VSTest (dotnet test)
+
+To use as the Expecto test adapter, add the following dependencies to your project:
+
+```
+Microsoft.NET.Test.Sdk
+YoloDev.Expecto.TestSdk
+```
+
+If you're using the dotnet CLI, and it's built in package management, the following
+commands can be used to achive that. References can also be added using visual studio
+NuGet browser, or paket.
+
+```shell
+dotnet add package Microsoft.NET.Test.Sdk
+dotnet add package YoloDev.Expecto.TestSdk
+```
+
+In addition, it might be nesesary to disable the automatic generation of
+a `program.fs` file by msbuild, depending on your target framework. To do
+so, set `GenerateProgramFile` to false in the `fsproj` file, as seen bellow:
+
+```xml
+<PropertyGroup>
+  <GenerateProgramFile>false</GenerateProgramFile>
+</PropertyGroup>
+```
+
+To get the tests working in the Visual Studio test explorer, it's recommended to target
+`netcoreapp2.2` or newer with your test projects. Others _might_ work, but people have
+had problems with them.
 
 ## Configuration
 
-You can configure some of Expecto via `dotnet test`. `dotnet test` allows you to pass in `RunSettings` via the [CLI](#dotnet-test-runsettings) or using a [.runsettings](https://docs.microsoft.com/en-us/visualstudio/test/configure-unit-tests-by-using-a-dot-runsettings-file?view=vs-2017#example-runsettings-file) file. 
+You can configure some of Expecto via `dotnet test`. `dotnet test` allows you to pass in `RunSettings` via the [CLI](#dotnet-test-runsettings) or using a [.runsettings](https://docs.microsoft.com/en-us/visualstudio/test/configure-unit-tests-by-using-a-dot-runsettings-file?view=vs-2017#example-runsettings-file) file.
 
-### dotnet test RunSettings 
+### dotnet test RunSettings
 
 From dotnet test cli help:
 
 > RunSettings arguments:
->   Arguments to pass as RunSettings configurations. Arguments are specified as '[name]=[value]' pairs after "-- " (note the space after --).
->   Use a space to separate multiple '[name]=[value]' pairs.
->   See https://aka.ms/vstest-runsettings-arguments for more information on RunSettings arguments.
->   Example: dotnet test -- MSTest.DeploymentEnabled=false MSTest.MapInconclusiveToFailed=True
+> Arguments to pass as RunSettings configurations. Arguments are specified as '[name]=[value]' pairs after "-- " (note the space after --).
+> Use a space to separate multiple '[name]=[value]' pairs.
+> See https://aka.ms/vstest-runsettings-arguments for more information on RunSettings arguments.
+> Example: dotnet test -- MSTest.DeploymentEnabled=false MSTest.MapInconclusiveToFailed=True
 
+Many of the [ExpectoConfig](https://github.com/haf/expecto#the-config) settings are settable throughusing the CLI or .runsettings file. This test adapter uses the naming from Expecto's [CLI arguments](https://github.com/haf/expecto#main-argv--how-to-run-console-apps) (without the leading `--`), namespaced with `Expecto.`. Additionally, any args that are switches must take a boolean value.
 
-Many of the [ExpectoConfig](https://github.com/haf/expecto#the-config) settings are settable throughusing the CLI or .runsettings file.  This test adapter uses the naming from  Expecto's [CLI arguments](https://github.com/haf/expecto#main-argv--how-to-run-console-apps) (without the leading `--`), namespaced with `Expecto.`. Additionally, any args that are switches must take a boolean value.
-
-#### RunSettings Example: 
-
-```
-dotnet test -- Expecto.parallel=false Expecto.fail-on-focused-tests=true Expecto.stress-memory-limit=120.0 
-```
-
-#### Visual Studio test adapter
-
-To use as the Expecto test adapter, add the following to the paket.dependencies file
+#### RunSettings Example:
 
 ```
-nuget Microsoft.NET.Test.Sdk 16.4.0
-nuget YoloDev.Expecto.TestSdk
+dotnet test -- Expecto.parallel=false Expecto.fail-on-focused-tests=true Expecto.stress-memory-limit=120.0
 ```
-
-And include in the unit test project's paket.references file.
-
-For native nuget rather than paket implementation use the equivalent ```<PackageReference>``` entries.
-
-The unit test project must target netcoreapp2.2 (net472 was tested, but does not work. No other frameworks have been tested.)
-
-Add 
-
-```
-<GenerateProgramFile>false</GenerateProgramFile>
-```
-
-to the unit test project PropertyGroup.
