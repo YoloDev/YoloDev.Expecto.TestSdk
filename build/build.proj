@@ -3,7 +3,7 @@
       <OutputBaseDir>$(MSBuildThisFileDirectory)..\</OutputBaseDir>
       <PackageOutputPath>$(OutputBaseDir)artifacts</PackageOutputPath>
       <BuildProperties>Configuration=$(Configuration)</BuildProperties>
-      <VSTestLogger>trx%3BLogFileName=$(PackageOutputPath)\VSTestResults.trx</VSTestLogger>
+      <VSTestLogger>trx</VSTestLogger>
     </PropertyGroup>
 
   <ItemGroup>
