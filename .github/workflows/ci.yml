@@ -13,7 +13,6 @@ jobs:
         os: [macos-latest, windows-latest, ubuntu-latest]
         # Check https://github.com/dotnet/core/blob/master/release-notes/releases-index.json for updates
         dotnet:
-          - "2.1.202" # Latest 2.0
           - "2.1.805" # Latest 2.1
           - "2.2.207" # Latest 2.2
           - "3.0.103" # Latest 3.0
