@@ -9,6 +9,3 @@ let tests =
     //testCase "test2" (fun () -> failwithf "I died :(")
     //testCase "test3" (fun () -> failwithf "And thus, I have becometh death!")
     testCase "test4" (fun () -> skiptestf "Yes. Much death") ]
-
-[<EntryPoint>]
-let main args = 0
