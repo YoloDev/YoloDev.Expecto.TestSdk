@@ -35,3 +35,12 @@ jobs:
 
       - name: Output version
         run: bash ./script/git-version.sh --verbose get
+
+      - name: Restore
+        run: dotnet msbuild build/build.proj -target:Restore
+
+      - name: Build
+        run: dotnet msbuild build/build.proj -target:Build -p:NoRestore=true
+
+      - name: Test
+        run: dotnet msbuild build/build.proj -target:Test -p:NoRestore=true

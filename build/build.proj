@@ -1,4 +1,11 @@
 <Project>
+  <PropertyGroup>
+      <OutputBaseDir>$(MSBuildThisFileDirectory)..\</OutputBaseDir>
+      <PackageOutputPath>$(OutputBaseDir)artifacts</PackageOutputPath>
+      <BuildProperties>Configuration=$(Configuration)</BuildProperties>
+      <VSTestLogger>trx%3BLogFileName=$(PackageOutputPath)\VSTestResults.trx</VSTestLogger>
+    </PropertyGroup>
+
   <ItemGroup>
     <RestoreProject Include="..\YoloDev.Expecto.TestSdk.sln" />
     <PublishProject Include="..\src\**\*.*proj" />
@@ -9,17 +16,19 @@
     <MSBuild Projects="@(RestoreProject)" Targets="Restore" ContinueOnError="ErrorAndStop" UnloadProjectsOnCompletion="true" UseResultsCache="false" />
   </Target>
 
-  <Target Name="Build">
-    <PropertyGroup>
-      <OutputBaseDir>$(MSBuildThisFileDirectory)..\</OutputBaseDir>
-      <PackageOutputPath>$(OutputBaseDir)artifacts</PackageOutputPath>
-      <BuildProperties>Configuration=$(Configuration)</BuildProperties>
-      <VSTestLogger>trx%3BLogFileName=$(PackageOutputPath)\VSTestResults.trx</VSTestLogger>
-      <!--<VSTestLogger Condition="'$(APPVEYOR)' == 'True'">Appveyor</VSTestLogger>-->
-    </PropertyGroup>
-
+  <Target Name="Clean">
     <MSBuild Projects="@(PublishProject);@(TestProject)" Targets="Clean" ContinueOnError="ErrorAndStop" />
+  </Target>
+
+  <Target Name="Build">
+    <MSBuild Projects="@(PublishProject);@(TestProject)" Targets="Build" ContinueOnError="ErrorAndStop" />
+  </Target>
+
+  <Target Name="Test">
     <MSBuild Projects="@(TestProject)" Targets="VSTest" Properties="VSTestLogger=$(VSTestLogger)" ContinueOnError="ErrorAndStop" />
+  </Target>
+
+  <Target Name="Publish">
     <MSBuild Projects="@(PublishProject)" Targets="Pack" Properties="Configuration=Release;PackageOutputPath=$(PackageOutputPath);SourceLinkCreate=true;SourceLinkTest=true" ContinueOnError="ErrorAndStop" />
   </Target>
 </Project>
