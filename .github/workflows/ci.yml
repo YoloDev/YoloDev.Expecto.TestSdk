@@ -9,6 +9,7 @@ jobs:
     name: Test
     runs-on: ${{ matrix.os }}
     strategy:
+      fail-fast: false
       matrix:
         os: [macos-latest, windows-latest, ubuntu-latest]
         # Check https://github.com/dotnet/core/blob/master/release-notes/releases-index.json for updates
