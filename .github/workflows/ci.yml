@@ -19,6 +19,10 @@ jobs:
           - "3.0.103" # Latest 3.0
           - "3.1.201" # Latest 3.1
 
+    env:
+      DOTNET_SKIP_FIRST_TIME_EXPERIENCE: "true"
+      DOTNET_CLI_TELEMETRY_OPTOUT: "1"
+
     steps:
       - name: Setup dotnet
         uses: actions/setup-dotnet@v1
@@ -26,3 +30,8 @@ jobs:
           dotnet-version: ${{ matrix.dotnet }}
 
       - uses: actions/checkout@master
+      - name: Fetch all history for all tags and branches
+        run: git fetch --prune --unshallow
+
+      - name: Output version
+        run: bash ./script/git-version.sh --verbose get
