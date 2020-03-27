@@ -43,4 +43,4 @@ jobs:
         run: dotnet msbuild build/build.proj -target:Build -p:NoRestore=true
 
       - name: Test
-        run: dotnet msbuild build/build.proj -target:Test -p:NoRestore=true
+        run: dotnet msbuild build/build.proj -target:Test -p:NoRestore=true -p:VSTestNoBuild=true

@@ -4,6 +4,7 @@
       <PackageOutputPath>$(OutputBaseDir)artifacts</PackageOutputPath>
       <BuildProperties>Configuration=$(Configuration)</BuildProperties>
       <VSTestLogger>trx</VSTestLogger>
+      <VSTestResultsDirectory>$(PackageOutputPath)\TestResults\</VSTestResultsDirectory>
     </PropertyGroup>
 
   <ItemGroup>
