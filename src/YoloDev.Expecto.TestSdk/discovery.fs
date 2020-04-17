@@ -10,7 +10,7 @@ open Microsoft.VisualStudio.TestPlatform.ObjectModel.Logging
 
 module private TestCase =
   let create (test: FlatTest) (assembly: Assembly) (source: string) =
-    let case = TestCase (test.name, Constants.executorUri, source)
+    let case = TestCase (String.concat "/" test.name, Constants.executorUri, source)
     let location = getLocation assembly test.test
     case.LineNumber <- location.lineNumber
     case.CodeFilePath <- location.sourcePath
@@ -27,7 +27,7 @@ module ExpectoTest =
     { source = source
       assembly = assembly
       test = test }
-  
+
   let source test = test.source
 
   let test test = test.test
@@ -53,25 +53,25 @@ module Discovery =
   let private getTestForAssembly logger assembly source =
     let assembly = Guard.argNotNull "assembly" assembly
     let source = Guard.argNotNull "source" source
-    
+
     // Logger.send Info (Some source) "Finding tests in assembly" logger
     Expecto.Impl.testFromAssembly assembly
     |> Option.map (ExpectoTest.create source assembly)
-  
+
   let internal getTestCasesFromTest logger (test: ExpectoTest) =
     Expecto.Test.toTestCodeList test.test
     |> List.map (ExpectoTestCase.create test)
-  
+
   let internal discoverTestForSource logger source =
     let assembly = System.Reflection.Assembly.LoadFile source
 
     if isNull assembly then
       failwithf "LoadFile %s returned null" source
-    
+
     getTestForAssembly logger assembly source
 
   let discoverTests logger =
     Seq.choose (discoverTestForSource logger)
-  
+
   let discoverTestCases logger =
     discoverTests logger >> Seq.collect (getTestCasesFromTest logger)
