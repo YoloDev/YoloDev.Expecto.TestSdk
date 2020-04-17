@@ -1,11 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <AssemblyName Condition=" '$(TargetFramework)' == 'net461' ">expecto.visualstudio.testadapter</AssemblyName>
-    <AssemblyName Condition=" '$(TargetFramework)' == 'netcoreapp2.1' ">expecto.visualstudio.dotnetcore.testadapter</AssemblyName>
+    <AssemblyName Condition=" '$(TargetFramework)' == 'netcoreapp3.1' ">expecto.visualstudio.dotnetcore.testadapter</AssemblyName>
     <!-- puts build outputs in build folder in nupkg -->
     <BuildOutputTargetFolder>build</BuildOutputTargetFolder>
     <OutputType>Library</OutputType>
-    <OutputType Condition=" '$(TargetFramework)' == 'netcoreapp2.1' ">Exe</OutputType>
+    <OutputType Condition=" '$(TargetFramework)' == 'netcoreapp3.1' ">Exe</OutputType>
   </PropertyGroup>
 
   <ItemGroup>
@@ -20,9 +20,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="build/netcoreapp2.1/YoloDev.Expecto.TestSdk.props">
+    <None Include="build/netcoreapp3.1/YoloDev.Expecto.TestSdk.props">
       <Pack>true</Pack>
-      <PackagePath>build\netcoreapp2.1\</PackagePath>
+      <PackagePath>build\netcoreapp3.1\</PackagePath>
     </None>
 
     <None Include="build/net461/YoloDev.Expecto.TestSdk.props">
