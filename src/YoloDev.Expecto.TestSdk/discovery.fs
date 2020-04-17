@@ -10,7 +10,7 @@ open Microsoft.VisualStudio.TestPlatform.ObjectModel.Logging
 
 module private TestCase =
   let create (test: FlatTest) (assembly: Assembly) (source: string) (joinWith: string) =
-    let case = TestCase (String.concat joinWith test.name, Constants.executorUri, source)
+    let case = TestCase (test.fullName joinWith, Constants.executorUri, source)
     let location = getLocation assembly test.test
     case.LineNumber <- location.lineNumber
     case.CodeFilePath <- location.sourcePath

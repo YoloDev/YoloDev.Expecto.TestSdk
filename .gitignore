@@ -20,3 +20,4 @@ nuget.exe
 korebuild-lock.txt
 global.json
 .ionide/
+.idea/
