@@ -1,5 +1,7 @@
 namespace YoloDev.Expecto.TestSdk
 
+open Expecto.Impl
+open Expecto.Tests
 open System.IO
 open System.Threading
 open System.Diagnostics
@@ -13,7 +15,7 @@ open Microsoft.VisualStudio.TestPlatform.ObjectModel.Logging
 [<ExtensionUri(Constants.executorUriString)>]
 type VsTestAdapter () =
   let cts = new CancellationTokenSource ()
-  
+
   interface System.IDisposable with
     member x.Dispose () =
       match cts with
@@ -35,18 +37,14 @@ type VsTestAdapter () =
         |> Option.map (RunSettings.read logger)
         |> Option.defaultValue RunSettings.defaultSettings
 
-      let testPlatformContext = {
-        requireSourceInformation = runSettings.collectSourceInformation
-        requireTestProperty = true }
-      
-      Discovery.discoverTestCases logger sources
+      Discovery.discoverTestCases logger (JoinWithProvider.get runSettings.expectoConfig) sources
       |> Seq.map ExpectoTestCase.case
       |> Seq.iter discoverySink.SendTestCase
-  
+
   interface ITestExecutor with
     member x.Cancel () = cts.Cancel ()
 
-    member x.RunTests (tests: TestCase seq, runContext: IRunContext, frameworkHandle: IFrameworkHandle) : unit = 
+    member x.RunTests (tests: TestCase seq, runContext: IRunContext, frameworkHandle: IFrameworkHandle) : unit =
       let tests = Guard.argNotNull "tests" tests
       let runContext = Guard.argNotNull "runContext" runContext
       let frameworkHandle = Guard.argNotNull "frameworkHandle" frameworkHandle
@@ -59,7 +57,7 @@ type VsTestAdapter () =
         |> Option.bind (fun c -> Option.ofObj c.RunSettings)
         |> Option.map (RunSettings.read logger)
         |> Option.defaultValue RunSettings.defaultSettings
-      
+
       Execution.runSpecifiedTests logger runSettings.expectoConfig frameworkHandle tests
       |> Async.RunSynchronously
 
@@ -80,6 +78,6 @@ type VsTestAdapter () =
       let testPlatformContext = {
         requireSourceInformation = runSettings.collectSourceInformation
         requireTestProperty = true }
-      
+
       Execution.runTests logger runSettings.expectoConfig frameworkHandle sources
       |> Async.RunSynchronously

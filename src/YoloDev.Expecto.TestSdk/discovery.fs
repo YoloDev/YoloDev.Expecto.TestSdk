@@ -9,8 +9,8 @@ open Microsoft.VisualStudio.TestPlatform.ObjectModel.Adapter
 open Microsoft.VisualStudio.TestPlatform.ObjectModel.Logging
 
 module private TestCase =
-  let create (test: FlatTest) (assembly: Assembly) (source: string) =
-    let case = TestCase (String.concat "/" test.name, Constants.executorUri, source)
+  let create (test: FlatTest) (assembly: Assembly) (source: string) (joinWith: string) =
+    let case = TestCase (String.concat joinWith test.name, Constants.executorUri, source)
     let location = getLocation assembly test.test
     case.LineNumber <- location.lineNumber
     case.CodeFilePath <- location.sourcePath
@@ -39,12 +39,12 @@ type ExpectoTestCase =
 
 [<RequireQualifiedAccess>]
 module ExpectoTestCase =
-  let create test case =
+  let create test joinWith case =
     { test = test
       case = case
-      mstest = lazy (TestCase.create case test.assembly test.source ) }
+      mstest = lazy (TestCase.create case test.assembly test.source joinWith ) }
 
-  let name c = c.case.name
+  let name c = c.case.fullName
 
   let case c = c.mstest.Force ()
 
@@ -58,9 +58,9 @@ module Discovery =
     Expecto.Impl.testFromAssembly assembly
     |> Option.map (ExpectoTest.create source assembly)
 
-  let internal getTestCasesFromTest logger (test: ExpectoTest) =
+  let internal getTestCasesFromTest logger joinWith (test: ExpectoTest) =
     Expecto.Test.toTestCodeList test.test
-    |> List.map (ExpectoTestCase.create test)
+    |> List.map (ExpectoTestCase.create test joinWith)
 
   let internal discoverTestForSource logger source =
     let assembly = System.Reflection.Assembly.LoadFile source
@@ -73,5 +73,5 @@ module Discovery =
   let discoverTests logger =
     Seq.choose (discoverTestForSource logger)
 
-  let discoverTestCases logger =
-    discoverTests logger >> Seq.collect (getTestCasesFromTest logger)
+  let discoverTestCases logger joinWith =
+    discoverTests logger >> Seq.collect (getTestCasesFromTest logger joinWith)

@@ -105,6 +105,14 @@ module private PrinterAdapter =
         exn = exn }
 
 [<RequireQualifiedAccess>]
+module JoinWithProvider =
+  let get (args: CLIArguments list) =
+    let possibleJoinWith = args |> List.tryPick (fun a -> match a with CLIArguments.JoinWith s -> Some s | _ -> None)
+    match possibleJoinWith with
+    | Some s -> s
+    | None -> JoinWith.Slash.asString
+
+[<RequireQualifiedAccess>]
 module Execution =
     /// Prints out names of all tests for given test suite.
   let private duplicatedNames test =
@@ -122,9 +130,10 @@ module Execution =
   let private runMatchingTests logger config (test: ExpectoTest) (cases: TestCase list) (frameworkHandle: IFrameworkHandle) =
     // TODO: Context passing
     // TODO: fail on focused tests
+    let joinWith = JoinWithProvider.get config
     let discovered =
-      Discovery.getTestCasesFromTest logger test
-      |> Seq.map (fun t -> String.concat "/" (ExpectoTestCase.name t), ExpectoTestCase.case t)
+      Discovery.getTestCasesFromTest logger joinWith test
+      |> Seq.map (fun t -> (ExpectoTestCase.name t joinWith), ExpectoTestCase.case t)
       |> Map.ofSeq
 
     let getLogger = LogAdapter.create logger (Some <| ExpectoTest.source test)
@@ -140,7 +149,7 @@ module Execution =
 
     let tests =
       ExpectoTest.test test
-      |> Expecto.Test.filter "/" (fun name -> Seq.contains (String.concat "/" name) testNames)
+      |> Expecto.Test.filter joinWith (fun name -> Seq.contains (String.concat joinWith name) testNames)
 
     let duplicates = duplicatedNames tests
     match duplicates with
@@ -156,7 +165,7 @@ module Execution =
     | None -> async.Zero ()
     | Some test ->
       let cases =
-        Discovery.getTestCasesFromTest logger test
+        Discovery.getTestCasesFromTest logger (JoinWithProvider.get config) test
         |> Seq.map ExpectoTestCase.case
         |> List.ofSeq
       runMatchingTests logger config test cases frameworkHandle
@@ -167,7 +176,7 @@ module Execution =
     | None -> async.Zero ()
     | Some test ->
       let cases =
-        Discovery.getTestCasesFromTest logger test
+        Discovery.getTestCasesFromTest logger (JoinWithProvider.get config) test
         |> Seq.map ExpectoTestCase.case
         |> Seq.filter (fun c -> Set.contains c.FullyQualifiedName nameSet)
         |> List.ofSeq

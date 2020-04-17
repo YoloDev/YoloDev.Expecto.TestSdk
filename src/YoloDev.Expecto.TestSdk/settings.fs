@@ -15,30 +15,34 @@ module internal SettingsParser =
   type ParserState = YoloDev.Expecto.TestSdk.Logging.Logger * Map<string, CLIArguments option>
   type SettingParser = ParserState * XElement -> CLIArguments option
 
-  type SettingsParser = 
+  type SettingsParser =
     { state: ParserState
       parsers: Map<string, SettingParser> }
-  
+
   let build logger parsers =
     { state = logger, Map.empty
       parsers = Map.ofList parsers }
-  
+
   let bool (_: ParserState, x: XElement) =
     TryParse.bool x.Value
-  
+
+  let string (_: ParserState, x: XElement) =
+    if String.IsNullOrWhiteSpace x.Value then None
+    else Some x.Value
+
   let int (_: ParserState, x: XElement) =
     TryParse.int32 x.Value
-  
+
   let float (_: ParserState, x: XElement) =
     TryParse.float x.Value
-  
+
   let exclusive (name: string) ((logger, s): ParserState, x: XElement) =
     match Map.tryFind name s with
     | None -> ()
     | Some _ ->
       sprintf "Setting %s provided with %s, but they are mutually exclusive." name x.Name.LocalName |> logger.Send LogLevel.Warning ""
       ()
-  
+
   let parse (parser: SettingsParser) (x: XElement) =
     let name = x.Name.LocalName.ToLowerInvariant ()
     match Map.tryFind name parser.parsers with
@@ -48,7 +52,7 @@ module internal SettingsParser =
       let (logger, args) = parser.state
       let args = Map.add name arg args
       { parser with state = (logger, args) }
-  
+
   let result (parser: SettingsParser) =
     let (_, args) = parser.state
     args
@@ -67,7 +71,7 @@ let private ( *>) (f: 'a -> unit) (g: 'a -> 'b) =
     f a
     g a
 
-type RunSettings = 
+type RunSettings =
   { /// Gets a value which indicates whether we should attempt to get source line information.
     collectSourceInformation: bool
 
@@ -78,14 +82,14 @@ type RunSettings =
     disableParallelization: bool
 
     /// Gets a value which indicates the target framework the tests are being run in.
-    targetFrameworkVersion: string option 
+    targetFrameworkVersion: string option
 
     /// Gets the [ExpectoConfig](https://github.com/haf/expecto#the-config) that was set via RunSettings
     expectoConfig : CLIArguments list }
 
 [<RequireQualifiedAccess>]
-module RunSettings = 
-  let defaultSettings = 
+module RunSettings =
+  let defaultSettings =
     { collectSourceInformation = true
       designMode = true
       disableParallelization = false
@@ -122,23 +126,29 @@ module RunSettings =
         "stress-memory-limit", SettingsParser.float >-> CLIArguments.Stress_Memory_Limit
         "fail-on-focused-tests", SettingsParser.bool >?> function | true -> Some CLIArguments.Fail_On_Focused_Tests | false -> None
         "debug", SettingsParser.bool >?> function | true -> Some CLIArguments.Debug | false -> None
+        "join-with", SettingsParser.string >-> CLIArguments.JoinWith
       ]
 
     let args =
       confNode.Descendants()
       |> Seq.fold SettingsParser.parse parser
       |> SettingsParser.result
-    
+
     let args =
       match Map.tryFind "fail-on-focused-tests" args with
       | Some _ -> args
       | None   -> Map.add "fail-on-focused-tests" (Some CLIArguments.Fail_On_Focused_Tests) args
-    
+
+    let args =
+      match Map.tryFind "join-with" args with
+      | Some _ -> args
+      | None   -> Map.add "join-with" (Some (CLIArguments.JoinWith JoinWith.Dot.asString)) args
+
     args
     |> Map.toSeq
     |> Seq.choose snd
     |> List.ofSeq
-    
+
 
   let read logger (runSettings: IRunSettings) =
     let settings = defaultSettings
@@ -149,35 +159,35 @@ module RunSettings =
       |> Option.bind Xml.read
       |> Option.bind Xml.root
 
-    let confNode = 
+    let confNode =
       runSettingsNode
       |> Option.bind (Xml.element "RunConfiguration")
-    
-    let settings = 
+
+    let settings =
       confNode
       |> readValueBool "DisableParallelization"
       |> Option.map (fun v -> { settings with disableParallelization = v })
       |> Option.defaultValue settings
-    
-    let settings = 
+
+    let settings =
       confNode
       |> readValueBool "DesignMode"
       |> Option.map (fun v -> { settings with designMode = v })
       |> Option.defaultValue settings
-    
-    let settings = 
+
+    let settings =
       confNode
       |> readValueBool "CollectSourceInformation"
       |> Option.map (fun v -> { settings with collectSourceInformation = v })
       |> Option.defaultValue settings
-    
-    let settings = 
+
+    let settings =
       confNode
       |> readValueString "TargetFrameworkVersion"
       |> Option.map (fun v -> { settings with targetFrameworkVersion = Some v })
       |> Option.defaultValue settings
 
-    let expectoRunSettings = 
+    let expectoRunSettings =
       runSettingsNode
       |> Option.bind (Xml.element "Expecto")
 
@@ -188,7 +198,7 @@ module RunSettings =
 
     { settings with expectoConfig =  expectoConfig }
 
-type TestPlatformContext = 
+type TestPlatformContext =
   { /// Indicates if VSTestCase object must have FileName or LineNumber information.
     requireSourceInformation: bool
 
