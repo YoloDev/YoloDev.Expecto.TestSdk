@@ -14,9 +14,6 @@ jobs:
         os: [macos-latest, windows-latest, ubuntu-latest]
         # Check https://github.com/dotnet/core/blob/master/release-notes/releases-index.json for updates
         dotnet:
-          - "2.1.805" # Latest 2.1
-          - "2.2.207" # Latest 2.2
-          - "3.0.103" # Latest 3.0
           - "3.1.201" # Latest 3.1
 
     env:
@@ -27,7 +24,7 @@ jobs:
       - name: Setup dotnet
         uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: "2.1.805"
+          dotnet-version: "3.1.201"
 
       - name: Setup dotnet
         uses: actions/setup-dotnet@v1
