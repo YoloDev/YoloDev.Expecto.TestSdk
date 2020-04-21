@@ -13,23 +13,23 @@ open Microsoft.VisualStudio.TestPlatform.ObjectModel.Logging
 [<FileExtension(".exe")>]
 [<DefaultExecutorUri(Constants.executorUriString)>]
 [<ExtensionUri(Constants.executorUriString)>]
-type VsTestAdapter () =
-  let cts = new CancellationTokenSource ()
+type VsTestAdapter() =
+  let cts = new CancellationTokenSource()
 
   interface System.IDisposable with
-    member x.Dispose () =
+    member x.Dispose() =
       match cts with
       | null -> ()
-      | s    -> s.Dispose ()
+      | s -> s.Dispose()
 
   interface ITestDiscoverer with
-    member x.DiscoverTests (sources, discoveryContext, logger, discoverySink) =
+    member x.DiscoverTests(sources, discoveryContext, logger, discoverySink) =
       let sources = Guard.argNotNull "sources" sources
       let logger = Guard.argNotNull "logger" logger
       let discoverySink = Guard.argNotNull "discoverySink" discoverySink
 
-      let stopwatch = Stopwatch.StartNew ()
-      let logger = Logger (logger, stopwatch)
+      let stopwatch = Stopwatch.StartNew()
+      let logger = Logger(logger, stopwatch)
 
       let runSettings =
         Option.ofObj discoveryContext
@@ -37,20 +37,20 @@ type VsTestAdapter () =
         |> Option.map (RunSettings.read logger)
         |> Option.defaultValue RunSettings.defaultSettings
 
-      Discovery.discoverTestCases logger (JoinWithProvider.get runSettings.expectoConfig) sources
+      Discovery.discoverTestCases logger runSettings sources
       |> Seq.map ExpectoTestCase.case
       |> Seq.iter discoverySink.SendTestCase
 
   interface ITestExecutor with
-    member x.Cancel () = cts.Cancel ()
+    member x.Cancel() = cts.Cancel()
 
-    member x.RunTests (tests: TestCase seq, runContext: IRunContext, frameworkHandle: IFrameworkHandle) : unit =
+    member x.RunTests(tests: TestCase seq, runContext: IRunContext, frameworkHandle: IFrameworkHandle): unit =
       let tests = Guard.argNotNull "tests" tests
       let runContext = Guard.argNotNull "runContext" runContext
       let frameworkHandle = Guard.argNotNull "frameworkHandle" frameworkHandle
 
-      let stopwatch = Stopwatch.StartNew ()
-      let logger = Logger (frameworkHandle, stopwatch)
+      let stopwatch = Stopwatch.StartNew()
+      let logger = Logger(frameworkHandle, stopwatch)
 
       let runSettings =
         Option.ofObj runContext
@@ -58,16 +58,15 @@ type VsTestAdapter () =
         |> Option.map (RunSettings.read logger)
         |> Option.defaultValue RunSettings.defaultSettings
 
-      Execution.runSpecifiedTests logger runSettings.expectoConfig frameworkHandle tests
-      |> Async.RunSynchronously
+      Execution.runSpecifiedTests logger runSettings frameworkHandle tests |> Async.RunSynchronously
 
-    member x.RunTests (sources: string seq, runContext: IRunContext, frameworkHandle: IFrameworkHandle) : unit =
+    member x.RunTests(sources: string seq, runContext: IRunContext, frameworkHandle: IFrameworkHandle): unit =
       let sources = Guard.argNotNull "sources" sources
       let runContext = Guard.argNotNull "runContext" runContext
       let frameworkHandle = Guard.argNotNull "frameworkHandle" frameworkHandle
 
-      let stopwatch = Stopwatch.StartNew ()
-      let logger = Logger (frameworkHandle, stopwatch)
+      let stopwatch = Stopwatch.StartNew()
+      let logger = Logger(frameworkHandle, stopwatch)
 
       let runSettings =
         Option.ofObj runContext
@@ -75,9 +74,8 @@ type VsTestAdapter () =
         |> Option.map (RunSettings.read logger)
         |> Option.defaultValue RunSettings.defaultSettings
 
-      let testPlatformContext = {
-        requireSourceInformation = runSettings.collectSourceInformation
-        requireTestProperty = true }
+      let testPlatformContext =
+        { requireSourceInformation = runSettings.collectSourceInformation
+          requireTestProperty = true }
 
-      Execution.runTests logger runSettings.expectoConfig frameworkHandle sources
-      |> Async.RunSynchronously
+      Execution.runTests logger runSettings frameworkHandle sources |> Async.RunSynchronously

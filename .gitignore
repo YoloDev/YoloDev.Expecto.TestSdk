@@ -21,3 +21,4 @@ korebuild-lock.txt
 global.json
 .ionide/
 .idea/
+.fake
