@@ -4,6 +4,7 @@
     <!-- puts build outputs in build folder in nupkg -->
     <BuildOutputTargetFolder>build</BuildOutputTargetFolder>
     <OutputType>Exe</OutputType>
+    <PackageId>$(MSBuildProjectName)</PackageId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -21,6 +22,10 @@
     <None Include="build/netcoreapp2.1/YoloDev.Expecto.TestSdk.props">
       <Pack>true</Pack>
       <PackagePath>build\netcoreapp2.1\</PackagePath>
+    </None>
+    <None Include="build/netcoreapp2.1/_._">
+      <Pack>true</Pack>
+      <PackagePath>lib\netcoreapp2.1\</PackagePath>
     </None>
   </ItemGroup>
 

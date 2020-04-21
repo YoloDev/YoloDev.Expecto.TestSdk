@@ -1,11 +1,11 @@
 <Project>
   <PropertyGroup>
-      <OutputBaseDir>$(MSBuildThisFileDirectory)..\</OutputBaseDir>
-      <PackageOutputPath>$(OutputBaseDir)artifacts</PackageOutputPath>
-      <BuildProperties>Configuration=$(Configuration)</BuildProperties>
-      <VSTestLogger>trx</VSTestLogger>
-      <VSTestResultsDirectory>$(PackageOutputPath)\TestResults\</VSTestResultsDirectory>
-    </PropertyGroup>
+    <OutputBaseDir>$(MSBuildThisFileDirectory)..\</OutputBaseDir>
+    <PackageOutputPath>$(OutputBaseDir)artifacts</PackageOutputPath>
+    <BuildProperties>Configuration=$(Configuration)</BuildProperties>
+    <VSTestLogger>trx</VSTestLogger>
+    <VSTestResultsDirectory>$(PackageOutputPath)\TestResults\</VSTestResultsDirectory>
+  </PropertyGroup>
 
   <ItemGroup>
     <RestoreProject Include="..\YoloDev.Expecto.TestSdk.sln" />
@@ -29,7 +29,7 @@
     <MSBuild Projects="@(TestProject)" Targets="VSTest" Properties="VSTestLogger=$(VSTestLogger)" ContinueOnError="ErrorAndStop" />
   </Target>
 
-  <Target Name="Publish">
-    <MSBuild Projects="@(PublishProject)" Targets="Pack" Properties="Configuration=Release;PackageOutputPath=$(PackageOutputPath);SourceLinkCreate=true;SourceLinkTest=true" ContinueOnError="ErrorAndStop" />
+  <Target Name="Pack">
+    <MSBuild Projects="@(PublishProject)" Targets="Pack" Properties="Configuration=Release;PackageOutputPath=$(PackageOutputPath)" ContinueOnError="ErrorAndStop" />
   </Target>
 </Project>
