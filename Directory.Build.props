@@ -1,5 +1,5 @@
 <Project>
-  <Import Project="./build/Mono.DotNetCore.props" />
+
   <PropertyGroup>
     <Authors>Aleksander Heintz</Authors>
     <Product>YoloDev Expecto TestSdk</Product>
@@ -14,10 +14,4 @@
     <DisableImplicitFSharpCoreReference>true</DisableImplicitFSharpCoreReference>
   </PropertyGroup>
 
-  <!-- Versions -->
-  <PropertyGroup>
-    <ExpectoVersion>[9.0, 10.0)</ExpectoVersion>
-    <TestSdkVersion>16.5.0</TestSdkVersion>
-    <FSharpCoreVersion>4.7.1</FSharpCoreVersion>
-  </PropertyGroup>
 </Project>

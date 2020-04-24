@@ -1,4 +1,5 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk; Microsoft.Build.CentralPackageVersions">
+
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
     <OutputType>library</OutputType>
@@ -7,4 +8,5 @@
   <ItemGroup>
     <Compile Include="Test.fs" />
   </ItemGroup>
+
 </Project>
