@@ -63,3 +63,41 @@ jobs:
 
       - name: Test
         run: dotnet msbuild build/build.proj -target:Test -p:NoRestore=true -p:VSTestNoBuild=true -v:d
+
+  pack:
+    name: Create package
+    runs-on: ubuntu-latest
+    needs:
+      - test
+
+    #if: github.ref == 'refs/heads/master'
+
+    env:
+      DOTNET_SKIP_FIRST_TIME_EXPERIENCE: "true"
+      DOTNET_CLI_TELEMETRY_OPTOUT: "1"
+
+    steps:
+      - name: Setup dotnet 2.1
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: "2.1.805"
+
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: "3.1.201"
+
+      - name: Setup side by side .NET SDKs on *nix
+        run: rsync -a ${DOTNET_ROOT/3.1.201/2.1.805}/* $DOTNET_ROOT/
+
+      - name: Print dotnet info
+        run: dotnet --info
+
+      - name: Create nuget packages
+        run: dotnet msbuild build/build.proj -target:Pack -v:d
+
+      - name: Upload nuget packages as artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: packages
+          path: artifacts
