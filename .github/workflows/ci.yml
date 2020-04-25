@@ -70,8 +70,6 @@ jobs:
     needs:
       - test
 
-    #if: github.ref == 'refs/heads/master'
-
     env:
       DOTNET_SKIP_FIRST_TIME_EXPERIENCE: "true"
       DOTNET_CLI_TELEMETRY_OPTOUT: "1"
@@ -101,3 +99,5 @@ jobs:
         with:
           name: packages
           path: artifacts
+  # publish:
+  #   if: github.ref == 'refs/heads/master'
