@@ -91,6 +91,13 @@ jobs:
       - name: Print dotnet info
         run: dotnet --info
 
+      - uses: actions/checkout@master
+      - name: Fetch all history for all tags and branches
+        run: git fetch --prune --unshallow
+
+      - name: Output version
+        run: bash ./script/git-version.sh --verbose get
+
       - name: Create nuget packages
         run: dotnet msbuild build/build.proj -target:Pack -v:d
 
