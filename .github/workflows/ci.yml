@@ -45,10 +45,10 @@ jobs:
         run: bash ./script/git-version.sh --verbose get
 
       - name: Restore
-        run: dotnet msbuild build/build.proj -target:Restore
+        run: dotnet msbuild build/build.proj -target:Restore -v:d
 
       - name: Build
-        run: dotnet msbuild build/build.proj -target:Build -p:NoRestore=true
+        run: dotnet msbuild build/build.proj -target:Build -p:NoRestore=true -v:d
 
       - name: Test
-        run: dotnet msbuild build/build.proj -target:Test -p:NoRestore=true -p:VSTestNoBuild=true
+        run: dotnet msbuild build/build.proj -target:Test -p:NoRestore=true -p:VSTestNoBuild=true -v:d
