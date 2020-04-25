@@ -34,7 +34,15 @@ jobs:
         with:
           dotnet-version: ${{ matrix.dotnet }}
 
-      - name: Setup dotnet SxS
+      - name: Setup side by side .NET SDKs on Windows
+        if: matrix.os == 'windows-latest'
+        run: |
+          SET DOTNET_21_ROOT=%DOTNET_ROOT:${{ matrix.dotnet }}=2.1.805%
+          xcopy /s /y /d %DOTNET_31_ROOT% %DOTNET_ROOT%
+        shell: cmd
+
+      - name: Setup side by side .NET SDKs on *nix
+        if: matrix.os != 'windows-latest'
         run: rsync -a ${DOTNET_ROOT/${{ matrix.dotnet }}/2.1.805}/* $DOTNET_ROOT/
 
       - name: Print dotnet info
