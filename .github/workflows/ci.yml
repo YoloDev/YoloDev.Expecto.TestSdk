@@ -98,6 +98,9 @@ jobs:
       - name: Output version
         run: bash ./script/git-version.sh --verbose get
 
+      - name: Restore
+        run: dotnet msbuild build/build.proj -target:Restore -v:d
+
       - name: Create nuget packages
         run: dotnet msbuild build/build.proj -target:Pack -v:d
 
