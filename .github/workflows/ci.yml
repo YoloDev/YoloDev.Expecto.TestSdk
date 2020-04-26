@@ -145,7 +145,7 @@ jobs:
 
       - name: Push to MyGet
         run: |
-          for pkg in packages/*.nupkg; do
+          for pkg in packages/*.nupkg packages/*.snupkg; do
             dotnet nuget push "$pkg" -s "https://www.myget.org/F/yolodev/api/v3/index.json" -ss "https://www.myget.org/F/yolodev/api/v3/index.json" -k "$MYGET_KEY"
           done
         env:
