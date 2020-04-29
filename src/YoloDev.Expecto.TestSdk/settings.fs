@@ -96,7 +96,7 @@ module RunSettings =
       disableParallelization = false
       targetFrameworkVersion = None
       joinWith = Dot
-      expectoConfig = [] }
+      expectoConfig = [CLIArguments.Colours 0] }
 
   let readValueParse parser elementName confNode =
     confNode
@@ -162,6 +162,11 @@ module RunSettings =
       match Map.tryFind "join-with" args with
       | Some _ -> args
       | None -> Map.add "join-with" (Some(CLIArguments.JoinWith JoinWith.Dot.asString)) args
+
+    let args =
+      match Map.tryFind "colours" args with
+      | Some _ -> args
+      | None -> Map.add "colours" (Some(CLIArguments.Colours 0)) args
 
     args
     |> Map.toSeq
