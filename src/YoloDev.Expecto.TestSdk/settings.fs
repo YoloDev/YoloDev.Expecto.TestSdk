@@ -117,7 +117,7 @@ module RunSettings =
   let (|Float|_|) str = TryParse.float str
   let (|String|_|) (str: string) = Option.ofObj str
 
-  let readExpectoConfig (logger: YoloDev.Expecto.TestSdk.Logging.Logger) expectoConfig (confNode: Xml.Linq.XElement) =
+  let readExpectoConfig (logger: YoloDev.Expecto.TestSdk.Logging.Logger) (confNode: Xml.Linq.XElement) =
     let parser =
       SettingsParser.build logger
         [ "sequenced",
@@ -207,7 +207,7 @@ module RunSettings =
     // Note: this list is *empty* if no expecto run settings are provided
     let expectoConfig =
       expectoRunSettings
-      |> Option.map (readExpectoConfig logger settings.expectoConfig)
+      |> Option.map (readExpectoConfig logger)
       |> Option.defaultValue settings.expectoConfig
 
     let joinWith =
