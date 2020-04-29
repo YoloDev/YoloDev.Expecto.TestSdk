@@ -144,6 +144,8 @@ module RunSettings =
           | true -> Some CLIArguments.Debug
           | false -> None
 
+          "colours", SettingsParser.int >-> CLIArguments.Colours
+
           "join-with", SettingsParser.string >-> CLIArguments.JoinWith ]
 
     let args =
