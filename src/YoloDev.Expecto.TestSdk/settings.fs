@@ -96,7 +96,7 @@ module RunSettings =
       disableParallelization = false
       targetFrameworkVersion = None
       joinWith = Dot
-      expectoConfig = [] }
+      expectoConfig = [CLIArguments.Colours 0] }
 
   let readValueParse parser elementName confNode =
     confNode
@@ -117,7 +117,7 @@ module RunSettings =
   let (|Float|_|) str = TryParse.float str
   let (|String|_|) (str: string) = Option.ofObj str
 
-  let readExpectoConfig (logger: YoloDev.Expecto.TestSdk.Logging.Logger) expectoConfig (confNode: Xml.Linq.XElement) =
+  let readExpectoConfig (logger: YoloDev.Expecto.TestSdk.Logging.Logger) (confNode: Xml.Linq.XElement) =
     let parser =
       SettingsParser.build logger
         [ "sequenced",
@@ -144,6 +144,8 @@ module RunSettings =
           | true -> Some CLIArguments.Debug
           | false -> None
 
+          "colours", SettingsParser.int >-> CLIArguments.Colours
+
           "join-with", SettingsParser.string >-> CLIArguments.JoinWith ]
 
     let args =
@@ -160,6 +162,11 @@ module RunSettings =
       match Map.tryFind "join-with" args with
       | Some _ -> args
       | None -> Map.add "join-with" (Some(CLIArguments.JoinWith JoinWith.Dot.asString)) args
+
+    let args =
+      match Map.tryFind "colours" args with
+      | Some _ -> args
+      | None -> Map.add "colours" (Some(CLIArguments.Colours 0)) args
 
     args
     |> Map.toSeq
@@ -207,7 +214,7 @@ module RunSettings =
     // Note: this list is *empty* if no expecto run settings are provided
     let expectoConfig =
       expectoRunSettings
-      |> Option.map (readExpectoConfig logger settings.expectoConfig)
+      |> Option.map (readExpectoConfig logger)
       |> Option.defaultValue settings.expectoConfig
 
     let joinWith =
