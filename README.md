@@ -1,4 +1,4 @@
-# Expecto TestSdk integration
+# Expecto TestSdk integration [![NuGet Status](http://img.shields.io/nuget/v/YoloDev.Expecto.TestSdk.svg?style=flat)](https://www.nuget.org/packages/YoloDev.Expecto.TestSdk)
 
 ![CI](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/workflows/CI/badge.svg?event=push)
 
