@@ -1,6 +1,7 @@
-# Expecto TestSdk integration [![NuGet Status](http://img.shields.io/nuget/v/YoloDev.Expecto.TestSdk.svg?style=flat)](https://www.nuget.org/packages/YoloDev.Expecto.TestSdk)
+# Expecto TestSdk integration
 
 ![CI](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/workflows/CI/badge.svg?event=push)
+[![NuGet Status](http://img.shields.io/nuget/v/YoloDev.Expecto.TestSdk.svg?style=flat)](https://www.nuget.org/packages/YoloDev.Expecto.TestSdk)
 
 ## Using Expecto with VSTest (dotnet test)
 
