@@ -4,6 +4,9 @@
     <TargetFrameworks>net461;netcoreapp2.1</TargetFrameworks>
     <OutputType>library</OutputType>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(OS)' != 'Windows_NT' ">
+    <TargetFrameworks>netcoreapp2.1</TargetFrameworks>
+  </PropertyGroup>
 
   <ItemGroup>
     <Compile Include="Test.fs" />
