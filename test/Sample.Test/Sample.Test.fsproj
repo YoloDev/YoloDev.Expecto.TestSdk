@@ -1,8 +1,11 @@
-﻿<Project Sdk="Microsoft.NET.Sdk; Microsoft.Build.CentralPackageVersions">
+<Project Sdk="Microsoft.NET.Sdk; Microsoft.Build.CentralPackageVersions">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <TargetFrameworks>net461;netcoreapp2.1</TargetFrameworks>
     <OutputType>library</OutputType>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(OS)' != 'Windows_NT' ">
+    <TargetFrameworks>netcoreapp2.1</TargetFrameworks>
   </PropertyGroup>
 
   <ItemGroup>
