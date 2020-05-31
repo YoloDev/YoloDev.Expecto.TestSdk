@@ -3,7 +3,7 @@
 
   <PropertyGroup>
     <DebugType>portable</DebugType>
-    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <TargetFrameworks>net461;netcoreapp2.1</TargetFrameworks>
     <IsPackable>true</IsPackable>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
