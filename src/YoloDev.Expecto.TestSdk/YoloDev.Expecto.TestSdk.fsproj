@@ -26,6 +26,14 @@
       <Pack>true</Pack>
       <PackagePath>lib\netcoreapp2.1\</PackagePath>
     </None>
+    <None Include="build/net461/YoloDev.Expecto.TestSdk.props">
+      <Pack>true</Pack>
+      <PackagePath>build\net461\</PackagePath>
+    </None>
+    <None Include="build/net461/_._">
+      <Pack>true</Pack>
+      <PackagePath>lib\net461\</PackagePath>
+    </None>
   </ItemGroup>
 
   <ItemGroup>
