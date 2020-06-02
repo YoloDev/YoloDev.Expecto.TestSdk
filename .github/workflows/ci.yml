@@ -141,6 +141,9 @@ jobs:
         with:
           name: packages
 
+      - name: List packages
+        run: ls -la packages
+
       - name: Push to MyGet
         run: |
           for pkg in packages/*.nupkg packages/*.snupkg; do
