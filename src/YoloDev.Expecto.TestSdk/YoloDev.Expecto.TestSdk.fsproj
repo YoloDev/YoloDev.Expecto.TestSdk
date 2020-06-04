@@ -1,10 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk; Microsoft.Build.CentralPackageVersions">
 
   <PropertyGroup>
-    <AssemblyName>expecto.visualstudio.dotnetcore.testadapter</AssemblyName>
+    <AssemblyName Condition=" '$(TargetFramework)' == 'net461' ">expecto.visualstudio.testadapter</AssemblyName>
+    <AssemblyName Condition=" '$(TargetFramework)' == 'netcoreapp2.0' ">expecto.visualstudio.dotnetcore.testadapter</AssemblyName>
     <!-- puts build outputs in build folder in nupkg -->
     <BuildOutputTargetFolder>build</BuildOutputTargetFolder>
     <PackageId>$(MSBuildProjectName)</PackageId>
+    <OutputType Condition=" '$(TargetFramework)' == 'netcoreapp2.0' ">Exe</OutputType>
   </PropertyGroup>
 
   <ItemGroup>

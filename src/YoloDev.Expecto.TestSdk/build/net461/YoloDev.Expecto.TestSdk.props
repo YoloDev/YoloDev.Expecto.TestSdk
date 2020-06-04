@@ -1,7 +1,7 @@
 <Project>
   <ItemGroup>
-    <None Include="$(MSBuildThisFileDirectory)expecto.visualstudio.dotnetcore.testadapter.dll">
-      <Link>expecto.visualstudio.dotnetcore.testadapter.dll</Link>
+    <None Include="$(MSBuildThisFileDirectory)expecto.visualstudio.testadapter.dll">
+      <Link>expecto.visualstudio.testadapter.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Visible>False</Visible>
     </None>
