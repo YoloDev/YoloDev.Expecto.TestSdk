@@ -1,9 +1,10 @@
-<Project Sdk="Microsoft.NET.Sdk; Microsoft.Build.CentralPackageVersions">
+﻿<Project Sdk="Microsoft.NET.Sdk; Microsoft.Build.CentralPackageVersions">
 
   <PropertyGroup>
     <AssemblyName>expecto.visualstudio.dotnetcore.testadapter</AssemblyName>
     <!-- puts build outputs in build folder in nupkg -->
     <BuildOutputTargetFolder>build</BuildOutputTargetFolder>
+    <OutputType>Exe</OutputType>
     <PackageId>$(MSBuildProjectName)</PackageId>
   </PropertyGroup>
 
@@ -15,6 +16,7 @@
     <Compile Include="discovery.fs" />
     <Compile Include="execution.fs" />
     <Compile Include="adapter.fs" />
+    <Compile Include="main.fs" />
   </ItemGroup>
 
   <ItemGroup>

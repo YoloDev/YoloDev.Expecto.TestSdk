@@ -232,7 +232,11 @@ function get-branch-point() {
 
 	local branch=$1
 	local base=$2
-	diff -u <(git rev-list --first-parent "$branch") <(git rev-list --first-parent "$base") | sed -ne 's/^ //p' | head -1
+	if [ "$verbose" = true ]; then
+		diff -u <(git rev-list --first-parent "$branch" 2>&3) <(git rev-list --first-parent "$base" 2>&3) | sed -ne 's/^ //p' | head -1
+	else
+		diff -u <(git rev-list --first-parent "$branch" 2>/dev/null ) <(git rev-list --first-parent "$base" 2>/dev/null) | sed -ne 's/^ //p' | head -1
+	fi
 }
 
 function get-commit-count() {
