@@ -131,10 +131,19 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: package
-          path: ~/.nuget/packages/YoloDev.Expecto.TestSdk/0.0.0
+          path: ~/packages/YoloDev.Expecto.TestSdk
 
       - name: Display structure of downloaded files
-        run: ls -R ~/.nuget/packages/YoloDev.Expecto.TestSdk/0.0.0
+        run: ls -R ~/packages/YoloDev.Expecto.TestSdk
+
+      - name: Restore test project
+        run: dotnet restore -s ~/packages/YoloDev.Expecto.TestSdk test/Sample.Test -p:CiTestTfm=${{ matrix.dotnet }}
+
+      - name: Build test project
+        run: dotnet build --no-restore test/Sample.Test -p:CiTestTfm=${{ matrix.dotnet }}
+
+      - name: Test project
+        run: dotnet test --no-build --no-restore test/Sample.Test -p:CiTestTfm=${{ matrix.dotnet }}
 
   # pack:
   #   name: Create package

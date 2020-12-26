@@ -1,12 +1,17 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk; Microsoft.Build.CentralPackageVersions">
 
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp2.1;net5.0</TargetFrameworks>
+    <TargetFrameworks Condition="'$(CiTestTfm)' == ''">netcoreapp2.1;net5.0</TargetFrameworks>
+    <TargetFramework Condition="'$(CiTestTfm)' != ''">$(CiTestTfm)</TargetFramework>
     <OutputType>library</OutputType>
   </PropertyGroup>
 
   <ItemGroup>
     <Compile Include="Test.fs" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(CiTestTfm)' != ''">
+    <PackageReference Include="YoloDev.Expecto.TestSdk" VersionOverride="*-*" />
   </ItemGroup>
 
 </Project>
