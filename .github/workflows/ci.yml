@@ -131,11 +131,10 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: package
-          path: ~/packages/YoloDev.Expecto.TestSdk/0.0.0
+          path: ~/.nuget/packages/YoloDev.Expecto.TestSdk/0.0.0
 
       - name: Display structure of downloaded files
-        run: ls -R
-        working-directory: ~/packages/YoloDev.Expecto.TestSdk/0.0.0
+        run: ls -R ~/.nuget/packages/YoloDev.Expecto.TestSdk/0.0.0
 
   # pack:
   #   name: Create package
