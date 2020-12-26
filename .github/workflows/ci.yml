@@ -116,7 +116,7 @@ jobs:
         run: ls -R ~/packages/YoloDev.Expecto.TestSdk
 
       - name: Restore test project from nuget
-        run: dotnet restore test/Sample.Test
+        run: dotnet restore test/Sample.Test -p:TargetFramework=${{ matrix.tfm }}
 
       - name: Restore test project with local package
         run: dotnet restore -s ~/packages/YoloDev.Expecto.TestSdk test/Sample.Test -p:CiTestTfm=${{ matrix.tfm }}
