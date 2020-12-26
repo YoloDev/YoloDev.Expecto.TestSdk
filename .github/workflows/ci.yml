@@ -30,6 +30,11 @@ jobs:
         with:
           dotnet-version: "2.1.805"
 
+      - name: Setup dotnet 5.0
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: "5.0.101"
+
       - name: Setup dotnet
         uses: actions/setup-dotnet@v1
         with:
@@ -39,12 +44,16 @@ jobs:
         if: matrix.os == 'windows-latest'
         run: |
           SET DOTNET_21_ROOT=%DOTNET_ROOT:${{ matrix.dotnet }}=2.1.805%
+          SET DOTNET_50_ROOT=%DOTNET_ROOT:${{ matrix.dotnet }}=5.0.101%
           xcopy /s /y /d %DOTNET_31_ROOT% %DOTNET_ROOT%
+          xcopy /s /y /d %DOTNET_50_ROOT% %DOTNET_ROOT%
         shell: cmd
 
       - name: Setup side by side .NET SDKs on *nix
         if: matrix.os != 'windows-latest'
-        run: rsync -a ${DOTNET_ROOT/${{ matrix.dotnet }}/2.1.805}/* $DOTNET_ROOT/
+        run: |
+          rsync -a ${DOTNET_ROOT/${{ matrix.dotnet }}/2.1.805}/* $DOTNET_ROOT/
+          rsync -a ${DOTNET_ROOT/${{ matrix.dotnet }}/5.0.101}/* $DOTNET_ROOT/
 
       - name: Print dotnet info
         run: dotnet --info
