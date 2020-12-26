@@ -66,8 +66,8 @@ jobs:
       fail-fast: false
       matrix:
         os:
-          # - macos-latest
-          # - windows-latest
+          #- macos-latest
+          #- windows-latest
           - ubuntu-latest
         tfm:
           - "netcoreapp2.1"
@@ -115,11 +115,11 @@ jobs:
       - name: Display structure of downloaded files
         run: ls -R ~/packages/YoloDev.Expecto.TestSdk
 
-      - name: Restore test project from nuget
-        run: dotnet restore test/Sample.Test -p:TargetFramework=${{ matrix.tfm }}
+      # - name: Restore test project from nuget
+      #   run: dotnet restore test/Sample.Test -p:TargetFramework=${{ matrix.tfm }}
 
       - name: Restore test project with local package
-        run: dotnet restore -s ~/packages/YoloDev.Expecto.TestSdk test/Sample.Test -p:CiTestTfm=${{ matrix.tfm }}
+        run: dotnet restore -s ~/packages/YoloDev.Expecto.TestSdk -s https://api.nuget.org/v3/index.json test/Sample.Test -p:CiTestTfm=${{ matrix.tfm }}
 
       - name: Build test project
         run: dotnet build --no-restore test/Sample.Test -p:CiTestTfm=${{ matrix.tfm }}
