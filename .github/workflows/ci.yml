@@ -111,20 +111,19 @@ jobs:
 
       - name: Display structure of downloaded files
         run: ls -R ~/packages/YoloDev.Expecto.TestSdk
+        shell: bash
 
       - name: Restore test project with local package
-        if: matrix.os != 'windows-latest'
         run: dotnet restore -s ~/packages/YoloDev.Expecto.TestSdk -s https://api.nuget.org/v3/index.json test/Sample.Test -p:CiTestTfm=${{ matrix.tfm }}
-
-      - name: Restore test project with local package
-        if: matrix.os == 'windows-latest'
-        run: dotnet restore -s %USERPROFILE%\packages\YoloDev.Expecto.TestSdk -s https://api.nuget.org/v3/index.json test\Sample.Test -p:CiTestTfm=${{ matrix.tfm }}
+        shell: bash
 
       - name: Build test project
         run: dotnet build --no-restore test/Sample.Test -p:CiTestTfm=${{ matrix.tfm }}
+        shell: bash
 
       - name: Test project
         run: dotnet test --no-build --no-restore test/Sample.Test -p:CiTestTfm=${{ matrix.tfm }}
+        shell: bash
 
   # publish:
   #   if: github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/tags/v')
