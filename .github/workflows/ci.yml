@@ -51,6 +51,7 @@ jobs:
         run: dotnet --info
 
       - uses: actions/checkout@master
+
       - name: Fetch all history for all tags and branches
         run: git fetch --prune --unshallow
 
@@ -126,6 +127,8 @@ jobs:
 
       - name: Print dotnet info
         run: dotnet --info
+
+      - uses: actions/checkout@master
 
       - name: Download package
         uses: actions/download-artifact@v2
