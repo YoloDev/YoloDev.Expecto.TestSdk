@@ -54,13 +54,13 @@ jobs:
         run: git fetch --prune --unshallow
 
       - name: Restore
-        run: dotnet msbuild build/build.proj -target:Restore -v:d
+        run: dotnet msbuild build/build.proj -target:Restore
 
       - name: Build
-        run: dotnet msbuild build/build.proj -target:Build -p:NoRestore=true -v:d
+        run: dotnet msbuild build/build.proj -target:Build -p:NoRestore=true
 
       - name: Test
-        run: dotnet msbuild build/build.proj -target:Test -p:NoRestore=true -p:VSTestNoBuild=true -v:d
+        run: dotnet msbuild build/build.proj -target:Test -p:NoRestore=true -p:VSTestNoBuild=true
 
   pack:
     name: Create package
