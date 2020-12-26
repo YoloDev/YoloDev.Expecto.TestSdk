@@ -111,19 +111,19 @@ jobs:
 
       - name: Display structure of downloaded files
         run: ls -R ~/packages/YoloDev.Expecto.TestSdk
-        shell: bash
+        shell: pwsh
 
       - name: Restore test project with local package
         run: dotnet restore -s ~/packages/YoloDev.Expecto.TestSdk -s 'https://api.nuget.org/v3/index.json' test/Sample.Test -p:CiTestTfm=${{ matrix.tfm }}
-        shell: bash
+        shell: pwsh
 
       - name: Build test project
         run: dotnet build --no-restore test/Sample.Test -p:CiTestTfm=${{ matrix.tfm }}
-        shell: bash
+        shell: pwsh
 
       - name: Test project
         run: dotnet test --no-build --no-restore test/Sample.Test -p:CiTestTfm=${{ matrix.tfm }}
-        shell: bash
+        shell: pwsh
 
   # publish:
   #   if: github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/tags/v')
