@@ -1,21 +1,2 @@
 <Project>
-  <Target Name="SetVersion" BeforeTargets="Build;Pack">
-    <PropertyGroup>
-      <GitVersionExec><![CDATA[
-        bash '$(MSBuildThisFileDirectory)/script/git-version.sh' get
-      ]]></GitVersionExec>
-    </PropertyGroup>
-
-    <Exec
-      Command="$(GitVersionExec)"
-      WorkingDirectory="$(MSBuildThisFileDirectory)"
-      ConsoleToMSBuild="true"
-      StandardOutputImportance="Low">
-      <Output TaskParameter="ConsoleOutput" PropertyName="Version" />
-    </Exec>
-    <CreateProperty Value="$(Version)">
-      <Output PropertyName="PackageVersion" TaskParameter="Value"/>
-    </CreateProperty>
-    <!--<Message Text="Version: $(Version)" Importance="High" />-->
-  </Target>
 </Project>

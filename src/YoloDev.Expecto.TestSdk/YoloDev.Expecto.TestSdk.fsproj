@@ -28,6 +28,10 @@
       <Pack>true</Pack>
       <PackagePath>lib\netcoreapp2.1\</PackagePath>
     </None>
+    <None Include="build/net5.0/_._">
+      <Pack>true</Pack>
+      <PackagePath>lib\net5.0\</PackagePath>
+    </None>
   </ItemGroup>
 
   <ItemGroup>
