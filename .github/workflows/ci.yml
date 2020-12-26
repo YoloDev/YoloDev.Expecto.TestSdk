@@ -18,6 +18,7 @@ jobs:
           - "2.2.207" # Latest 2.2
           - "3.0.103" # Latest 3.0
           - "3.1.201" # Latest 3.1
+          - "5.0.101" # Latest 5.0
 
     env:
       DOTNET_SKIP_FIRST_TIME_EXPERIENCE: "true"
@@ -51,9 +52,6 @@ jobs:
       - uses: actions/checkout@master
       - name: Fetch all history for all tags and branches
         run: git fetch --prune --unshallow
-
-      - name: Output version
-        run: bash ./script/git-version.sh --verbose get
 
       - name: Restore
         run: dotnet msbuild build/build.proj -target:Restore -v:d
