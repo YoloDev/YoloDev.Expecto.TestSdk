@@ -114,7 +114,7 @@ jobs:
         shell: pwsh
 
       - name: Restore test project with local package
-        run: dotnet restore -s ~/packages/YoloDev.Expecto.TestSdk -s 'https://api.nuget.org/v3/index.json' test/Sample.Test -p:CiTestTfm=${{ matrix.tfm }}
+        run: dotnet restore -s (Resolve-Path ~/packages/YoloDev.Expecto.TestSdk) -s 'https://api.nuget.org/v3/index.json' test/Sample.Test -p:CiTestTfm=${{ matrix.tfm }}
         shell: pwsh
 
       - name: Build test project
