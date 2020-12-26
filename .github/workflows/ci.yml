@@ -66,8 +66,8 @@ jobs:
       fail-fast: false
       matrix:
         os:
-          #- macos-latest
-          #- windows-latest
+          - macos-latest
+          - windows-latest
           - ubuntu-latest
         tfm:
           - "netcoreapp2.1"
@@ -87,7 +87,7 @@ jobs:
         with:
           dotnet-version: "2.1.805"
 
-      - name: Setup dotnet 5.0
+      - name: Setup dotnet ${{ matrix.dotnet }}
         if: ${{ matrix.dotnet }} != ''
         uses: actions/setup-dotnet@v1
         with:
@@ -97,18 +97,6 @@ jobs:
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: "5.0.101"
-
-      # - name: Setup side by side .NET SDKs on Windows
-      #   if: matrix.os == 'windows-latest'
-      #   run: |
-      #     SET DOTNET_21_ROOT=%DOTNET_ROOT:${{ matrix.dotnet }}=2.1.805%
-      #     xcopy /s /y /d %DOTNET_21_ROOT% %DOTNET_ROOT%
-      #   shell: cmd
-
-      # - name: Setup side by side .NET SDKs on *nix
-      #   if: matrix.os != 'windows-latest'
-      #   run: |
-      #     rsync -a ${DOTNET_ROOT/${{ matrix.dotnet }}/2.1.805}/* $DOTNET_ROOT/
 
       - name: Print dotnet info
         run: dotnet --info
@@ -124,9 +112,6 @@ jobs:
       - name: Display structure of downloaded files
         run: ls -R ~/packages/YoloDev.Expecto.TestSdk
 
-      # - name: Restore test project from nuget
-      #   run: dotnet restore test/Sample.Test -p:TargetFramework=${{ matrix.tfm }}
-
       - name: Restore test project with local package
         run: dotnet restore -s ~/packages/YoloDev.Expecto.TestSdk -s https://api.nuget.org/v3/index.json test/Sample.Test -p:CiTestTfm=${{ matrix.tfm }}
 
@@ -135,52 +120,6 @@ jobs:
 
       - name: Test project
         run: dotnet test --no-build --no-restore test/Sample.Test -p:CiTestTfm=${{ matrix.tfm }}
-
-  # pack:
-  #   name: Create package
-  #   runs-on: ubuntu-latest
-  #   needs:
-  #     - test
-
-  #   env:
-  #     DOTNET_SKIP_FIRST_TIME_EXPERIENCE: "true"
-  #     DOTNET_CLI_TELEMETRY_OPTOUT: "1"
-
-  #   steps:
-  #     - name: Setup dotnet 2.1
-  #       uses: actions/setup-dotnet@v1
-  #       with:
-  #         dotnet-version: "2.1.805"
-
-  #     - name: Setup dotnet
-  #       uses: actions/setup-dotnet@v1
-  #       with:
-  #         dotnet-version: "3.1.201"
-
-  #     - name: Setup side by side .NET SDKs on *nix
-  #       run: rsync -a ${DOTNET_ROOT/3.1.201/2.1.805}/* $DOTNET_ROOT/
-
-  #     - name: Print dotnet info
-  #       run: dotnet --info
-
-  #     - uses: actions/checkout@master
-  #     - name: Fetch all history for all tags and branches
-  #       run: git fetch --prune --unshallow
-
-  #     - name: Output version
-  #       run: bash ./script/git-version.sh --verbose get
-
-  #     - name: Restore
-  #       run: dotnet msbuild build/build.proj -target:Restore -v:d
-
-  #     - name: Create nuget packages
-  #       run: dotnet msbuild build/build.proj -target:Pack -v:d
-
-  #     - name: Upload nuget packages as artifact
-  #       uses: actions/upload-artifact@v1
-  #       with:
-  #         name: packages
-  #         path: artifacts
 
   # publish:
   #   if: github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/tags/v')
