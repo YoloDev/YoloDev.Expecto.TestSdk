@@ -142,7 +142,10 @@ jobs:
       - name: Display structure of downloaded files
         run: ls -R ~/packages/YoloDev.Expecto.TestSdk
 
-      - name: Restore test project
+      - name: Restore test project from nuget
+        run: dotnet restore test/Sample.Test
+
+      - name: Restore test project with local package
         run: dotnet restore -s ~/packages/YoloDev.Expecto.TestSdk test/Sample.Test -p:CiTestTfm=${{ matrix.tfm }}
 
       - name: Build test project
