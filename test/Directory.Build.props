@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="$(MSBuildThisFileDirectory)\..\src\YoloDev.Expecto.TestSdk\YoloDev.Expecto.TestSdk.fsproj" />
+    <ProjectReference Condition="'$(CiTestTfm)' == ''" Include="$(MSBuildThisFileDirectory)\..\src\YoloDev.Expecto.TestSdk\YoloDev.Expecto.TestSdk.fsproj" />
   </ItemGroup>
 
 </Project>
