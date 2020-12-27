@@ -67,7 +67,7 @@ jobs:
       matrix:
         os:
           - macos-latest
-          - windows-latest
+          # - windows-latest see https://github.com/NuGet/Home/issues/7413
           - ubuntu-latest
         tfm:
           - "netcoreapp2.1"
