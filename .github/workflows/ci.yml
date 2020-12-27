@@ -67,7 +67,7 @@ jobs:
       matrix:
         os:
           - macos-latest
-          # - windows-latest see https://github.com/NuGet/Home/issues/7413
+          - windows-latest
           - ubuntu-latest
         tfm:
           - "netcoreapp2.1"
@@ -116,10 +116,10 @@ jobs:
       - name: Restore test project with local package
         run: |
           $local = Resolve-Path ~/packages/YoloDev.Expecto.TestSdk
-          $remote = "https://api.nuget.org/v3/index.json"
+          dotnet nuget add source $local -n local-packages
           # Write-Host $local
           # Write-Host $remote
-          dotnet restore -s "$local;$remote" test/Sample.Test -p:CiTestTfm=${{ matrix.tfm }}
+          dotnet restore test/Sample.Test -p:CiTestTfm=${{ matrix.tfm }}
         shell: pwsh
 
       - name: Build test project
