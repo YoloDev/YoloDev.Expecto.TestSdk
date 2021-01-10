@@ -1,5 +1,4 @@
 <Project>
-  <!-- <Import Project="$(MSBuildThisFileDirectory)Packages.props" /> -->
 
   <PropertyGroup>
     <Authors>Aleksander Heintz</Authors>

@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFrameworks Condition="'$(CiTestTfm)' == ''">netcoreapp2.1;net5.0</TargetFrameworks>
     <TargetFramework Condition="'$(CiTestTfm)' != ''">$(CiTestTfm)</TargetFramework>
+    <ManagePackageVersionsCentrally Condition="'$(CiTestTfm)' != ''">false</ManagePackageVersionsCentrally>
     <OutputType>library</OutputType>
   </PropertyGroup>
 
