@@ -37,7 +37,7 @@
   <ItemGroup>
     <PackageReference Include="FSharp.Core" />
     <PackageReference Include="Expecto" />
-    <PackageReference Include="Microsoft.TestPlatform.ObjectModel" />
+    <PackageReference Include="Microsoft.TestPlatform.ObjectModel" PrivateAssets="all" />
     <PackageReference Include="System.Collections.Immutable" />
   </ItemGroup>
 
