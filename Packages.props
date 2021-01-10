@@ -1,21 +1,26 @@
-<?xml version="1.0" encoding="utf-8" ?>
-<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project>
+
+  <PropertyGroup>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+    <!-- Umm, wat? -->
+    <_CentralPackageVersionsEnabled>true</_CentralPackageVersionsEnabled>
+  </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Update="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
-    <PackageReference Update="Expecto" Version="[9.0, 10.0)" />
-    <PackageReference Update="FSharp.Core" Version="[4.6.0,)" />
-    <PackageReference Update="Microsoft.NET.Test.Sdk" Version="16.8.3" />
-    <PackageReference Update="Microsoft.SourceLink.GitHub" Version="1.0.0" />
-    <PackageReference Update="Microsoft.TestPlatform.ObjectModel" Version="16.8.3" PrivateAssets="All" />
-    <PackageReference Update="System.Collections.Immutable" Version="[1.5.0, 5.1)" />
+    <PackageVersion Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
+    <PackageVersion Include="Expecto" Version="[9.0, 10.0)" />
+    <PackageVersion Include="FSharp.Core" Version="[4.6.0,)" />
+    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="16.8.3" />
+    <PackageVersion Include="Microsoft.SourceLink.GitHub" Version="1.0.0" />
+    <PackageVersion Include="Microsoft.TestPlatform.ObjectModel" Version="16.8.3" PrivateAssets="All" />
+    <PackageVersion Include="System.Collections.Immutable" Version="[1.5.0, 5.1)" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Update="Nerdbank.GitVersioning" Version="3.4.165-alpha">
+    <PackageVersion Include="Nerdbank.GitVersioning" Version="3.4.165-alpha">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
-    </PackageReference>
+    </PackageVersion>
   </ItemGroup>
 
 </Project>

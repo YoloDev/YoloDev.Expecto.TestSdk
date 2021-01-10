@@ -21,3 +21,4 @@ korebuild-lock.txt
 .ionide/
 .idea/
 .fake
+msbuild.binlog
