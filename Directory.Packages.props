@@ -15,8 +15,6 @@
 
   <ItemGroup>
     <PackageVersion Include="Nerdbank.GitVersioning" Version="3.4.165-alpha" />
-    <!-- this version shouldn't be used... -->
-    <PackageVersion Include="YoloDev.Expecto.TestSdk" Version="100.0.0+non-existing-version" Condition="'$(CiTestTfm)' != ''" />
   </ItemGroup>
 
 </Project>
