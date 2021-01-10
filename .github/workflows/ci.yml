@@ -48,6 +48,9 @@ jobs:
       - name: Pack
         run: dotnet msbuild build/build.proj -target:Pack
 
+      - name: Write version to artifact
+        run: find artifacts -name '*.nupkg' | grep -oP '\d+\.\d+\.\d+(.*?)(?=.nupkg)' > artifacts/VERSION
+
       - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:
@@ -56,6 +59,7 @@ jobs:
           path: |
             artifacts/*.nupkg
             artifacts/*.snupkg
+            artifacts/VERSION
 
   test:
     name: Test
@@ -109,6 +113,12 @@ jobs:
           name: package
           path: ~/packages/YoloDev.Expecto.TestSdk
 
+      - name: Set version env var
+        run: |
+          VERSION=$(<~/packages/YoloDev.Expecto.TestSdk/VERSION)
+          echo "TEST_VERSION=$VERSION" >>$GITHUB_ENV
+        shell: bash
+
       - name: Display structure of downloaded files
         run: ls -R ~/packages/YoloDev.Expecto.TestSdk
         shell: pwsh
@@ -119,57 +129,13 @@ jobs:
           dotnet nuget add source $local -n local-packages
           # Write-Host $local
           # Write-Host $remote
-          dotnet restore test/Sample.Test -p:CiTestTfm=${{ matrix.tfm }}
+          dotnet restore test/Sample.Test -p:CiTestTfm=${{ matrix.tfm }} -p:TestVersion=${{ env.TEST_VERSION }}
         shell: pwsh
 
       - name: Build test project
-        run: dotnet build --no-restore test/Sample.Test -p:CiTestTfm=${{ matrix.tfm }}
+        run: dotnet build --no-restore test/Sample.Test -p:CiTestTfm=${{ matrix.tfm }} -p:TestVersion=${{ env.TEST_VERSION }}
         shell: pwsh
 
       - name: Test project
-        run: dotnet test --no-build --no-restore test/Sample.Test -p:CiTestTfm=${{ matrix.tfm }}
+        run: dotnet test --no-build --no-restore test/Sample.Test -p:CiTestTfm=${{ matrix.tfm }} -p:TestVersion=${{ env.TEST_VERSION }}
         shell: pwsh
-
-  # publish:
-  #   if: github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/tags/v')
-  #   name: Publish package
-  #   runs-on: ubuntu-latest
-  #   needs:
-  #     - pack
-
-  #   env:
-  #     DOTNET_SKIP_FIRST_TIME_EXPERIENCE: "true"
-  #     DOTNET_CLI_TELEMETRY_OPTOUT: "1"
-
-  #   steps:
-  #     - name: Setup dotnet 2.1
-  #       uses: actions/setup-dotnet@v1
-  #       with:
-  #         dotnet-version: "2.1.805"
-
-  #     - name: Setup dotnet
-  #       uses: actions/setup-dotnet@v1
-  #       with:
-  #         dotnet-version: "3.1.201"
-
-  #     - name: Setup side by side .NET SDKs on *nix
-  #       run: rsync -a ${DOTNET_ROOT/3.1.201/2.1.805}/* $DOTNET_ROOT/
-
-  #     - name: Print dotnet info
-  #       run: dotnet --info
-
-  #     - name: Download packages artifact
-  #       uses: actions/download-artifact@v1
-  #       with:
-  #         name: packages
-
-  #     - name: List packages
-  #       run: ls -la packages
-
-  #     - name: Push to MyGet
-  #       run: |
-  #         for pkg in packages/*.nupkg packages/*.snupkg; do
-  #           dotnet nuget push "$pkg" -s "https://www.myget.org/F/yolodev/api/v3/index.json" -ss "https://www.myget.org/F/yolodev/api/v3/index.json" -k "$MYGET_KEY"
-  #         done
-  #       env:
-  #         MYGET_KEY: ${{ secrets.MYGET_KEY }}
