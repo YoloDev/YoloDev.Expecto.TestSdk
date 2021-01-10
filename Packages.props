@@ -4,7 +4,7 @@
   <ItemGroup>
     <PackageReference Update="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
     <PackageReference Update="Expecto" Version="[9.0, 10.0)" />
-    <PackageReference Update="FSharp.Core" Version="[4.6.0,)" />
+    <PackageReference Update="FSharp.Core" Version="[5.0.0,)" />
     <PackageReference Update="Microsoft.NET.Test.Sdk" Version="16.8.3" />
     <PackageReference Update="Microsoft.SourceLink.GitHub" Version="1.0.0" />
     <PackageReference Update="Microsoft.TestPlatform.ObjectModel" Version="16.8.3" PrivateAssets="All" />
