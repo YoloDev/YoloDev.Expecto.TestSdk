@@ -2,8 +2,6 @@
 
   <PropertyGroup>
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
-    <!-- Umm, wat? -->
-    <_CentralPackageVersionsEnabled>true</_CentralPackageVersionsEnabled>
   </PropertyGroup>
 
   <ItemGroup>
