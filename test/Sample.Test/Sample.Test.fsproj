@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup Condition="'$(CiTestTfm)' != ''">
-    <PackageReference Include="YoloDev.Expecto.TestSdk" Version="*-*" />
+    <PackageReference Include="YoloDev.Expecto.TestSdk" />
   </ItemGroup>
 
 </Project>

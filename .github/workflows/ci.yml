@@ -129,13 +129,13 @@ jobs:
           dotnet nuget add source $local -n local-packages
           # Write-Host $local
           # Write-Host $remote
-          dotnet restore test/Sample.Test -p:CiTestTfm=${{ matrix.tfm }} -p:TestVersion=${{ env.TEST_VERSION }}
+          dotnet restore test/Sample.Test -p:CiTestTfm=${{ matrix.tfm }} -p:CiTestVersion=${{ env.TEST_VERSION }}
         shell: pwsh
 
       - name: Build test project
-        run: dotnet build --no-restore test/Sample.Test -p:CiTestTfm=${{ matrix.tfm }} -p:TestVersion=${{ env.TEST_VERSION }}
+        run: dotnet build --no-restore test/Sample.Test -p:CiTestTfm=${{ matrix.tfm }} -p:CiTestVersion=${{ env.TEST_VERSION }}
         shell: pwsh
 
       - name: Test project
-        run: dotnet test --no-build --no-restore test/Sample.Test -p:CiTestTfm=${{ matrix.tfm }} -p:TestVersion=${{ env.TEST_VERSION }}
+        run: dotnet test --no-build --no-restore test/Sample.Test -p:CiTestTfm=${{ matrix.tfm }} -p:CiTestVersion=${{ env.TEST_VERSION }}
         shell: pwsh
