@@ -14,6 +14,7 @@
 
   <ItemGroup>
     <ProjectReference Condition="'$(CiTestTfm)' == ''" Include="$(MSBuildThisFileDirectory)\..\src\YoloDev.Expecto.TestSdk\YoloDev.Expecto.TestSdk.fsproj" />
+    <PackageReference Condition="'$(CiTestTfm)' != ''" Include="YoloDev.Expecto.TestSdk" />
   </ItemGroup>
 
 </Project>

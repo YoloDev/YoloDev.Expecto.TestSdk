@@ -10,8 +10,4 @@
     <Compile Include="Test.fs" />
   </ItemGroup>
 
-  <ItemGroup Condition="'$(CiTestTfm)' != ''">
-    <PackageReference Include="YoloDev.Expecto.TestSdk" />
-  </ItemGroup>
-
 </Project>
