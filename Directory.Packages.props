@@ -9,7 +9,7 @@
     <PackageVersion Include="FSharp.Core" Version="[4.6.0,)" />
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="16.8.3" />
     <PackageVersion Include="Microsoft.SourceLink.GitHub" Version="1.0.0" />
-    <PackageVersion Include="Microsoft.TestPlatform.ObjectModel" Version="16.8.3" />
+    <PackageVersion Include="Microsoft.TestPlatform.ObjectModel" Version="16.9.1" />
     <PackageVersion Include="System.Collections.Immutable" Version="[1.5.0, 5.1)" />
   </ItemGroup>
 
