@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="YoloDev.Sdk">
 
   <PropertyGroup>
     <AssemblyName>expecto.visualstudio.dotnetcore.testadapter</AssemblyName>

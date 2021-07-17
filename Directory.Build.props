@@ -12,7 +12,6 @@
     <NoWarn>$(NoWarn);NU5125</NoWarn>
     <DebugType>embedded</DebugType>
     <DisableImplicitFSharpCoreReference>true</DisableImplicitFSharpCoreReference>
-    <GitVersionBaseDirectory>$(MSBuildThisFileDirectory)</GitVersionBaseDirectory>
   </PropertyGroup>
 
 </Project>
