@@ -32,16 +32,4 @@
     <PackageReference Include="System.Collections.Immutable" />
   </ItemGroup>
 
-  <Target Name="_AddFilesToOutput" BeforeTargets="GetCopyToOutputDirectoryItems">
-    <ItemGroup>
-      <_TestAdapterCopyToOutputDirectory
-        Include="$([System.IO.Path]::GetFullPath('build/netcoreapp2.1/YoloDev.Expecto.TestSdk.props'))"
-        TargetPath="YoloDev.Expecto.TestSdk.props"
-        CopyToOutputDirectory="PreserveNewest"
-        Condition=" '$(TargetFramework)' == 'netcoreapp2.1' " />
-
-      <_TransitiveItemsToCopyToOutputDirectory Include="@(_TestAdapterCopyToOutputDirectory)" />
-    </ItemGroup>
-  </Target>
-
 </Project>

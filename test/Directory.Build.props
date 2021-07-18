@@ -4,8 +4,7 @@
 
   <PropertyGroup>
     <IsPackable>false</IsPackable>
-    <TargetFrameworks Condition="'$(CiTestTfm)' == ''">netcoreapp2.1;net5.0</TargetFrameworks>
-    <TargetFramework Condition="'$(CiTestTfm)' != ''">$(CiTestTfm)</TargetFramework>
+    <TargetFrameworks>netcoreapp2.1;netcoreapp3.1;net5.0</TargetFrameworks>
   </PropertyGroup>
 
   <ItemGroup>
