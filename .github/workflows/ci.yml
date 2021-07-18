@@ -63,6 +63,10 @@ jobs:
       - name: 🧪 Test
         run: dotnet test --no-build --configuration Release
 
+      - name: 📦 Pack
+        run: dotnet pack --configuration Release --no-build
+        if: ${{ matrix.os == 'ubuntu-latest' }}
+
       - name: 🔼 Upload packages as artifact
         uses: actions/upload-artifact@v2
         if: ${{ matrix.os == 'ubuntu-latest' }}
