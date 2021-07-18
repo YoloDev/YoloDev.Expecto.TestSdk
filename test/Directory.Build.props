@@ -4,6 +4,7 @@
 
   <PropertyGroup>
     <IsPackable>false</IsPackable>
+    <TargetFrameworks>netcoreapp2.1;netcoreapp3.1;net5.0</TargetFrameworks>
   </PropertyGroup>
 
   <ItemGroup>
@@ -13,8 +14,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Condition="'$(CiTestTfm)' == ''" Include="$(MSBuildThisFileDirectory)\..\src\YoloDev.Expecto.TestSdk\YoloDev.Expecto.TestSdk.fsproj" />
-    <PackageReference Condition="'$(CiTestTfm)' != ''" Include="YoloDev.Expecto.TestSdk" />
+    <ProjectReference Include="$(MSBuildThisFileDirectory)\..\src\YoloDev.Expecto.TestSdk\YoloDev.Expecto.TestSdk.fsproj" ReferenceOutputAssembly="false" OutputItemType="_TestAdapter" />
   </ItemGroup>
+
+  <Target Name="_AddTestAdapterToOutput" BeforeTargets="GetCopyToOutputDirectoryItems">
+    <ItemGroup>
+      <_TransitiveItemsToCopyToOutputDirectory Include="@(_TestAdapter)" CopyToOutputDirectory="PreserveNewest" TargetPath="%(_TestAdapter.Filename)%(_TestAdapter.Extension)" />
+    </ItemGroup>
+  </Target>
 
 </Project>

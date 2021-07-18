@@ -9,10 +9,9 @@
     <RepositoryType>git</RepositoryType>
     <RepositoryRoot>$(MSBuildThisFileDirectory)</RepositoryRoot>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <NoWarn>$(NoWarn);NU5125</NoWarn>
+    <NoWarn>$(NoWarn);NU5125;NU5128;SA0001</NoWarn>
     <DebugType>embedded</DebugType>
     <DisableImplicitFSharpCoreReference>true</DisableImplicitFSharpCoreReference>
-    <GitVersionBaseDirectory>$(MSBuildThisFileDirectory)</GitVersionBaseDirectory>
   </PropertyGroup>
 
 </Project>

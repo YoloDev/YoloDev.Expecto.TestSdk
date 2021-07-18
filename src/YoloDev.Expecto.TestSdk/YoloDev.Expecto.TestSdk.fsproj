@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="YoloDev.Sdk">
 
   <PropertyGroup>
     <AssemblyName>expecto.visualstudio.dotnetcore.testadapter</AssemblyName>
@@ -20,18 +20,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="build/netcoreapp2.1/YoloDev.Expecto.TestSdk.props">
-      <Pack>true</Pack>
-      <PackagePath>build\netcoreapp2.1\</PackagePath>
-    </None>
-    <None Include="build/netcoreapp2.1/_._">
-      <Pack>true</Pack>
-      <PackagePath>lib\netcoreapp2.1\</PackagePath>
-    </None>
-    <None Include="build/net5.0/_._">
-      <Pack>true</Pack>
-      <PackagePath>lib\net5.0\</PackagePath>
-    </None>
+    <None Include="build/netcoreapp2.1/YoloDev.Expecto.TestSdk.props" Pack="true" PackagePath="build\netcoreapp2.1\" />
+    <None Include="build/netcoreapp2.1/_._" Pack="true" PackagePath="lib\netcoreapp2.1\" Visible="false" />
+    <None Include="build/net5.0/_._" Pack="true" PackagePath="lib\net5.0\" Visible="false" />
   </ItemGroup>
 
   <ItemGroup>

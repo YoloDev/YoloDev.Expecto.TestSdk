@@ -5,66 +5,8 @@ on:
   - pull_request
 
 jobs:
-  build:
-    name: Build
-    runs-on: ubuntu-latest
-
-    env:
-      DOTNET_SKIP_FIRST_TIME_EXPERIENCE: "true"
-      DOTNET_CLI_TELEMETRY_OPTOUT: "1"
-
-    steps:
-      - name: Setup dotnet 2.1
-        uses: actions/setup-dotnet@v1
-        with:
-          dotnet-version: "2.1.805"
-
-      - name: Setup dotnet 5.0
-        uses: actions/setup-dotnet@v1
-        with:
-          dotnet-version: "5.0.101"
-
-      - name: Setup side by side .NET SDKs on *nix
-        run: |
-          rsync -a ${DOTNET_ROOT/${{ matrix.dotnet }}/2.1.805}/* $DOTNET_ROOT/
-
-      - name: Print dotnet info
-        run: dotnet --info
-
-      - uses: actions/checkout@master
-
-      - name: Fetch all history for all tags and branches
-        run: git fetch --prune --unshallow
-
-      - name: Restore
-        run: dotnet msbuild build/build.proj -target:Restore
-
-      - name: Build
-        run: dotnet msbuild build/build.proj -target:Build -p:NoRestore=true
-
-      - name: Test
-        run: dotnet msbuild build/build.proj -target:Test -p:NoRestore=true -p:VSTestNoBuild=true
-
-      - name: Pack
-        run: dotnet msbuild build/build.proj -target:Pack
-
-      - name: Write version to artifact
-        run: find artifacts -name '*.nupkg' | grep -oP '\d+\.\d+\.\d+(.*?)(?=.nupkg)' > artifacts/VERSION
-
-      - name: Upload artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: package
-          retention-days: 5
-          path: |
-            artifacts/*.nupkg
-            artifacts/*.snupkg
-            artifacts/VERSION
-
   test:
     name: Test
-    needs:
-      - build
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
@@ -73,69 +15,68 @@ jobs:
           - macos-latest
           - windows-latest
           - ubuntu-latest
-        tfm:
-          - "netcoreapp2.1"
-          - "netcoreapp3.1"
-          - "net5.0"
-        include:
-          - tfm: "netcoreapp3.1"
-            dotnet: "3.1.404"
 
     env:
+      DOTNET_NOLOGO: "true"
+      DOTNET_CLI_TELEMETRY_OPTOUT: "true"
       DOTNET_SKIP_FIRST_TIME_EXPERIENCE: "true"
-      DOTNET_CLI_TELEMETRY_OPTOUT: "1"
 
     steps:
-      - name: Setup dotnet 2.1
+      - name: ⏬ Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: 🔽 Setup dotnet 2.1
         uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: "2.1.805"
+          dotnet-version: "2.1.x"
 
-      - name: Setup dotnet ${{ matrix.dotnet }}
-        if: ${{ matrix.dotnet }} != ''
+      - name: 🔽 Setup dotnet 3.1
         uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: ${{ matrix.dotnet }}
+          dotnet-version: "3.1.x"
 
-      - name: Setup dotnet 5.0
+      - name: 🔽 Setup dotnet from global.json
         uses: actions/setup-dotnet@v1
-        with:
-          dotnet-version: "5.0.101"
 
-      - name: Print dotnet info
+      - name: 🔽 Install GitVersion
+        uses: gittools/actions/gitversion/setup@v0.9.10
+        with:
+          versionSpec: "5.x"
+
+      - name: 🔍 Print dotnet info
         run: dotnet --info
 
-      - uses: actions/checkout@master
-
-      - name: Download package
-        uses: actions/download-artifact@v2
+      - name: 🔍 Determine Version
+        id: gitversion
+        uses: gittools/actions/gitversion/execute@v0.9.10
         with:
-          name: package
-          path: ~/packages/YoloDev.Expecto.TestSdk
+          useConfigFile: true
 
-      - name: Set version env var
-        run: |
-          VERSION=$(<~/packages/YoloDev.Expecto.TestSdk/VERSION)
-          echo "TEST_VERSION=$VERSION" >>$GITHUB_ENV
-        shell: bash
+      - name: 🔽 Restore
+        run: dotnet restore -p:Configuration=Release
 
-      - name: Display structure of downloaded files
-        run: ls -R ~/packages/YoloDev.Expecto.TestSdk
-        shell: pwsh
+      - name: 🔨 Build
+        run: dotnet build --configuration Release
 
-      - name: Restore test project with local package
-        run: |
-          $local = Resolve-Path ~/packages/YoloDev.Expecto.TestSdk
-          dotnet nuget add source $local -n local-packages
-          # Write-Host $local
-          # Write-Host $remote
-          dotnet restore test/Sample.Test -p:CiTestTfm=${{ matrix.tfm }} -p:CiTestVersion=${{ env.TEST_VERSION }}
-        shell: pwsh
+      - name: 🧪 Test
+        run: dotnet test --no-build --configuration Release
 
-      - name: Build test project
-        run: dotnet build --no-restore test/Sample.Test -p:CiTestTfm=${{ matrix.tfm }} -p:CiTestVersion=${{ env.TEST_VERSION }}
-        shell: pwsh
+      - name: 📦 Pack
+        run: dotnet pack --configuration Release --no-build
+        if: ${{ matrix.os == 'ubuntu-latest' }}
 
-      - name: Test project
-        run: dotnet test --no-build --no-restore test/Sample.Test -p:CiTestTfm=${{ matrix.tfm }} -p:CiTestVersion=${{ env.TEST_VERSION }}
-        shell: pwsh
+      - name: 🔼 Upload packages as artifact
+        uses: actions/upload-artifact@v2
+        if: ${{ matrix.os == 'ubuntu-latest' }}
+        with:
+          name: nuget
+          path: artifacts/nuget/
+
+      - name: 🔼 Upload global.json as artifact
+        uses: actions/upload-artifact@v2
+        if: ${{ matrix.os == 'ubuntu-latest' }}
+        with:
+          name: global-json
+          path: global.json

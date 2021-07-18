@@ -1,8 +1,6 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="YoloDev.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks Condition="'$(CiTestTfm)' == ''">netcoreapp2.1;net5.0</TargetFrameworks>
-    <TargetFramework Condition="'$(CiTestTfm)' != ''">$(CiTestTfm)</TargetFramework>
     <OutputType>library</OutputType>
   </PropertyGroup>
 
