@@ -77,7 +77,7 @@ jobs:
 
     steps:
       - name: 🏷️ Create GitHub Tag
-        uses: actions/github-script@v4
+        uses: actions/github-script@v5
         with:
           script: |
             github.git.createRef({
