@@ -1,15 +1,34 @@
-
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26124.0
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32210.238
 MinimumVisualStudioVersion = 15.0.26124.0
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{FCE4C28E-CF2A-423F-9E7A-8A13DAACBF96}"
+	ProjectSection(SolutionItems) = preProject
+		src\Directory.Build.props = src\Directory.Build.props
+	EndProjectSection
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "YoloDev.Expecto.TestSdk", "src\YoloDev.Expecto.TestSdk\YoloDev.Expecto.TestSdk.fsproj", "{06D3B976-762E-4645-B70E-C87B1EDE1CEE}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "YoloDev.Expecto.TestSdk", "src\YoloDev.Expecto.TestSdk\YoloDev.Expecto.TestSdk.fsproj", "{06D3B976-762E-4645-B70E-C87B1EDE1CEE}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{C5F68231-8575-44BC-B2CD-5163268E8A45}"
+	ProjectSection(SolutionItems) = preProject
+		test\Directory.Build.props = test\Directory.Build.props
+	EndProjectSection
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Sample.Test", "test\Sample.Test\Sample.Test.fsproj", "{2DADC6BD-672C-4B40-B0DA-0C6AD4F372BE}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Sample.Test", "test\Sample.Test\Sample.Test.fsproj", "{2DADC6BD-672C-4B40-B0DA-0C6AD4F372BE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{625A8256-B45D-424B-9652-1F2F9B43FBE2}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		CHANGELOG.md = CHANGELOG.md
+		Directory.Build.props = Directory.Build.props
+		Directory.Build.targets = Directory.Build.targets
+		Directory.Packages.props = Directory.Packages.props
+		fantomas-config.json = fantomas-config.json
+		GitVersion.yml = GitVersion.yml
+		global.json = global.json
+		README.md = README.md
+		renovate.json = renovate.json
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,9 +38,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 		Release|x64 = Release|x64
 		Release|x86 = Release|x86
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{06D3B976-762E-4645-B70E-C87B1EDE1CEE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -49,8 +65,14 @@ Global
 		{2DADC6BD-672C-4B40-B0DA-0C6AD4F372BE}.Release|x86.ActiveCfg = Release|x86
 		{2DADC6BD-672C-4B40-B0DA-0C6AD4F372BE}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{06D3B976-762E-4645-B70E-C87B1EDE1CEE} = {FCE4C28E-CF2A-423F-9E7A-8A13DAACBF96}
 		{2DADC6BD-672C-4B40-B0DA-0C6AD4F372BE} = {C5F68231-8575-44BC-B2CD-5163268E8A45}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B28CDD31-6365-4ABB-B6C4-3F5100058006}
 	EndGlobalSection
 EndGlobal
