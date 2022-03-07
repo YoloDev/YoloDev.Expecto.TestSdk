@@ -14,7 +14,7 @@ jobs:
 
     steps:
       - name: ⏬ Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
           ref: ${{ github.event.workflow_run.head_sha }}
@@ -88,7 +88,7 @@ jobs:
             });
 
       - name: ⏬ Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           ref: refs/tags/v${{ needs.build.outputs.version }}
 
