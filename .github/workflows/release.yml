@@ -99,7 +99,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: 🔽 Download nuget artifact
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: nuget
           path: nuget
@@ -126,13 +126,13 @@ jobs:
 
     steps:
       - name: 🔽 Download nuget artifact
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: nuget
           path: nuget
 
       - name: 🔽 Download global-json artifact
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: global-json
 
@@ -153,13 +153,13 @@ jobs:
 
     steps:
       - name: 🔽 Download nuget artifact
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: nuget
           path: nuget
 
       - name: 🔽 Download global-json artifact
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: global-json
 
