@@ -23,7 +23,7 @@ jobs:
         run: git branch -D main || true; git checkout -b main
 
       - name: 🔽 Install dotnet
-        uses: actions/setup-dotnet@v1
+        uses: actions/setup-dotnet@v2
 
       - name: 🔽 Install GitVersion
         uses: gittools/actions/gitversion/setup@v0.9.11
@@ -137,7 +137,7 @@ jobs:
           name: global-json
 
       - name: 🔽 Install dotnet
-        uses: actions/setup-dotnet@v1
+        uses: actions/setup-dotnet@v2
 
       - name: 🔼 Publish package to nuget
         run: dotnet nuget push --force-english-output --api-key '${{ secrets.GITHUB_TOKEN }}' --source 'https://nuget.pkg.github.com/YoloDev/index.json' --skip-duplicate "nuget/*.nupkg"
@@ -164,7 +164,7 @@ jobs:
           name: global-json
 
       - name: 🔽 Install dotnet
-        uses: actions/setup-dotnet@v1
+        uses: actions/setup-dotnet@v2
 
       - name: 🔼 Publish package to nuget
         run: dotnet nuget push --force-english-output --api-key '${{ secrets.NUGET_API_KEY }}' --source '${{ secrets.NUGET_FEED }}' --skip-duplicate "nuget/*.nupkg"
