@@ -1,5 +1,5 @@
 {
-  "bootstrap-sha": "e4f0e3fdb0db9490d1e403571cbe7bf0b87a2120",
+  "bootstrap-sha": "8fa48160d1f40f70726a7eb1620639a7e040167a",
   "plugins": [],
   "release-type": "simple",
   "bump-minor-pre-major": true,
@@ -21,7 +21,7 @@
   ],
   "packages": {
     ".": {
-      "package-name": "YoloDev.Expecto.Sdk"
+      "package-name": "YoloDev.Expecto.TestSdk"
     }
   }
 }
