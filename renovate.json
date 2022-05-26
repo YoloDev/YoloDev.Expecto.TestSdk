@@ -1,12 +1,3 @@
 {
-  "extends": ["config:base"],
-  "regexManagers": [
-    {
-      "fileMatch": "global.json",
-      "matchStrings": [
-        "\"(?<depName>[^\"]*?\\.[^\"]*?)\":\\s*\"(?<currentValue>[^\"]*?)\""
-      ],
-      "datasourceTemplate": "nuget"
-    }
-  ]
+  "extends": ["config:base"]
 }

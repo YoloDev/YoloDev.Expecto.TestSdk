@@ -20,8 +20,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="build/netcoreapp2.1/YoloDev.Expecto.TestSdk.props" Pack="true" PackagePath="build\netcoreapp2.1\" />
-    <None Include="build/netcoreapp2.1/_._" Pack="true" PackagePath="lib\netcoreapp2.1\" Visible="false" />
+    <None Include="build/netcoreapp3.1/YoloDev.Expecto.TestSdk.props" Pack="true" PackagePath="build\netcoreapp3.1\" />
+    <None Include="build/netcoreapp3.1/_._" Pack="true" PackagePath="lib\netcoreapp3.1\" Visible="false" />
     <None Include="build/net5.0/_._" Pack="true" PackagePath="lib\net5.0\" Visible="false" />
   </ItemGroup>
 
