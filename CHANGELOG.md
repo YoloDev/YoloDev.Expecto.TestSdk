@@ -1,4 +1,20 @@
 <a name="0.5.0"></a>
+## [0.13.0](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/compare/YoloDev.Expecto.Sdk-v0.12.20...YoloDev.Expecto.Sdk-v0.13.0) (2022-05-26)
+
+
+### ⚠ BREAKING CHANGES
+
+* Create release
+
+### Dependencies
+
+* Update vstest monorepo to v17.2.0 ([#95](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/issues/95)) ([b3e5463](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/commit/b3e54639f16f3e2c49fe96381940ab295e1baa21))
+
+
+### release
+
+* Create release ([c6bdde1](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/commit/c6bdde15404d0380d5374c608260096fe03da4d8))
+
 ## 0.5.0 (2018-04-02)
 
 * Update Expecto version to 7.0.0 (#9) ([fd54cd2](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/commit/fd54cd2)), closes [#9](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/issues/9)
@@ -73,6 +89,3 @@ Semver: minor
 * Undo everything I just did ([2082b70](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/commit/2082b70))
 * Update changelog generation ([cb9b734](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/commit/cb9b734))
 * Use appveyor test logger on appveyor ([d551b7c](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/commit/d551b7c))
-
-
-
