@@ -1,43 +1,73 @@
-name: Release
+name: release-please
 
 on:
-  workflow_run:
-    workflows: [CI]
+  push:
     branches: [main]
-    types: [completed]
 
 jobs:
+  release_please:
+    name: Release Please
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+      pull-requests: write
+      actions: write
+      statuses: write
+
+    steps:
+      - id: release
+        uses: GoogleCloudPlatform/release-please-action@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          command: manifest
+
+      - id: transform
+        name: Massage output
+        env:
+          PATHS_RELEASED: ${{ steps.release.outputs.paths_released }}
+          TAG_NAME: ${{ steps.release.outputs.tag_name }}
+          UPLOAD_URL: ${{ steps.release.outputs.upload_url }}
+        run: |
+          ANY=$(echo $PATHS_RELEASED | jq '. | length | . > 0')
+          echo "ANY: $ANY"
+          echo "TAG_NAME: '$TAG_NAME'"
+          echo "UPLOAD_URL: '$UPLOAD_URL'"
+          echo "::set-output name=any::$ANY"
+
+      - name: Print outputs
+        env:
+          ANY: ${{ steps.transform.outputs.any }}
+        run: |
+          echo "any: '$ANY'"
+
+    outputs:
+      any_released: ${{ steps.transform.outputs.any }}
+      tag_name: ${{ steps.release.outputs.tag_name }}
+      upload_url: ${{ steps.release.outputs.upload_url }}
+
   build:
     name: Build
     runs-on: ubuntu-latest
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    if: fromJSON(needs.release_please.outputs.any_released)
+    needs:
+      - release_please
+
+    permissions:
+      contents: write
+
+    concurrency:
+      group: release
 
     steps:
       - name: ⏬ Checkout
         uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-          ref: ${{ github.event.workflow_run.head_sha }}
-
-      - name: 🔧 Setup git
-        run: git branch -D main || true; git checkout -b main
 
       - name: 🔽 Install dotnet
         uses: actions/setup-dotnet@v2
 
-      - name: 🔽 Install GitVersion
-        uses: gittools/actions/gitversion/setup@v0.9.11
-        with:
-          versionSpec: "5.x"
-
       - name: 🔍 Print dotnet info
         run: dotnet --info
-
-      - name: 🔍 Determine Version
-        id: gitversion
-        uses: gittools/actions/gitversion/execute@v0.9.11
-        with:
-          useConfigFile: true
 
       - name: 🔽 Restore
         run: dotnet restore -p:Configuration=Release
@@ -60,69 +90,25 @@ jobs:
           name: global-json
           path: global.json
 
-    outputs:
-      version: ${{ steps.gitversion.outputs.fullSemVer }}
-
-  release:
-    name: Create Release
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-    environment: release
-    concurrency:
-      group: release
-      cancel-in-progress: true
-    needs:
-      - build
-
-    steps:
-      - name: 🏷️ Create GitHub Tag
-        uses: actions/github-script@v6
+      - name: 🔼 Upload packages as github release asset
+        if: needs.release_please.outputs.upload_url != ''
+        uses: shogo82148/actions-upload-release-asset@v1
         with:
-          script: |
-            github.rest.git.createRef({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              ref: "refs/tags/v${{ needs.build.outputs.version }}",
-              sha: "${{ github.event.workflow_run.head_sha }}",
-            });
-
-      - name: ⏬ Checkout
-        uses: actions/checkout@v3
-        with:
-          ref: refs/tags/v${{ needs.build.outputs.version }}
-
-      - name: 📝 Create changelog
-        id: changelog
-        uses: mikepenz/release-changelog-builder-action@v2
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: 🔽 Download nuget artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: nuget
-          path: nuget
-
-      - name: 🖃 Create GitHub Release
-        uses: softprops/action-gh-release@v1
-        with:
-          prerelease: false
-          tag_name: v${{ needs.build.outputs.version }}
-          body: ${{ needs.build.outputs.changelog }}
-          files: |
-            nuget/*.nupkg
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          upload_url: ${{ needs.release_please.outputs.upload_url }}
+          asset_path: artifacts/nuget/*
 
   githubpkg:
     name: Push to GitHub Packages
     runs-on: ubuntu-latest
+    if: fromJSON(needs.release_please.outputs.any_released)
+    environment: release
+
+    needs:
+      - release_please
+      - build
+
     permissions:
       packages: write
-    needs:
-      - build
-      - release
 
     steps:
       - name: 🔽 Download nuget artifact
@@ -145,10 +131,12 @@ jobs:
   nuget:
     name: Push to Nuget
     runs-on: ubuntu-latest
+    if: fromJSON(needs.release_please.outputs.any_released)
     environment: nuget
+
     needs:
+      - release_please
       - build
-      - release
       - githubpkg
 
     steps:
