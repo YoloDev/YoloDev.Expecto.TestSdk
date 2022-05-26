@@ -1,5 +1,0 @@
-mode: Mainline
-major-version-bump-message: 'SemVer:\s(breaking|major)'
-minor-version-bump-message: 'SemVer:\s(feature|minor)'
-patch-version-bump-message: 'SemVer:\s(fix|patch)'
-no-bump-message: '\SemVer:\s(none|skip)'
