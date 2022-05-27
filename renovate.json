@@ -4,7 +4,7 @@
   "packageRules": [
     {
       "matchPackageNames": "FSharp.Core",
-      "allowedVersions": "< 4.8.0"
+      "allowedVersions": "< 4.7.0"
     }
   ]
 }
