@@ -1,5 +1,17 @@
 # Changelog
 
+### [0.13.1](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/compare/YoloDev.Expecto.TestSdk-v0.13.0...YoloDev.Expecto.TestSdk-v0.13.1) (2022-05-27)
+
+
+### Reverts
+
+* update dependency fsharp.core to v4.7.2 ([#99](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/issues/99)) ([01c184d](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/commit/01c184df9d8e1eaae4a764a6d232793858f07a5b))
+
+
+### Dependencies
+
+* update dependency fsharp.core to v4.7.2 ([#99](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/issues/99)) ([637f43f](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/commit/637f43fb7b5589054f657800c911ba801430c9a0))
+
 ## [0.13.0](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/compare/YoloDev.Expecto.TestSdk-v0.12.20...YoloDev.Expecto.TestSdk-v0.13.0) (2022-05-26)
 
 
