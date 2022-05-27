@@ -1,6 +1,10 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [
-    "local>YoloDev/renovate-config"
+  "extends": ["local>YoloDev/renovate-config"],
+  "packageRules": [
+    {
+      "matchPackageNames": "FSharp.Core",
+      "allowedVersions": "< 4.8.0"
+    }
   ]
 }
