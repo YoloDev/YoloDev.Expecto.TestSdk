@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.13.3](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/compare/YoloDev.Expecto.TestSdk-v0.13.2...YoloDev.Expecto.TestSdk-v0.13.3) (2022-06-07)
+
+
+### Dependencies
+
+* update dependency yolodev.sdk to v0.5.1 ([#104](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/issues/104)) ([7848148](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/commit/7848148bac04523116a6f3fec20b681443959193))
+
 ### [0.13.2](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/compare/YoloDev.Expecto.TestSdk-v0.13.1...YoloDev.Expecto.TestSdk-v0.13.2) (2022-05-27)
 
 
