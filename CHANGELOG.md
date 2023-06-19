@@ -1,5 +1,24 @@
 # Changelog
 
+## [0.14.0](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/compare/YoloDev.Expecto.TestSdk-v0.13.3...YoloDev.Expecto.TestSdk-v0.14.0) (2023-06-19)
+
+
+### ⚠ BREAKING CHANGES
+
+* major expecto update and drops support for older .NET framework versions.
+
+### Features
+
+* update to expecto 10 ([#120](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/issues/120)) ([7b453c9](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/commit/7b453c9ff2270927fccf1495b64924db31441fb7))
+
+
+### Dependencies
+
+* update vstest monorepo to v17.5.0 ([#112](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/issues/112)) ([e9236e1](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/commit/e9236e185b5890c190bf61f86ced50a1dddb082f))
+* update vstest monorepo to v17.6.0 ([#116](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/issues/116)) ([5a095be](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/commit/5a095beddc9f89884a77d339be2e811c692d20f7))
+* update vstest monorepo to v17.6.1 ([#118](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/issues/118)) ([ec7164d](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/commit/ec7164dce8bb25f4579ed0b249a88375b7b435c8))
+* update vstest monorepo to v17.6.2 ([#119](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/issues/119)) ([3ab45f0](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/commit/3ab45f0a71d8f062eb80c37777f6a88b7544702b))
+
 ## [0.13.3](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/compare/YoloDev.Expecto.TestSdk-v0.13.2...YoloDev.Expecto.TestSdk-v0.13.3) (2022-06-07)
 
 
