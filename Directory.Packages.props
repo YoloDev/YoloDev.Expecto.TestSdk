@@ -3,8 +3,8 @@
   <ItemGroup>
     <PackageVersion Include="Expecto" Version="[10.0, 11.0)" />
     <PackageVersion Include="FSharp.Core" Version="[7.0.200,)" />
-    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.6.2" />
-    <PackageVersion Include="Microsoft.TestPlatform.ObjectModel" Version="17.6.2" />
+    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.6.3" />
+    <PackageVersion Include="Microsoft.TestPlatform.ObjectModel" Version="17.6.3" />
     <PackageVersion Include="System.Collections.Immutable" Version="[6.0.0,)" />
   </ItemGroup>
 
