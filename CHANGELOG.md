@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.14.1](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/compare/YoloDev.Expecto.TestSdk-v0.14.0...YoloDev.Expecto.TestSdk-v0.14.1) (2023-06-29)
+
+
+### Bug Fixes
+
+* missing .props file ([#126](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/issues/126)) ([2e13ac5](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/commit/2e13ac5231b03964a7a7b40b81e6866de902071a))
+
+
+### Dependencies
+
+* update vstest monorepo to v17.6.3 ([#124](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/issues/124)) ([2a320bd](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/commit/2a320bd3a625d70b627edc2df7166deb237f1970))
+
 ## [0.14.0](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/compare/YoloDev.Expecto.TestSdk-v0.13.3...YoloDev.Expecto.TestSdk-v0.14.0) (2023-06-19)
 
 
