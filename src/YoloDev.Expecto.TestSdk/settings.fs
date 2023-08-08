@@ -146,7 +146,9 @@ module RunSettings =
 
           "colours", SettingsParser.int >-> CLIArguments.Colours
 
-          "join-with", SettingsParser.string >-> CLIArguments.JoinWith ]
+          "join-with", SettingsParser.string >-> CLIArguments.JoinWith
+
+          "filter-test-case", SettingsParser.string >-> CLIArguments.Filter_Test_Case ]
 
     let args =
       confNode.Descendants()
