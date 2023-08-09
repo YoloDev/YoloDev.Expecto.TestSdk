@@ -78,19 +78,12 @@ let private ( *> ) (f: 'a -> unit) (g: 'a -> 'b) =
 type TestFilter =
   {
     /// MSTest filter
-    expression: ITestCaseFilterExpression
+    expression: ITestCaseFilterExpression option
   }
 
 [<RequireQualifiedAccess>]
 module TestFilter =
-  type private DefaultTestFilter =
-    new() = { }
-
-    interface ITestCaseFilterExpression with
-      member _.TestCaseFilterValue = ""
-      member _.MatchTestCase(testCase, propertyValueProvider) = true
-
-  let defaultFilter = { TestFilter.expression = new DefaultTestFilter() }
+  let defaultFilter = { TestFilter.expression = None }
 
   [<RequireQualifiedAccess>]
   module private Properties =
@@ -114,10 +107,12 @@ module TestFilter =
 
   let create (context: IRunContext) =
     let expression = context.GetTestCaseFilter(Properties.names, Properties.lookup)
-    { TestFilter.expression = expression }
+    { TestFilter.expression = expression |> Option.ofObj }
 
   let matches (filter: TestFilter) (case: TestCase) =
-    filter.expression.MatchTestCase(case, Properties.valueProvider case)
+    match filter.expression with
+    | None -> true
+    | Some expr -> expr.MatchTestCase(case, Properties.valueProvider case)
 
 type RunSettings =
   {
