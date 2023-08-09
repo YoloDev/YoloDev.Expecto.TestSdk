@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.14.2](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/compare/YoloDev.Expecto.TestSdk-v0.14.1...YoloDev.Expecto.TestSdk-v0.14.2) (2023-08-09)
+
+
+### Features
+
+* add support for test filters ([#133](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/issues/133)) ([ae26d0c](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/commit/ae26d0c07b91a88823d0438ece7dbe03e7b068c0))
+
+
+### Dependencies
+
+* update vstest monorepo to v17.7.0 ([#128](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/issues/128)) ([fca9bff](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/commit/fca9bff36cfe7f69a0552361f8f91b3b39287f9f))
+
 ## [0.14.1](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/compare/YoloDev.Expecto.TestSdk-v0.14.0...YoloDev.Expecto.TestSdk-v0.14.1) (2023-06-29)
 
 
