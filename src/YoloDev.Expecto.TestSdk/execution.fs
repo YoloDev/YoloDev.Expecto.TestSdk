@@ -24,18 +24,22 @@ module private LogAdapter =
       match map l with
       | None -> async.Zero()
       | Some level ->
-          async {
-            use writer = new System.IO.StringWriter()
-            let writerLogger =
-              Expecto.Logging.TextWriterTarget(Array.empty, Expecto.Logging.LogLevel.Info, writer) :> Expecto.Logging.Logger
+        async {
+          use writer = new System.IO.StringWriter()
 
-            do! fn writerLogger l
-            Logger.send level assembly (string writer) logger
-          }
+          let writerLogger =
+            Expecto.Logging.TextWriterTarget(Array.empty, Expecto.Logging.LogLevel.Info, writer)
+            :> Expecto.Logging.Logger
 
-    let log l fn = withLogger l <| fun logger l -> logger.log l fn
+          do! fn writerLogger l
+          Logger.send level assembly (string writer) logger
+        }
 
-    let logWithAck l fn = withLogger l <| fun logger l -> logger.logWithAck l fn
+    let log l fn =
+      withLogger l <| fun logger l -> logger.log l fn
+
+    let logWithAck l fn =
+      withLogger l <| fun logger l -> logger.logWithAck l fn
 
     { new Expecto.Logging.Logger with
         member x.name = name
@@ -74,7 +78,10 @@ module private PrinterAdapter =
       let result = Map.find name results
       result.Outcome <- TestOutcome.Skipped
       result.EndTime <- DateTimeOffset.Now
-      result.Messages.Add <| TestResultMessage(TestResultMessage.AdditionalInfoCategory, sprintf "Skipped: %s" reason)
+
+      result.Messages.Add
+      <| TestResultMessage(TestResultMessage.AdditionalInfoCategory, sprintf "Skipped: %s" reason)
+
       recordEnd result
 
     let failed name reason duration =
@@ -110,15 +117,15 @@ module internal Execution =
     |> Seq.toList
     |> List.groupBy (fun t -> t.name)
     |> List.choose (function
-         | _, x :: _ :: _ -> Some x.name
-         | _ -> None)
+      | _, x :: _ :: _ -> Some x.name
+      | _ -> None)
 
   let private runMatchingTests
-      logger
-      (settings: RunSettings)
-      (test: ExpectoTest)
-      (cases: TestCase list)
-      (frameworkHandle: IFrameworkHandle)
+    logger
+    (settings: RunSettings)
+    (test: ExpectoTest)
+    (cases: TestCase list)
+    (frameworkHandle: IFrameworkHandle)
     =
     // TODO: Context passing
     // TODO: fail on focused tests
@@ -133,52 +140,57 @@ module internal Execution =
     let printAdapter = PrinterAdapter.create discovered frameworkHandle
 
     let config = CLIArguments.Printer printAdapter :: settings.expectoConfig
-    Expecto.Logging.Global.initialise <| { Expecto.Logging.Global.defaultConfig with getLogger = getLogger }
 
-    let testNames =
-      cases
-      |> Seq.map (fun c -> c.DisplayName)
-      |> Set.ofSeq
+    Expecto.Logging.Global.initialise
+    <| { Expecto.Logging.Global.defaultConfig with
+           getLogger = getLogger }
+
+    let cases = cases |> Seq.filter (TestFilter.matches settings.filter)
+    let testNames = cases |> Seq.map (fun c -> c.DisplayName) |> Set.ofSeq
 
     let tests =
       ExpectoTest.test test
       |> Expecto.Test.filter joinWith.asString (joinWith.format >> fun name -> Seq.contains name testNames)
 
     let duplicates = duplicatedNames tests
+
     match duplicates with
     | [] ->
-        Expecto.Tests.runTestsWithCLIArgs config [||] tests |> ignore
-        async.Zero()
+      Expecto.Tests.runTestsWithCLIArgs config [||] tests |> ignore
+      async.Zero()
     | _ ->
-        Logger.send LogLevel.Error (Some <| ExpectoTest.source test)
-          (sprintf "Found duplicated test names, these names are: %A" duplicates) logger
-        async.Zero()
+      Logger.send
+        LogLevel.Error
+        (Some <| ExpectoTest.source test)
+        (sprintf "Found duplicated test names, these names are: %A" duplicates)
+        logger
+
+      async.Zero()
 
   let private runTestsForSource logger (settings: RunSettings) frameworkHandle source =
     match Discovery.discoverTestForSource logger source with
     | None -> async.Zero()
     | Some test ->
-        let cases =
-          Discovery.getTestCasesFromTest logger settings test
-          |> Seq.map ExpectoTestCase.case
-          |> List.ofSeq
-        runMatchingTests logger settings test cases frameworkHandle
+      let cases =
+        Discovery.getTestCasesFromTest logger settings test
+        |> Seq.map ExpectoTestCase.case
+        |> List.ofSeq
+
+      runMatchingTests logger settings test cases frameworkHandle
 
   let private runSpecifiedTestsForSource logger (settings: RunSettings) frameworkHandle source (tests: TestCase seq) =
-    let nameSet =
-      tests
-      |> Seq.map (fun t -> t.FullyQualifiedName)
-      |> Set.ofSeq
+    let nameSet = tests |> Seq.map (fun t -> t.FullyQualifiedName) |> Set.ofSeq
+
     match Discovery.discoverTestForSource logger source with
     | None -> async.Zero()
     | Some test ->
-        let cases =
-          Discovery.getTestCasesFromTest logger settings test
-          |> Seq.map ExpectoTestCase.case
-          |> Seq.filter (fun c -> Set.contains c.FullyQualifiedName nameSet)
-          |> List.ofSeq
+      let cases =
+        Discovery.getTestCasesFromTest logger settings test
+        |> Seq.map ExpectoTestCase.case
+        |> Seq.filter (fun c -> Set.contains c.FullyQualifiedName nameSet)
+        |> List.ofSeq
 
-        runMatchingTests logger settings test cases frameworkHandle
+      runMatchingTests logger settings test cases frameworkHandle
 
   let runTests logger (settings: RunSettings) frameworkHandle sources =
     async {
