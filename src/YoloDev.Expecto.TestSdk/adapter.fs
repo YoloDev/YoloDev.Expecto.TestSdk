@@ -16,6 +16,22 @@ open Microsoft.VisualStudio.TestPlatform.ObjectModel.Logging
 type VsTestAdapter() =
   let cts = new CancellationTokenSource()
 
+  member x.WaitForDebugger() =
+    if not Debugger.IsAttached then
+      Debugger.Launch() |> ignore
+
+    while (not cts.IsCancellationRequested && not Debugger.IsAttached) do
+      printfn "Waiting for debugger to attach to process: %d" (Process.GetCurrentProcess().Id)
+      Thread.Sleep 1000
+
+    Debugger.Break()
+
+  member x.Breakpoint() =
+    if
+      System.Environment.GetEnvironmentVariable("DEBUG_EXPECTO_TESTSDK", System.EnvironmentVariableTarget.Process) = "1"
+    then
+      x.WaitForDebugger()
+
   interface System.IDisposable with
     member x.Dispose() =
       match cts with
@@ -24,6 +40,8 @@ type VsTestAdapter() =
 
   interface ITestDiscoverer with
     member x.DiscoverTests(sources, discoveryContext, logger, discoverySink) =
+      x.Breakpoint()
+
       let sources = Guard.argNotNull "sources" sources
       let logger = Guard.argNotNull "logger" logger
       let discoverySink = Guard.argNotNull "discoverySink" discoverySink
@@ -44,7 +62,8 @@ type VsTestAdapter() =
   interface ITestExecutor with
     member x.Cancel() = cts.Cancel()
 
-    member x.RunTests(tests: TestCase seq, runContext: IRunContext, frameworkHandle: IFrameworkHandle): unit =
+    member x.RunTests(tests: TestCase seq, runContext: IRunContext, frameworkHandle: IFrameworkHandle) : unit =
+      x.Breakpoint()
       let tests = Guard.argNotNull "tests" tests
       let runContext = Guard.argNotNull "runContext" runContext
       let frameworkHandle = Guard.argNotNull "frameworkHandle" frameworkHandle
@@ -58,9 +77,11 @@ type VsTestAdapter() =
         |> Option.map (RunSettings.read logger)
         |> Option.defaultValue RunSettings.defaultSettings
 
-      Execution.runSpecifiedTests logger runSettings frameworkHandle tests |> Async.RunSynchronously
+      Execution.runSpecifiedTests logger runSettings frameworkHandle tests
+      |> Async.RunSynchronously
 
-    member x.RunTests(sources: string seq, runContext: IRunContext, frameworkHandle: IFrameworkHandle): unit =
+    member x.RunTests(sources: string seq, runContext: IRunContext, frameworkHandle: IFrameworkHandle) : unit =
+      x.Breakpoint()
       let sources = Guard.argNotNull "sources" sources
       let runContext = Guard.argNotNull "runContext" runContext
       let frameworkHandle = Guard.argNotNull "frameworkHandle" frameworkHandle
@@ -72,10 +93,12 @@ type VsTestAdapter() =
         Option.ofObj runContext
         |> Option.bind (fun c -> Option.ofObj c.RunSettings)
         |> Option.map (RunSettings.read logger)
+        |> Option.map (RunSettings.filter runContext)
         |> Option.defaultValue RunSettings.defaultSettings
 
       let testPlatformContext =
         { requireSourceInformation = runSettings.collectSourceInformation
           requireTestProperty = true }
 
-      Execution.runTests logger runSettings frameworkHandle sources |> Async.RunSynchronously
+      Execution.runTests logger runSettings frameworkHandle sources
+      |> Async.RunSynchronously
