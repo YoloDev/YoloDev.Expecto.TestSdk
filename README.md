@@ -21,7 +21,7 @@ dotnet add package Microsoft.NET.Test.Sdk
 dotnet add package YoloDev.Expecto.TestSdk
 ```
 
-In addition, it might be nesesary to disable the automatic generation of
+In addition, it might be necessary to disable the automatic generation of
 a `program.fs` file by msbuild, depending on your target framework. To do
 so, set `GenerateProgramFile` to false in the `fsproj` file, as seen bellow:
 
@@ -49,7 +49,7 @@ From dotnet test cli help:
 > See https://aka.ms/vstest-runsettings-arguments for more information on RunSettings arguments.
 > Example: dotnet test -- MSTest.DeploymentEnabled=false MSTest.MapInconclusiveToFailed=True
 
-Many of the [ExpectoConfig](https://github.com/haf/expecto#the-config) settings are settable throughusing the CLI or .runsettings file. This test adapter uses the naming from Expecto's [CLI arguments](https://github.com/haf/expecto#main-argv--how-to-run-console-apps) (without the leading `--`), namespaced with `Expecto.`. Additionally, any args that are switches must take a boolean value.
+Many of the [ExpectoConfig](https://github.com/haf/expecto#the-config) settings are settable via the CLI or using a .runsettings file. This test adapter uses the naming from Expecto's [CLI arguments](https://github.com/haf/expecto#main-argv--how-to-run-console-apps) (without the leading `--`), namespaced with `Expecto.`. Additionally, any args that are switches must take a boolean value.
 
 #### RunSettings Example:
 
