@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.14.3](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/compare/YoloDev.Expecto.TestSdk-v0.14.2...YoloDev.Expecto.TestSdk-v0.14.3) (2023-11-16)
+
+
+### Dependencies
+
+* update dependency fantomas to v6.1.3 ([#136](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/issues/136)) ([d162e01](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/commit/d162e01de0ff2afba96d0fcc17bfccb1c97a09cc))
+* update dependency fantomas to v6.2.0 ([#138](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/issues/138)) ([20eda4e](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/commit/20eda4e53e8f0c0aa79f72cdd8dd221d73a1060d))
+* update dependency fantomas to v6.2.1 ([#140](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/issues/140)) ([bebbceb](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/commit/bebbceb85423cfad1fdf0c2e16045019ab21d84d))
+* update dependency fantomas to v6.2.2 ([#142](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/issues/142)) ([d0f4ee9](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/commit/d0f4ee99338d32b520cbd7a518c4c1ef31bbade5))
+* update dependency fantomas to v6.2.3 ([#144](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/issues/144)) ([abd2a1c](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/commit/abd2a1c64454160c00d31794aa451be42102b6a5))
+* update vstest monorepo to v17.7.1 ([#134](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/issues/134)) ([b751ed3](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/commit/b751ed3fc5fe95f7e667247b7421a7e88b638170))
+* update vstest monorepo to v17.7.2 ([#137](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/issues/137)) ([61812c3](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/commit/61812c3e4078d4a10832d3c31aa4630a95d29478))
+* update vstest monorepo to v17.8.0 ([#145](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/issues/145)) ([429854f](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/commit/429854ff29d525659e48b87dbc839982ed05b525))
+
 ## [0.14.2](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/compare/YoloDev.Expecto.TestSdk-v0.14.1...YoloDev.Expecto.TestSdk-v0.14.2) (2023-08-09)
 
 
