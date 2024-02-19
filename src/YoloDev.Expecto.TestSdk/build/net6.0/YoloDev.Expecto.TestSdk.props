@@ -1,10 +1,26 @@
 <Project>
+
+  <PropertyGroup>
+    <!-- Makes the new platform/runner opt-in feature -->
+    <EnableExpectoRunner Condition=" '$(EnableExpectoRunner)' == '' ">false</EnableExpectoRunner>
+    <!-- Defines the new platform capability -->
+    <IsTestingPlatformApplication>$(EnableExpectoRunner)</IsTestingPlatformApplication>
+  </PropertyGroup>
+
   <ItemGroup>
-    <None Include="$(MSBuildThisFileDirectory)expecto.visualstudio.dotnetcore.testadapter.dll">
-      <Link>expecto.visualstudio.dotnetcore.testadapter.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Visible>False</Visible>
-    </None>
+    <!--
+      !!! IMPORTANT !!!
+      DO NOT CHANGE THE GUID, IT'S A WELL KNOWN EXTENSION POINT AND THIS EXTENSION NEEDS TO BE REGISTERED AT THE END
+      WE HAVE CODE INSIDE THE TASK 'TestingPlatformEntryPoint' TO ENSURE THE ORDER OF THE REGISTRATION BASED ON THIS GUID
+    -->
+    <TestingPlatformBuilderHook Include="CFC308E5-E1A5-4B99-8002-17EF4D55D043" Condition=" $(GenerateTestingPlatformEntryPoint) == 'true' " >
+      <DisplayName>Expecto</DisplayName>
+      <TypeFullName>YoloDev.Expecto.TestSdk.TestingPlatformBuilderHook</TypeFullName>
+    </TestingPlatformBuilderHook>
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectCapability Include="TestContainer" />
   </ItemGroup>
+  
 </Project>

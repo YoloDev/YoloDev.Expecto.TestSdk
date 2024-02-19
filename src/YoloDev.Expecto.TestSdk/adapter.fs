@@ -1,13 +1,13 @@
 namespace YoloDev.Expecto.TestSdk
 
-open Expecto.Impl
 open Expecto.Tests
-open System.IO
 open System.Threading
 open System.Diagnostics
 open Microsoft.VisualStudio.TestPlatform.ObjectModel
 open Microsoft.VisualStudio.TestPlatform.ObjectModel.Adapter
-open Microsoft.VisualStudio.TestPlatform.ObjectModel.Logging
+open Microsoft.Testing.Extensions.VSTestBridge
+open Microsoft.Testing.Extensions.VSTestBridge.Requests
+open System.Threading.Tasks
 
 [<FileExtension(".dll")>]
 [<FileExtension(".exe")>]
@@ -102,3 +102,34 @@ type VsTestAdapter() =
 
       Execution.runTests logger runSettings frameworkHandle sources
       |> Async.RunSynchronously
+
+/// Defines the identity of the Expecto extension for Microsoft.Testing.Platform.
+type ExpectoExtension() =
+    interface Microsoft.Testing.Platform.Extensions.IExtension with
+      member _.Uid = nameof(ExpectoExtension)
+      member _.Version = "0.14.4"
+      member _.DisplayName = "Expecto"
+      member _.Description = "Expecto test adapter for Microsoft Testing Platform"
+      member _.IsEnabledAsync() = System.Threading.Tasks.Task.FromResult true
+
+/// Defines the ITestFramework extension of Microsoft.Testing.Platform for Expecto using the VSTest bridge.
+type ExpectoTestFramework(extension, getTestAssemblies, serviceProvider, capabilities) =
+  inherit SynchronizedSingleSessionVSTestBridgedTestFramework(extension, getTestAssemblies, serviceProvider, capabilities) with
+
+  let vstestAdapter = new VsTestAdapter()
+
+  let discoverTests (request: VSTestDiscoverTestExecutionRequest) =
+    let discoverer = vstestAdapter :> ITestDiscoverer
+    discoverer.DiscoverTests(request.AssemblyPaths, request.DiscoveryContext, request.MessageLogger, request.DiscoverySink)
+    Task.CompletedTask
+
+  let runTests (request: VSTestRunTestExecutionRequest) (token: CancellationToken) =
+    let runner = vstestAdapter :> ITestExecutor
+    use _ = token.Register (fun _ -> runner.Cancel())
+    match request.VSTestFilter.TestCases |> Option.ofNullable with
+    | Some testCases -> runner.RunTests(testCases, request.RunContext, request.FrameworkHandle)
+    | None -> runner.RunTests(request.AssemblyPaths, request.RunContext, request.FrameworkHandle)
+    Task.CompletedTask
+  
+  override _.SynchronizedDiscoverTestsAsync(request, _, _) = discoverTests request
+  override _.SynchronizedRunTestsAsync(request, _, token) = runTests request token
