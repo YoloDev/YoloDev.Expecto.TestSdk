@@ -4,6 +4,6 @@
     "rollForward": "latestMajor"
   },
   "msbuild-sdks": {
-    "YoloDev.Sdk": "0.5.1"
+    "YoloDev.Sdk": "0.6.0"
   }
 }
