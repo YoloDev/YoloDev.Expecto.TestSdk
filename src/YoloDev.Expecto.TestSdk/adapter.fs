@@ -8,6 +8,7 @@ open Microsoft.VisualStudio.TestPlatform.ObjectModel.Adapter
 open Microsoft.Testing.Extensions.VSTestBridge
 open Microsoft.Testing.Extensions.VSTestBridge.Requests
 open System.Threading.Tasks
+open System.Reflection
 
 [<FileExtension(".dll")>]
 [<FileExtension(".exe")>]
@@ -107,7 +108,7 @@ type VsTestAdapter() =
 type ExpectoExtension() =
     interface Microsoft.Testing.Platform.Extensions.IExtension with
       member _.Uid = nameof(ExpectoExtension)
-      member _.Version = "0.14.4"
+      member _.Version = Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion
       member _.DisplayName = "Expecto"
       member _.Description = "Expecto test adapter for Microsoft Testing Platform"
       member _.IsEnabledAsync() = System.Threading.Tasks.Task.FromResult true
@@ -130,6 +131,6 @@ type ExpectoTestFramework(extension, getTestAssemblies, serviceProvider, capabil
     | Some testCases -> runner.RunTests(testCases, request.RunContext, request.FrameworkHandle)
     | None -> runner.RunTests(request.AssemblyPaths, request.RunContext, request.FrameworkHandle)
     Task.CompletedTask
-  
+
   override _.SynchronizedDiscoverTestsAsync(request, _, _) = discoverTests request
   override _.SynchronizedRunTestsAsync(request, _, token) = runTests request token

@@ -30,7 +30,6 @@
   <ItemGroup>
     <PackageReference Include="FSharp.Core" />
     <PackageReference Include="Expecto" />
-    <PackageReference Include="Microsoft.Testing.Extensions.Telemetry" />
     <PackageReference Include="Microsoft.Testing.Extensions.VSTestBridge" />
     <PackageReference Include="Microsoft.Testing.Platform.MSBuild" />
     <PackageReference Include="Microsoft.TestPlatform.ObjectModel" PrivateAssets="all" />
@@ -42,7 +41,7 @@
     <PropertyGroup>
       <ArtifactsDir>$(MSBuildThisFileDirectory)../../artifacts/</ArtifactsDir>
     </PropertyGroup>
-    
+
     <ItemGroup>
       <MSBuildAssetsBuild Include="build/**" />
       <MSBuildLib Include="$(TargetDir)$(TargetName).dll" />
