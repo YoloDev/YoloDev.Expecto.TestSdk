@@ -4,6 +4,7 @@
   <PropertyGroup>
     <GenerateTestingPlatformEntryPoint Condition=" '$(GenerateTestingPlatformEntryPoint)' == '' ">$(EnableExpectoRunner)</GenerateTestingPlatformEntryPoint>
     <GenerateProgramFile Condition=" '$(EnableExpectoRunner)' == 'true' ">false</GenerateProgramFile>
+    <DisableTestingPlatformServerCapability Condition=" '$(EnableExpectoRunner)' != 'true' " >true</DisableTestingPlatformServerCapability>
   </PropertyGroup>
 
   <Choose>
@@ -26,5 +27,5 @@
       </ItemGroup>
     </Otherwise>
   </Choose>
-  
+
 </Project>
