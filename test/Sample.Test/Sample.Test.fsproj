@@ -1,8 +1,20 @@
-﻿<Project Sdk="YoloDev.Sdk">
+<Project Sdk="YoloDev.Sdk">
 
   <PropertyGroup>
-    <OutputType>library</OutputType>
+    <!-- Set the output to exe and set EnableExpectoRunner to true to enable the new platform -->
+    <OutputType>exe</OutputType>
+    <EnableExpectoRunner>true</EnableExpectoRunner>
+    <!-- Set to true to enable dotnet test support through the new platform -->
+    <TestingPlatformDotnetTestSupport>true</TestingPlatformDotnetTestSupport>
+    <!-- Set to true to enable the new platform to show test failures -->
+    <TestingPlatformShowTestsFailure>false</TestingPlatformShowTestsFailure>
+    <!-- Set to false to disable the new platform to capture output -->
+    <TestingPlatformCaptureOutput>true</TestingPlatformCaptureOutput>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="YoloDev.Expecto.TestSdk" VersionOverride="$(PackageVersion)" />
+  </ItemGroup>
 
   <ItemGroup>
     <Compile Include="Test.fs" />

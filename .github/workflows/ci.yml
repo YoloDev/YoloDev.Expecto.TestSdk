@@ -39,12 +39,11 @@ jobs:
       - name: 🔨 Build
         run: dotnet build --configuration Release
 
-      - name: 🧪 Test
-        run: dotnet test --no-build --configuration Release
-
       - name: 📦 Pack
         run: dotnet pack --configuration Release --no-build
-        if: ${{ matrix.os == 'ubuntu-latest' }}
+
+      - name: 🧪 Test
+        run: dotnet test ./test/Sample.Test/Sample.Test.fsproj --configuration Release
 
       - name: 🔼 Upload packages as artifact
         uses: actions/upload-artifact@v3
