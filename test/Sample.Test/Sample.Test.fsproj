@@ -1,27 +1,23 @@
 <Project Sdk="YoloDev.Sdk">
 
-  <!-- Explicitly import the props before all -->
-  <Import Project="../../artifacts/tests/nugetPackageFolder/expecto.visualstudio.dotnetcore.testadapter/build/net6.0/YoloDev.Expecto.TestSdk.props" />
-
   <PropertyGroup>
     <!-- Set the output to exe and set EnableExpectoRunner to true to enable the new platform -->
     <OutputType>exe</OutputType>
     <EnableExpectoRunner>true</EnableExpectoRunner>
     <!-- Set to true to enable dotnet test support through the new platform -->
     <TestingPlatformDotnetTestSupport>true</TestingPlatformDotnetTestSupport>
+    <!-- Set to true to enable the new platform to show test failures -->
+    <TestingPlatformShowTestsFailure>false</TestingPlatformShowTestsFailure>
+    <!-- Set to false to disable the new platform to capture output -->
+    <TestingPlatformCaptureOutput>true</TestingPlatformCaptureOutput>
   </PropertyGroup>
 
-  <!-- Some package references that are not required when referencing YoloDev.Expecto.TestSdk -->
   <ItemGroup>
-    <PackageReference Include="Microsoft.Testing.Platform.MSBuild" />
-    <PackageReference Include="Microsoft.Testing.Extensions.VSTestBridge" />
+    <PackageReference Include="YoloDev.Expecto.TestSdk" VersionOverride="$(PackageVersion)" />
   </ItemGroup>
 
   <ItemGroup>
     <Compile Include="Test.fs" />
   </ItemGroup>
-
-  <!-- Explicitly import the targets after all -->
-  <Import Project="../../artifacts/tests/nugetPackageFolder/expecto.visualstudio.dotnetcore.testadapter/build/net6.0/YoloDev.Expecto.TestSdk.targets" />
 
 </Project>

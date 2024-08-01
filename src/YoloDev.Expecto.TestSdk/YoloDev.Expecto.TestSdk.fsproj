@@ -36,22 +36,4 @@
     <PackageReference Include="System.Collections.Immutable" />
   </ItemGroup>
 
-  <!-- Generates NuGet package layout inside artifacts to make it testable with simple imports -->
-  <Target Name="ReproNugetPackageLayout" AfterTargets="Build" Condition=" '$(TargetFramework)' != '' ">
-    <PropertyGroup>
-      <ArtifactsDir>$(MSBuildThisFileDirectory)../../artifacts/</ArtifactsDir>
-    </PropertyGroup>
-
-    <ItemGroup>
-      <MSBuildAssetsBuild Include="build/**" />
-      <MSBuildLib Include="$(TargetDir)$(TargetName).dll" />
-    </ItemGroup>
-
-    <Message Text="MSBuildAssetsBuild tests: @(MSBuildAssetsBuild->'$(ArtifactsDir)tests/nugetPackageFolder/build/%(RecursiveDir)%(Filename)%(Extension)')" Importance="low" />
-    <Copy SourceFiles="@(MSBuildAssetsBuild)" DestinationFiles="@(MSBuildAssetsBuild->'$(ArtifactsDir)tests/nugetPackageFolder/$(AssemblyName)/build/%(RecursiveDir)%(Filename)%(Extension)')" />
-
-    <Message Text="MSBuildLib tests: @(MSBuildLib->'$(ArtifactsDir)tests/nugetPackageFolder/build/$(TargetFramework)/%(RecursiveDir)%(Filename)%(Extension)')" Importance="low" />
-    <Copy SourceFiles="@(MSBuildLib)" DestinationFiles="@(MSBuildLib->'$(ArtifactsDir)tests/nugetPackageFolder/$(AssemblyName)/build/$(TargetFramework)/%(RecursiveDir)%(Filename)%(Extension)')" />
-  </Target>
-
 </Project>
