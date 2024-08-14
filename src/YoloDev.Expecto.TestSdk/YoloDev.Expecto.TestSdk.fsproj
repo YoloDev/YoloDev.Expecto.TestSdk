@@ -1,4 +1,4 @@
-﻿<Project Sdk="YoloDev.Sdk">
+<Project Sdk="YoloDev.Sdk">
 
   <PropertyGroup>
     <AssemblyName>expecto.visualstudio.dotnetcore.testadapter</AssemblyName>
@@ -28,7 +28,6 @@
     <PackageReference Include="FSharp.Core" />
     <PackageReference Include="Expecto" />
     <PackageReference Include="Microsoft.TestPlatform.ObjectModel" PrivateAssets="all" />
-    <PackageReference Include="System.Collections.Immutable" />
   </ItemGroup>
 
 </Project>
