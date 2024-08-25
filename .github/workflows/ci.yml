@@ -30,20 +30,14 @@ jobs:
       - name: 🔽 Setup dotnet from global.json
         uses: actions/setup-dotnet@v3
 
+      - name: 🔽 Setup just
+        uses: extractions/setup-just@v1
+
       - name: 🔍 Print dotnet info
         run: dotnet --info
 
-      - name: 🔽 Restore
-        run: dotnet restore -p:Configuration=Release
-
-      - name: 🔨 Build
-        run: dotnet build --configuration Release
-
-      - name: 📦 Pack
-        run: dotnet pack --configuration Release --no-build
-
       - name: 🧪 Test
-        run: dotnet test ./test/Sample.Test/Sample.Test.fsproj --configuration Release
+        run: just test
 
       - name: 🔼 Upload packages as artifact
         uses: actions/upload-artifact@v3

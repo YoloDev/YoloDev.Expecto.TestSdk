@@ -13,14 +13,4 @@
     <PackageReference Include="Microsoft.NET.Test.Sdk" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="$(MSBuildThisFileDirectory)\..\src\YoloDev.Expecto.TestSdk\YoloDev.Expecto.TestSdk.fsproj" ReferenceOutputAssembly="false" OutputItemType="_TestAdapter" />
-  </ItemGroup>
-
-  <Target Name="_AddTestAdapterToOutput" BeforeTargets="GetCopyToOutputDirectoryItems">
-    <ItemGroup>
-      <_TransitiveItemsToCopyToOutputDirectory Include="@(_TestAdapter)" CopyToOutputDirectory="PreserveNewest" TargetPath="%(_TestAdapter.Filename)%(_TestAdapter.Extension)" />
-    </ItemGroup>
-  </Target>
-
 </Project>
