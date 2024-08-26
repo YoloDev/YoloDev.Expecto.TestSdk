@@ -1,15 +1,15 @@
 <Project Sdk="YoloDev.Sdk">
 
   <PropertyGroup>
+    <EnableExpectoRunner Condition=" '$(EnableExpectoRunner)' == '' ">true</EnableExpectoRunner>
     <!-- Set the output to exe and set EnableExpectoRunner to true to enable the new platform -->
-    <OutputType>exe</OutputType>
-    <EnableExpectoRunner>true</EnableExpectoRunner>
+    <OutputType Condition=" '$(EnableExpectoRunner)' == 'true' ">exe</OutputType>
     <!-- Set to true to enable dotnet test support through the new platform -->
-    <TestingPlatformDotnetTestSupport>true</TestingPlatformDotnetTestSupport>
+    <TestingPlatformDotnetTestSupport Condition=" '$(EnableExpectoRunner)' == 'true' ">true</TestingPlatformDotnetTestSupport>
     <!-- Set to true to enable the new platform to show test failures -->
-    <TestingPlatformShowTestsFailure>false</TestingPlatformShowTestsFailure>
+    <TestingPlatformShowTestsFailure Condition=" '$(EnableExpectoRunner)' == 'true' ">false</TestingPlatformShowTestsFailure>
     <!-- Set to false to disable the new platform to capture output -->
-    <TestingPlatformCaptureOutput>true</TestingPlatformCaptureOutput>
+    <TestingPlatformCaptureOutput Condition=" '$(EnableExpectoRunner)' == 'true' ">true</TestingPlatformCaptureOutput>
   </PropertyGroup>
 
   <ItemGroup>
