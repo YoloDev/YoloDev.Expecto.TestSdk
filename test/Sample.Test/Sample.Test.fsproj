@@ -10,6 +10,8 @@
     <TestingPlatformShowTestsFailure Condition=" '$(EnableExpectoRunner)' == 'true' ">false</TestingPlatformShowTestsFailure>
     <!-- Set to false to disable the new platform to capture output -->
     <TestingPlatformCaptureOutput Condition=" '$(EnableExpectoRunner)' == 'true' ">true</TestingPlatformCaptureOutput>
+    <!-- Set the FAILING_TESTS constant if MSBuild property IncludeFailingTests is set to 'true' -->
+    <DefineConstants Condition=" '$(IncludeFailingTests)' == 'true' ">$(DefineConstants);FAILING_TESTS</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup>
