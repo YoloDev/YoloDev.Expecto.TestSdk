@@ -6,7 +6,8 @@
     <BuildOutputTargetFolder>build</BuildOutputTargetFolder>
     <OutputType>Exe</OutputType>
     <PackageId>$(MSBuildProjectName)</PackageId>
-    <GenerateTestingPlatformEntryPoint>false</GenerateTestingPlatformEntryPoint>
+    <IsTestingPlatformApplication>false</IsTestingPlatformApplication>
+    <Nullable>disable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
