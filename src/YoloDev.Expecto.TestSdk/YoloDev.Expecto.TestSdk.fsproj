@@ -7,7 +7,6 @@
     <OutputType>Exe</OutputType>
     <PackageId>$(MSBuildProjectName)</PackageId>
     <IsTestingPlatformApplication>false</IsTestingPlatformApplication>
-    <Nullable>disable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
