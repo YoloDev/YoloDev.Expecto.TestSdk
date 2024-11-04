@@ -3,7 +3,7 @@
   <!-- Handle the coexistance between testing platform and Microsoft.NET.Test.Sdk  -->
   <PropertyGroup>
     <GenerateTestingPlatformEntryPoint Condition=" '$(GenerateTestingPlatformEntryPoint)' == '' ">$(EnableExpectoRunner)</GenerateTestingPlatformEntryPoint>
-     <GenerateSelfRegisteredExtensions Condition=" '$(GenerateSelfRegisteredExtensions)' == '' ">$(EnableExpectoRunner)</GenerateSelfRegisteredExtensions>
+    <GenerateSelfRegisteredExtensions Condition=" '$(GenerateSelfRegisteredExtensions)' == '' ">$(EnableExpectoRunner)</GenerateSelfRegisteredExtensions>
     <GenerateProgramFile Condition=" '$(EnableExpectoRunner)' == 'true' ">false</GenerateProgramFile>
     <DisableTestingPlatformServerCapability Condition=" '$(EnableExpectoRunner)' != 'true' " >true</DisableTestingPlatformServerCapability>
   </PropertyGroup>
