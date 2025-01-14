@@ -3,10 +3,10 @@ namespace YoloDev.Expecto.TestSdk
 open Expecto.Tests
 open System.Threading
 open System.Diagnostics
-open Microsoft.VisualStudio.TestPlatform.ObjectModel
-open Microsoft.VisualStudio.TestPlatform.ObjectModel.Adapter
 open Microsoft.Testing.Extensions.VSTestBridge
 open Microsoft.Testing.Extensions.VSTestBridge.Requests
+open Microsoft.VisualStudio.TestPlatform.ObjectModel
+open Microsoft.VisualStudio.TestPlatform.ObjectModel.Adapter
 open System.Threading.Tasks
 open System.Reflection
 
@@ -35,24 +35,17 @@ type VsTestAdapter() =
 
   interface System.IDisposable with
     member x.Dispose() =
-      match cts with
-      | null -> ()
-      | s -> s.Dispose()
+      cts.Dispose()
 
   interface ITestDiscoverer with
     member x.DiscoverTests(sources, discoveryContext, logger, discoverySink) =
       x.Breakpoint()
 
-      let sources = Guard.argNotNull "sources" sources
-      let logger = Guard.argNotNull "logger" logger
-      let discoverySink = Guard.argNotNull "discoverySink" discoverySink
-
       let stopwatch = Stopwatch.StartNew()
       let logger = Logger(logger, stopwatch)
 
       let runSettings =
-        Option.ofObj discoveryContext
-        |> Option.bind (fun c -> Option.ofObj c.RunSettings)
+        Option.ofObj discoveryContext.RunSettings
         |> Option.map (RunSettings.read logger)
         |> Option.defaultValue RunSettings.defaultSettings
 
@@ -63,7 +56,7 @@ type VsTestAdapter() =
   interface ITestExecutor with
     member x.Cancel() = cts.Cancel()
 
-    member x.RunTests(tests: TestCase seq, runContext: IRunContext, frameworkHandle: IFrameworkHandle) : unit =
+    member x.RunTests(tests: TestCase seq, runContext: IRunContext | null, frameworkHandle: IFrameworkHandle | null) : unit =
       x.Breakpoint()
       let tests = Guard.argNotNull "tests" tests
       let runContext = Guard.argNotNull "runContext" runContext
@@ -81,7 +74,7 @@ type VsTestAdapter() =
       Execution.runSpecifiedTests logger runSettings frameworkHandle tests
       |> Async.RunSynchronously
 
-    member x.RunTests(sources: string seq, runContext: IRunContext, frameworkHandle: IFrameworkHandle) : unit =
+    member x.RunTests(sources: string seq, runContext: IRunContext | null, frameworkHandle: IFrameworkHandle | null) : unit =
       x.Breakpoint()
       let sources = Guard.argNotNull "sources" sources
       let runContext = Guard.argNotNull "runContext" runContext
@@ -108,7 +101,10 @@ type VsTestAdapter() =
 type ExpectoExtension() =
     interface Microsoft.Testing.Platform.Extensions.IExtension with
       member _.Uid = nameof(ExpectoExtension)
-      member _.Version = Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion
+      member _.Version =
+        match Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>() with
+        | null -> "0.0.0"
+        | x -> x.InformationalVersion
       member _.DisplayName = "Expecto"
       member _.Description = "Expecto test adapter for Microsoft Testing Platform"
       member _.IsEnabledAsync() = System.Threading.Tasks.Task.FromResult true
