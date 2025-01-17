@@ -2,9 +2,9 @@
 
   <PropertyGroup>
     <!-- Makes the new platform/runner opt-in feature -->
-    <EnableExpectoRunner Condition=" '$(EnableExpectoRunner)' == '' ">false</EnableExpectoRunner>
+    <EnableExpectoTestingPlatformIntegration Condition=" '$(EnableExpectoTestingPlatformIntegration)' == '' ">false</EnableExpectoTestingPlatformIntegration>
     <!-- Defines the new platform capability -->
-    <IsTestingPlatformApplication>$(EnableExpectoRunner)</IsTestingPlatformApplication>
+    <IsTestingPlatformApplication>$(EnableExpectoTestingPlatformIntegration)</IsTestingPlatformApplication>
   </PropertyGroup>
 
   <ItemGroup>

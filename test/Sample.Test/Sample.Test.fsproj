@@ -1,15 +1,15 @@
 <Project Sdk="YoloDev.Sdk">
 
   <PropertyGroup>
-    <EnableExpectoRunner Condition=" '$(EnableExpectoRunner)' == '' ">true</EnableExpectoRunner>
-    <!-- Set the output to exe and set EnableExpectoRunner to true to enable the new platform -->
-    <OutputType Condition=" '$(EnableExpectoRunner)' == 'true' ">exe</OutputType>
+    <EnableExpectoTestingPlatformIntegration Condition=" '$(EnableExpectoTestingPlatformIntegration)' == '' ">true</EnableExpectoTestingPlatformIntegration>
+    <!-- Set the output to exe and set EnableExpectoTestingPlatformIntegration to true to enable the new platform -->
+    <OutputType Condition=" '$(EnableExpectoTestingPlatformIntegration)' == 'true' ">exe</OutputType>
     <!-- Set to true to enable dotnet test support through the new platform -->
-    <TestingPlatformDotnetTestSupport Condition=" '$(EnableExpectoRunner)' == 'true' ">true</TestingPlatformDotnetTestSupport>
+    <TestingPlatformDotnetTestSupport Condition=" '$(EnableExpectoTestingPlatformIntegration)' == 'true' ">true</TestingPlatformDotnetTestSupport>
     <!-- Set to true to enable the new platform to show test failures -->
-    <TestingPlatformShowTestsFailure Condition=" '$(EnableExpectoRunner)' == 'true' ">true</TestingPlatformShowTestsFailure>
+    <TestingPlatformShowTestsFailure Condition=" '$(EnableExpectoTestingPlatformIntegration)' == 'true' ">true</TestingPlatformShowTestsFailure>
     <!-- Set to false to disable the new platform to capture output -->
-    <TestingPlatformCaptureOutput Condition=" '$(EnableExpectoRunner)' == 'true' ">false</TestingPlatformCaptureOutput>
+    <TestingPlatformCaptureOutput Condition=" '$(EnableExpectoTestingPlatformIntegration)' == 'true' ">false</TestingPlatformCaptureOutput>
     <!-- Set the FAILING_TESTS constant if MSBuild property IncludeFailingTests is set to 'true' -->
     <DefineConstants Condition=" '$(IncludeFailingTests)' == 'true' ">$(DefineConstants);FAILING_TESTS</DefineConstants>
   </PropertyGroup>
