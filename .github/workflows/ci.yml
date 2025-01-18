@@ -30,21 +30,14 @@ jobs:
       - name: 🔽 Setup dotnet from global.json
         uses: actions/setup-dotnet@v3
 
+      - name: 🔽 Setup just
+        uses: extractions/setup-just@v1
+
       - name: 🔍 Print dotnet info
         run: dotnet --info
 
-      - name: 🔽 Restore
-        run: dotnet restore -p:Configuration=Release
-
-      - name: 🔨 Build
-        run: dotnet build --configuration Release
-
       - name: 🧪 Test
-        run: dotnet test --no-build --configuration Release
-
-      - name: 📦 Pack
-        run: dotnet pack --configuration Release --no-build
-        if: ${{ matrix.os == 'ubuntu-latest' }}
+        run: just test
 
       - name: 🔼 Upload packages as artifact
         uses: actions/upload-artifact@v3

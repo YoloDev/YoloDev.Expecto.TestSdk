@@ -232,7 +232,7 @@ module RunSettings =
     args |> Map.toSeq |> Seq.choose snd |> List.ofSeq
 
 
-  let read logger (runSettings: IRunSettings) =
+  let read logger (runSettings: IRunSettings | null) =
     let settings = defaultSettings
 
     let runSettingsNode =
