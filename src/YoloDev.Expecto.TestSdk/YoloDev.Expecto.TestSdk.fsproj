@@ -6,6 +6,7 @@
     <BuildOutputTargetFolder>build</BuildOutputTargetFolder>
     <OutputType>Exe</OutputType>
     <PackageId>$(MSBuildProjectName)</PackageId>
+    <IsTestingPlatformApplication>false</IsTestingPlatformApplication>
   </PropertyGroup>
 
   <ItemGroup>
@@ -16,17 +17,21 @@
     <Compile Include="discovery.fs" />
     <Compile Include="execution.fs" />
     <Compile Include="adapter.fs" />
+    <Compile Include="TestApplicationHelpers.fs" />
     <Compile Include="main.fs" />
   </ItemGroup>
 
   <ItemGroup>
     <None Include="build/net6.0/YoloDev.Expecto.TestSdk.props" Pack="true" PackagePath="build\net6.0\" />
+    <None Include="build/net6.0/YoloDev.Expecto.TestSdk.targets" Pack="true" PackagePath="build\net6.0\" />
     <None Include="build/net6.0/_._" Pack="true" PackagePath="lib\net6.0\" Visible="false" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="FSharp.Core" />
     <PackageReference Include="Expecto" />
+    <PackageReference Include="Microsoft.Testing.Extensions.VSTestBridge" />
+    <PackageReference Include="Microsoft.Testing.Platform.MSBuild" />
     <PackageReference Include="Microsoft.TestPlatform.ObjectModel" PrivateAssets="all" />
   </ItemGroup>
 
