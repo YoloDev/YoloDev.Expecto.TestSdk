@@ -1,8 +1,22 @@
-﻿<Project Sdk="YoloDev.Sdk">
+<Project Sdk="YoloDev.Sdk">
 
   <PropertyGroup>
-    <OutputType>library</OutputType>
+    <EnableExpectoTestingPlatformIntegration Condition=" '$(EnableExpectoTestingPlatformIntegration)' == '' ">true</EnableExpectoTestingPlatformIntegration>
+    <!-- Set the output to exe and set EnableExpectoTestingPlatformIntegration to true to enable the new platform -->
+    <OutputType Condition=" '$(EnableExpectoTestingPlatformIntegration)' == 'true' ">exe</OutputType>
+    <!-- Set to true to enable dotnet test support through the new platform -->
+    <TestingPlatformDotnetTestSupport Condition=" '$(EnableExpectoTestingPlatformIntegration)' == 'true' ">true</TestingPlatformDotnetTestSupport>
+    <!-- Set to true to enable the new platform to show test failures -->
+    <TestingPlatformShowTestsFailure Condition=" '$(EnableExpectoTestingPlatformIntegration)' == 'true' ">true</TestingPlatformShowTestsFailure>
+    <!-- Set to false to disable the new platform to capture output -->
+    <TestingPlatformCaptureOutput Condition=" '$(EnableExpectoTestingPlatformIntegration)' == 'true' ">false</TestingPlatformCaptureOutput>
+    <!-- Set the FAILING_TESTS constant if MSBuild property IncludeFailingTests is set to 'true' -->
+    <DefineConstants Condition=" '$(IncludeFailingTests)' == 'true' ">$(DefineConstants);FAILING_TESTS</DefineConstants>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="YoloDev.Expecto.TestSdk" VersionOverride="$(PackageVersion)" />
+  </ItemGroup>
 
   <ItemGroup>
     <Compile Include="Test.fs" />

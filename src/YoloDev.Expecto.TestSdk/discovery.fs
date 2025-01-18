@@ -69,8 +69,6 @@ module internal Discovery =
   let internal discoverTestForSource logger source =
     let assembly = System.Reflection.Assembly.LoadFile source
 
-    if isNull assembly then failwithf "LoadFile %s returned null" source
-
     getTestForAssembly logger assembly source
 
   let discoverTests logger = Seq.choose (discoverTestForSource logger)
