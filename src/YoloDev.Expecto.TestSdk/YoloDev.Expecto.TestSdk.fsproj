@@ -33,7 +33,6 @@
     <PackageReference Include="Microsoft.Testing.Extensions.VSTestBridge" />
     <PackageReference Include="Microsoft.Testing.Platform.MSBuild" />
     <PackageReference Include="Microsoft.TestPlatform.ObjectModel" PrivateAssets="all" />
-    <PackageReference Include="System.Collections.Immutable" />
   </ItemGroup>
 
 </Project>
