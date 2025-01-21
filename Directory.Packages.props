@@ -3,8 +3,8 @@
     <PackageVersion Include="Expecto" Version="[10.0, 11.0)" />
     <PackageVersion Include="FSharp.Core" Version="[7.0.200,)" />
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.12.0" />
-    <PackageVersion Include="Microsoft.Testing.Extensions.VSTestBridge" Version="1.5.1" />
-    <PackageVersion Include="Microsoft.Testing.Platform.MSBuild" Version="1.5.1" />
+    <PackageVersion Include="Microsoft.Testing.Extensions.VSTestBridge" Version="1.5.2" />
+    <PackageVersion Include="Microsoft.Testing.Platform.MSBuild" Version="1.5.2" />
     <PackageVersion Include="Microsoft.TestPlatform.ObjectModel" Version="17.12.0" />
     <PackageVersion Include="System.Collections.Immutable" Version="[6.0.1,)" />
   </ItemGroup>
