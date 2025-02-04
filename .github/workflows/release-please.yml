@@ -20,7 +20,6 @@ jobs:
         uses: GoogleCloudPlatform/release-please-action@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          command: manifest
 
       - id: transform
         name: Massage output
@@ -33,7 +32,7 @@ jobs:
           echo "ANY: $ANY"
           echo "TAG_NAME: '$TAG_NAME'"
           echo "UPLOAD_URL: '$UPLOAD_URL'"
-          echo "::set-output name=any::$ANY"
+          echo "any=$ANY" >> $GITHUB_OUTPUT
 
       - name: Print outputs
         env:
