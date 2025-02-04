@@ -40,14 +40,14 @@ jobs:
         run: just test
 
       - name: 🔼 Upload packages as artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: ${{ matrix.os == 'ubuntu-latest' }}
         with:
           name: nuget
           path: artifacts/nuget/
 
       - name: 🔼 Upload global.json as artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: ${{ matrix.os == 'ubuntu-latest' }}
         with:
           name: global-json
