@@ -33,7 +33,6 @@ jobs:
           global-json-file: global.json
           dotnet-version: |
             8
-            6
 
       - name: 🔽 Setup just
         uses: extractions/setup-just@v2
