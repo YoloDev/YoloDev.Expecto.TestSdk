@@ -28,7 +28,7 @@ jobs:
           fetch-depth: 0
 
       - name: 🔽 Setup dotnet from global.json
-        uses: actions/setup-dotnet@v3
+        uses: actions/setup-dotnet@v4
 
       - name: 🔽 Setup just
         uses: extractions/setup-just@v2
