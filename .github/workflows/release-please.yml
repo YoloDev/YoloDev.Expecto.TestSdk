@@ -70,6 +70,10 @@ jobs:
 
       - name: 🔽 Setup dotnet from global.json
         uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: global.json
+          dotnet-version: |
+            8
 
       - name: 🔽 Setup just
         uses: extractions/setup-just@v2
@@ -132,6 +136,10 @@ jobs:
 
       - name: 🔽 Install dotnet
         uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: global.json
+          dotnet-version: |
+            8
 
       - name: 🔼 Publish package to nuget
         run: dotnet nuget push --force-english-output --api-key '${{ secrets.GITHUB_TOKEN }}' --source 'https://nuget.pkg.github.com/YoloDev/index.json' --skip-duplicate "nuget/*.nupkg"
@@ -161,6 +169,10 @@ jobs:
 
       - name: 🔽 Install dotnet
         uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: global.json
+          dotnet-version: |
+            8
 
       - name: 🔼 Publish package to nuget
         run: dotnet nuget push --force-english-output --api-key '${{ secrets.NUGET_API_KEY }}' --source '${{ secrets.NUGET_FEED }}' --skip-duplicate "nuget/*.nupkg"

@@ -33,12 +33,18 @@ test-legacy-failing: pack
 @check-platform:
   #!/usr/bin/env bash
   just test-platform
+  status=$?
+
+  if [ $status -ne 0 ]; then
+    echo "Expected tests to pass, but they failed (status code: $status)"
+    exit 1
+  fi
 
   just test-platform-failing
   status=$?
 
   if [ $status -eq 0 ]; then
-    echo "Expected tests to fail, but they passed (status code: $Status)"
+    echo "Expected tests to fail, but they passed (status code: $status)"
     exit 1
   fi
 
@@ -47,12 +53,18 @@ test-legacy-failing: pack
 @check-legacy:
   #!/usr/bin/env bash
   just test-legacy
+  status=$?
+
+  if [ $status -ne 0 ]; then
+    echo "Expected tests to pass, but they failed (status code: $status)"
+    exit 1
+  fi
 
   just test-legacy-failing
   status=$?
 
   if [ $status -eq 0 ]; then
-    echo "Expected tests to fail, but they passed (status code: $Status)"
+    echo "Expected tests to fail, but they passed (status code: $status)"
     exit 1
   fi
 
