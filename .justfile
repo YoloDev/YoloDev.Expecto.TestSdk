@@ -36,7 +36,7 @@ test-legacy-failing: pack
   status=$?
 
   if [ $status -ne 0 ]; then
-    echo "Expected tests to pass, but they failed (status code: $Status)"
+    echo "Expected tests to pass, but they failed (status code: $status)"
     exit 1
   fi
 
@@ -44,7 +44,7 @@ test-legacy-failing: pack
   status=$?
 
   if [ $status -eq 0 ]; then
-    echo "Expected tests to fail, but they passed (status code: $Status)"
+    echo "Expected tests to fail, but they passed (status code: $status)"
     exit 1
   fi
 
@@ -56,7 +56,7 @@ test-legacy-failing: pack
   status=$?
 
   if [ $status -ne 0 ]; then
-    echo "Expected tests to pass, but they failed (status code: $Status)"
+    echo "Expected tests to pass, but they failed (status code: $status)"
     exit 1
   fi
 
@@ -64,7 +64,7 @@ test-legacy-failing: pack
   status=$?
 
   if [ $status -eq 0 ]; then
-    echo "Expected tests to fail, but they passed (status code: $Status)"
+    echo "Expected tests to fail, but they passed (status code: $status)"
     exit 1
   fi
 
