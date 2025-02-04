@@ -59,24 +59,26 @@ jobs:
     concurrency:
       group: release
 
+    env:
+      DOTNET_NOLOGO: "true"
+      DOTNET_CLI_TELEMETRY_OPTOUT: "true"
+      DOTNET_SKIP_FIRST_TIME_EXPERIENCE: "true"
+
     steps:
       - name: ⏬ Checkout
         uses: actions/checkout@v4
 
-      - name: 🔽 Install dotnet
+      - name: 🔽 Setup dotnet from global.json
         uses: actions/setup-dotnet@v4
+
+      - name: 🔽 Setup just
+        uses: extractions/setup-just@v2
 
       - name: 🔍 Print dotnet info
         run: dotnet --info
 
-      - name: 🔽 Restore
-        run: dotnet restore -p:Configuration=Release
-
-      - name: 🔨 Build
-        run: dotnet build --configuration Release
-
-      - name: 📦 Pack
-        run: dotnet pack --configuration Release --no-build
+      - name: 🧪 Test
+        run: just test
 
       - name: 🔼 Upload packages as artifact
         uses: actions/upload-artifact@v4
