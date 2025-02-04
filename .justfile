@@ -11,6 +11,9 @@ build: restore
 pack: build
   dotnet pack --configuration Release --no-build
 
+clean:
+  dotnet clean
+
 test-platform: pack
   dotnet clean ./test/Sample.Test/Sample.Test.fsproj -v:quiet
   dotnet test ./test/Sample.Test/Sample.Test.fsproj -p:EnableExpectoTestingPlatformIntegration=true -p:IncludeFailingTests=false

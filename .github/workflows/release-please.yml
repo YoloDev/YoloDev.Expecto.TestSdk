@@ -80,6 +80,12 @@ jobs:
       - name: 🧪 Test
         run: just test
 
+      - name: 🧹 Clean
+        run: just clean
+
+      - name: 📦 Pack
+        run: just pack
+
       - name: 🔼 Upload packages as artifact
         uses: actions/upload-artifact@v4
         with:
