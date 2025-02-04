@@ -33,6 +33,12 @@ test-legacy-failing: pack
 @check-platform:
   #!/usr/bin/env bash
   just test-platform
+  status=$?
+
+  if [ $status -ne 0 ]; then
+    echo "Expected tests to pass, but they failed (status code: $Status)"
+    exit 1
+  fi
 
   just test-platform-failing
   status=$?
@@ -47,6 +53,12 @@ test-legacy-failing: pack
 @check-legacy:
   #!/usr/bin/env bash
   just test-legacy
+  status=$?
+
+  if [ $status -ne 0 ]; then
+    echo "Expected tests to pass, but they failed (status code: $Status)"
+    exit 1
+  fi
 
   just test-legacy-failing
   status=$?
