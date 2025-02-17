@@ -59,7 +59,7 @@ module private PrinterAdapter =
 
     // let beforeRun _ = async.Zero ()
 
-    let beforeEach name =
+    let beforeEach name _isSkipped =
       let result = Map.find name results
       result.StartTime <- DateTimeOffset.Now
       frameworkHandle.RecordStart result.TestCase
