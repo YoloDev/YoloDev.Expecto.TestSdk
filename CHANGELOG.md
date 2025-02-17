@@ -1,5 +1,22 @@
 # Changelog
 
+## [0.15.1](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/compare/YoloDev.Expecto.TestSdk-v0.15.0...YoloDev.Expecto.TestSdk-v0.15.1) (2025-02-17)
+
+
+### Bug Fixes
+
+* update minimal version of Expecto ([#204](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/issues/204)) ([d601f9c](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/commit/d601f9ccba2ee968337f07105b3c326c6a80cbd1))
+
+
+### Miscellaneous Chores
+
+* release 0.15.1 ([d72a1ae](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/commit/d72a1aea411004a308505662a34c7938ce046765))
+
+
+### Dependencies
+
+* update vstest monorepo to 17.13.0 ([#200](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/issues/200)) ([040bbe7](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/commit/040bbe714b2316d46fe623eff311fd4af7fa1434))
+
 ## [0.15.0](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/compare/YoloDev.Expecto.TestSdk-v0.14.3...YoloDev.Expecto.TestSdk-v0.15.0) (2025-02-04)
 
 
