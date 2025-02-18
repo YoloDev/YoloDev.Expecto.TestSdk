@@ -123,9 +123,7 @@ type ExpectoTestFramework(extension, getTestAssemblies, serviceProvider, capabil
   let runTests (request: VSTestRunTestExecutionRequest) (token: CancellationToken) =
     let runner = vstestAdapter :> ITestExecutor
     use _ = token.Register (fun _ -> runner.Cancel())
-    match request.VSTestFilter.TestCases |> Option.ofNullable with
-    | Some testCases -> runner.RunTests(testCases, request.RunContext, request.FrameworkHandle)
-    | None -> runner.RunTests(request.AssemblyPaths, request.RunContext, request.FrameworkHandle)
+    runner.RunTests(request.AssemblyPaths, request.RunContext, request.FrameworkHandle)
     Task.CompletedTask
 
   override _.SynchronizedDiscoverTestsAsync(request, _, _) = discoverTests request
