@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.15.2](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/compare/YoloDev.Expecto.TestSdk-v0.15.1...YoloDev.Expecto.TestSdk-v0.15.2) (2025-02-19)
+
+
+### Dependencies
+
+* update Microsoft.Testing.Platform ([#205](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/issues/205)) ([74a2cc4](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/commit/74a2cc4fdafa9e83046d603f7c52a70ef7a5cd58))
+
 ## [0.15.1](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/compare/YoloDev.Expecto.TestSdk-v0.15.0...YoloDev.Expecto.TestSdk-v0.15.1) (2025-02-17)
 
 
