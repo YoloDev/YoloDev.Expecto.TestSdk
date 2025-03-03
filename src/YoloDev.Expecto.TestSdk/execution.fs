@@ -102,7 +102,7 @@ module private PrinterAdapter =
       result.Duration <- duration
       recordEnd result
 
-    Expecto.Impl.TestPrinters.silent
+    TestPrinters.silent
     |> TestPrinters.withBeforeEach beforeEach
     |> TestPrinters.withPassed passed
     |> TestPrinters.withIgnored ignored
