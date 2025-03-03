@@ -48,6 +48,7 @@ module private LogAdapter =
 
 module private PrinterAdapter =
   open System
+  type private TestPrinters = Expecto.Impl.TestPrinters
 
   let create (cases: Map<string, TestCase>) (frameworkHandle: IFrameworkHandle) =
     let results = Map.map (fun _ -> TestResult) cases
@@ -101,12 +102,12 @@ module private PrinterAdapter =
       result.Duration <- duration
       recordEnd result
 
-    { Expecto.Impl.TestPrinters.silent with
-        beforeEach = beforeEach
-        passed = passed
-        ignored = ignored
-        failed = failed
-        exn = exn }
+    TestPrinters.silent
+    |> TestPrinters.withBeforeEach beforeEach
+    |> TestPrinters.withPassed passed
+    |> TestPrinters.withIgnored ignored
+    |> TestPrinters.withFailed failed
+    |> TestPrinters.withExn exn
 
 [<RequireQualifiedAccess>]
 module internal Execution =

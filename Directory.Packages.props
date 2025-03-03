@@ -1,6 +1,6 @@
 <Project>
   <ItemGroup>
-    <PackageVersion Include="Expecto" Version="[10.2.1, 11.0)" />
+    <PackageVersion Include="Expecto" Version="[10.2.2, 11.0)" />
     <PackageVersion Include="FSharp.Core" Version="[7.0.200,)" />
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.13.0" />
     <PackageVersion Include="Microsoft.Testing.Extensions.VSTestBridge" Version="1.6.2" />
