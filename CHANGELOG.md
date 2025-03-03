@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.15.3](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/compare/YoloDev.Expecto.TestSdk-v0.15.2...YoloDev.Expecto.TestSdk-v0.15.3) (2025-03-03)
+
+
+### Features
+
+* use expecto printer compat layer ([#210](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/issues/210)) ([e90d19a](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/commit/e90d19ae63c3c6ee522ba9bca494f4660b147714))
+
+
+### Dependencies
+
+* update mstest monorepo to 1.6.2 ([#207](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/issues/207)) ([5721bce](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/commit/5721bce54f33d56527b43c49ef7ea6d796fd31fc))
+
 ## [0.15.2](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/compare/YoloDev.Expecto.TestSdk-v0.15.1...YoloDev.Expecto.TestSdk-v0.15.2) (2025-02-19)
 
 
