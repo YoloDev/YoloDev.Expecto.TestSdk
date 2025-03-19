@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.15.4](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/compare/YoloDev.Expecto.TestSdk-v0.15.3...YoloDev.Expecto.TestSdk-v0.15.4) (2025-03-19)
+
+
+### Dependencies
+
+* update mstest monorepo to 1.6.3 ([#212](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/issues/212)) ([7da7a61](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/commit/7da7a615405942f3edbc4c8f27309876eb9c05b2))
+
 ## [0.15.3](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/compare/YoloDev.Expecto.TestSdk-v0.15.2...YoloDev.Expecto.TestSdk-v0.15.3) (2025-03-03)
 
 
