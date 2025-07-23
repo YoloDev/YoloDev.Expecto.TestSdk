@@ -1,12 +1,5 @@
 <Project>
 
-  <PropertyGroup>
-    <!-- Makes the new platform/runner opt-in feature -->
-    <EnableExpectoTestingPlatformIntegration Condition=" '$(EnableExpectoTestingPlatformIntegration)' == '' ">false</EnableExpectoTestingPlatformIntegration>
-    <!-- Defines the new platform capability -->
-    <IsTestingPlatformApplication>$(EnableExpectoTestingPlatformIntegration)</IsTestingPlatformApplication>
-  </PropertyGroup>
-
   <ItemGroup>
     <!--
       !!! IMPORTANT !!!
@@ -17,10 +10,6 @@
       <DisplayName>Expecto</DisplayName>
       <TypeFullName>YoloDev.Expecto.TestSdk.TestingPlatformBuilderHook</TypeFullName>
     </TestingPlatformBuilderHook>
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectCapability Include="TestContainer" />
   </ItemGroup>
 
 </Project>
