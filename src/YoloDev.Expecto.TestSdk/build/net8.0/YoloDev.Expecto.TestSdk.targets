@@ -1,11 +1,12 @@
 <Project>
 
-  <!-- Handle the coexistance between testing platform and Microsoft.NET.Test.Sdk  -->
+  <!-- Handle the coexistance between Microsoft.Testing.Platform and Microsoft.NET.Test.Sdk  -->
   <PropertyGroup>
-    <GenerateTestingPlatformEntryPoint Condition=" '$(GenerateTestingPlatformEntryPoint)' == '' ">$(EnableExpectoTestingPlatformIntegration)</GenerateTestingPlatformEntryPoint>
-    <GenerateSelfRegisteredExtensions Condition=" '$(GenerateSelfRegisteredExtensions)' == '' ">$(EnableExpectoTestingPlatformIntegration)</GenerateSelfRegisteredExtensions>
+    <!-- Makes the new platform/runner opt-in feature -->
+    <EnableExpectoTestingPlatformIntegration Condition=" '$(EnableExpectoTestingPlatformIntegration)' == '' ">false</EnableExpectoTestingPlatformIntegration>
+
+    <IsTestingPlatformApplication>$(EnableExpectoTestingPlatformIntegration)</IsTestingPlatformApplication>
     <GenerateProgramFile Condition=" '$(EnableExpectoTestingPlatformIntegration)' == 'true' ">false</GenerateProgramFile>
-    <DisableTestingPlatformServerCapability Condition=" '$(EnableExpectoTestingPlatformIntegration)' != 'true' " >true</DisableTestingPlatformServerCapability>
   </PropertyGroup>
 
   <Choose>
