@@ -65,7 +65,7 @@ jobs:
 
     steps:
       - name: ⏬ Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: 🔽 Setup dotnet from global.json
         uses: actions/setup-dotnet@v4
