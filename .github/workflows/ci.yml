@@ -35,7 +35,7 @@ jobs:
             8
 
       - name: 🔽 Setup just
-        uses: extractions/setup-just@v2
+        uses: extractions/setup-just@v3
 
       - name: 🔍 Print dotnet info
         run: dotnet --info
