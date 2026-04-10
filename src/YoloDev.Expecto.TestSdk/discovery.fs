@@ -13,7 +13,8 @@ module private TestCase =
     let case = TestCase(fullName, Constants.executorUri, source)
     let location = getLocation assembly test.test
     case.LineNumber <- location.lineNumber
-    case.CodeFilePath <- location.sourcePath
+    if location.sourcePath <> "" then
+      case.CodeFilePath <- location.sourcePath
     case
 
 type ExpectoTest =
