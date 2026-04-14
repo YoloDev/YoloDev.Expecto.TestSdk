@@ -153,6 +153,9 @@ jobs:
       - release_please
       - build
       - githubpkg
+    
+    permissions:
+      id-token: write  # enable GitHub OIDC token issuance for this job
 
     steps:
       - name: 🔽 Download nuget artifact
@@ -172,6 +175,13 @@ jobs:
           global-json-file: global.json
           dotnet-version: |
             8
+      
+      # Get a short-lived NuGet API key
+      - name: NuGet login (OIDC → temp API key)
+        uses: NuGet/login@v1
+        id: login
+        with:
+          user: alxandr
 
       - name: 🔼 Publish package to nuget
-        run: dotnet nuget push --force-english-output --api-key '${{ secrets.NUGET_API_KEY }}' --source '${{ secrets.NUGET_FEED }}' --skip-duplicate "nuget/*.nupkg"
+        run: dotnet nuget push --force-english-output --api-key '${{steps.login.outputs.NUGET_API_KEY}}' --source '${{ secrets.NUGET_FEED }}' --skip-duplicate "nuget/*.nupkg"
