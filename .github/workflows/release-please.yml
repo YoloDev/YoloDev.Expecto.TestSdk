@@ -178,7 +178,7 @@ jobs:
       
       # Get a short-lived NuGet API key
       - name: NuGet login (OIDC → temp API key)
-        uses: NuGet/login@v1
+        uses: NuGet/login@v1.1.0
         id: login
         with:
           user: alxandr
