@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.15.6](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/compare/YoloDev.Expecto.TestSdk-v0.15.5...YoloDev.Expecto.TestSdk-v0.15.6) (2026-04-14)
+
+
+### Bug Fixes
+
+* do not set the source path to an empty string ([#254](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/issues/254)) ([61c05fe](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/commit/61c05fe306bfb0f65720bb88085f022a199852c7))
+
+
+### Dependencies
+
+* update dependency fantomas to v7.0.5 ([#249](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/issues/249)) ([a7ae904](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/commit/a7ae904742b0670e30e4a3338f5ec593e1e7769b))
+* update mstest monorepo to 1.9.1 ([#245](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/issues/245)) ([0e2a808](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/commit/0e2a808598c10d92098e428a974b4fe171f87a2b))
+
 ## [0.15.5](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/compare/YoloDev.Expecto.TestSdk-v0.15.4...YoloDev.Expecto.TestSdk-v0.15.5) (2025-10-02)
 
 
