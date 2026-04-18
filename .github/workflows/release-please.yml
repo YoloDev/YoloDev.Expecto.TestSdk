@@ -17,7 +17,7 @@ jobs:
 
     steps:
       - id: release
-        uses: GoogleCloudPlatform/release-please-action@v4
+        uses: GoogleCloudPlatform/release-please-action@5c625bfb5d1ff62eadeeb3772007f7f66fdcf071 # v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
@@ -65,17 +65,17 @@ jobs:
 
     steps:
       - name: ⏬ Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5
 
       - name: 🔽 Setup dotnet from global.json
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@67a3573c9a986a3f9c594539f4ab511d57bb3ce9 # v4
         with:
           global-json-file: global.json
           dotnet-version: |
             8
 
       - name: 🔽 Setup just
-        uses: extractions/setup-just@v3
+        uses: extractions/setup-just@f8a3cce218d9f83db3a2ecd90e41ac3de6cdfd9b # v3
 
       - name: 🔍 Print dotnet info
         run: dotnet --info
@@ -90,20 +90,20 @@ jobs:
         run: just pack
 
       - name: 🔼 Upload packages as artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: nuget
           path: artifacts/nuget/
 
       - name: 🔼 Upload global.json as artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: global-json
           path: global.json
 
       - name: 🔼 Upload packages as github release asset
         if: needs.release_please.outputs.upload_url != ''
-        uses: shogo82148/actions-upload-release-asset@v1
+        uses: shogo82148/actions-upload-release-asset@96bc1f0cb850b65efd58a6b5eaa0a69f88d38077 # v1
         with:
           upload_url: ${{ needs.release_please.outputs.upload_url }}
           asset_path: artifacts/nuget/*
@@ -123,18 +123,18 @@ jobs:
 
     steps:
       - name: 🔽 Download nuget artifact
-        uses: actions/download-artifact@v5.0.0
+        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5.0.0
         with:
           name: nuget
           path: nuget
 
       - name: 🔽 Download global-json artifact
-        uses: actions/download-artifact@v5.0.0
+        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5.0.0
         with:
           name: global-json
 
       - name: 🔽 Install dotnet
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@67a3573c9a986a3f9c594539f4ab511d57bb3ce9 # v4
         with:
           global-json-file: global.json
           dotnet-version: |
@@ -159,18 +159,18 @@ jobs:
 
     steps:
       - name: 🔽 Download nuget artifact
-        uses: actions/download-artifact@v5.0.0
+        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5.0.0
         with:
           name: nuget
           path: nuget
 
       - name: 🔽 Download global-json artifact
-        uses: actions/download-artifact@v5.0.0
+        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5.0.0
         with:
           name: global-json
 
       - name: 🔽 Install dotnet
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@67a3573c9a986a3f9c594539f4ab511d57bb3ce9 # v4
         with:
           global-json-file: global.json
           dotnet-version: |
@@ -178,7 +178,7 @@ jobs:
       
       # Get a short-lived NuGet API key
       - name: NuGet login (OIDC → temp API key)
-        uses: NuGet/login@v1.1.0
+        uses: NuGet/login@d22cc5f58ff5b88bf9bd452535b4335137e24544 # v1.1.0
         id: login
         with:
           user: alxandr
