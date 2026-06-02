@@ -17,7 +17,7 @@ jobs:
 
     steps:
       - id: release
-        uses: GoogleCloudPlatform/release-please-action@45996ed1f6d02564a971a2fa1b5860e934307cf7 # v5
+        uses: GoogleCloudPlatform/release-please-action@45996ed1f6d02564a971a2fa1b5860e934307cf7 # v5.0.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
@@ -65,17 +65,17 @@ jobs:
 
     steps:
       - name: ⏬ Checkout
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
 
       - name: 🔽 Setup dotnet from global.json
-        uses: actions/setup-dotnet@9a946fdbd5fb07b82b2f5a4466058b876ab72bb2 # v5
+        uses: actions/setup-dotnet@9a946fdbd5fb07b82b2f5a4466058b876ab72bb2 # v5.3.0
         with:
           global-json-file: global.json
           dotnet-version: |
             8
 
       - name: 🔽 Setup just
-        uses: extractions/setup-just@53165ef7e734c5c07cb06b3c8e7b647c5aa16db3 # v4
+        uses: extractions/setup-just@53165ef7e734c5c07cb06b3c8e7b647c5aa16db3 # v4.0.0
 
       - name: 🔍 Print dotnet info
         run: dotnet --info
@@ -90,20 +90,20 @@ jobs:
         run: just pack
 
       - name: 🔼 Upload packages as artifact
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: nuget
           path: artifacts/nuget/
 
       - name: 🔼 Upload global.json as artifact
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: global-json
           path: global.json
 
       - name: 🔼 Upload packages as github release asset
         if: needs.release_please.outputs.upload_url != ''
-        uses: shogo82148/actions-upload-release-asset@ee2ae851dc5d938b90075b3ef12c540abfd1ee72 # v1
+        uses: shogo82148/actions-upload-release-asset@ee2ae851dc5d938b90075b3ef12c540abfd1ee72 # v1.10.1
         with:
           upload_url: ${{ needs.release_please.outputs.upload_url }}
           asset_path: artifacts/nuget/*
@@ -134,7 +134,7 @@ jobs:
           name: global-json
 
       - name: 🔽 Install dotnet
-        uses: actions/setup-dotnet@9a946fdbd5fb07b82b2f5a4466058b876ab72bb2 # v5
+        uses: actions/setup-dotnet@9a946fdbd5fb07b82b2f5a4466058b876ab72bb2 # v5.3.0
         with:
           global-json-file: global.json
           dotnet-version: |
@@ -170,7 +170,7 @@ jobs:
           name: global-json
 
       - name: 🔽 Install dotnet
-        uses: actions/setup-dotnet@9a946fdbd5fb07b82b2f5a4466058b876ab72bb2 # v5
+        uses: actions/setup-dotnet@9a946fdbd5fb07b82b2f5a4466058b876ab72bb2 # v5.3.0
         with:
           global-json-file: global.json
           dotnet-version: |
