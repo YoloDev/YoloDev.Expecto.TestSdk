@@ -5,6 +5,7 @@ open System.Threading
 open System.Diagnostics
 open Microsoft.Testing.Extensions.VSTestBridge
 open Microsoft.Testing.Extensions.VSTestBridge.Requests
+open Microsoft.Testing.Platform.Extensions.Messages
 open Microsoft.VisualStudio.TestPlatform.ObjectModel
 open Microsoft.VisualStudio.TestPlatform.ObjectModel.Adapter
 open System.Threading.Tasks
@@ -128,3 +129,23 @@ type ExpectoTestFramework(extension, getTestAssemblies, serviceProvider, capabil
 
   override _.SynchronizedDiscoverTestsAsync(request, _, _) = discoverTests request
   override _.SynchronizedRunTestsAsync(request, _, token) = runTests request token
+
+  // Expecto tests are values in nested test lists, not CLR methods, so there is no real managed
+  // type/method. We synthesize a public TestMethodIdentifierProperty from the (dot-joined)
+  // FullyQualifiedName so Visual Studio can recover namespace/class/method via location.type /
+  // location.method without the legacy vstest.TestCase.* key/value-pair properties.
+  // NOTE: this assumes the default `--join-with .` separator; per-row identity relies on TestNode.Uid.
+  override _.AddAdditionalProperties(testNode: TestNode, testCase: TestCase) =
+    let fqn = testCase.FullyQualifiedName
+    if not (System.String.IsNullOrEmpty fqn) then
+      let lastDot = fqn.LastIndexOf '.'
+      let typeName, methodName =
+        if lastDot > 0 then fqn.Substring(0, lastDot), fqn.Substring(lastDot + 1)
+        else "", fqn
+      let assemblyFullName =
+        try AssemblyName.GetAssemblyName(testCase.Source).FullName
+        with _ -> ""
+      let property =
+        TestMethodIdentifierProperty(
+          assemblyFullName, "", typeName, methodName, 0, Array.empty<string>, "System.Void")
+      testNode.Properties.Add property
