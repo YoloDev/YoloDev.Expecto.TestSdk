@@ -18,7 +18,7 @@ open Microsoft.Testing.Platform.Capabilities.TestFramework
 // consume the public properties and stop depending on the internal key/value-pair shape.
 //
 // This mirrors MSTest's MSTestCapabilities:
-// https://github.com/microsoft/testfx/blob/main/src/Adapter/MSTest.TestAdapter/TestingPlatformAdapter/TestApplicationBuilderExtensions.cs
+// https://github.com/microsoft/testfx/blob/5c6ea3bf01f1247736fbbbba0ffdd8a8b38840dc/src/Adapter/MSTest.TestAdapter/TestingPlatformAdapter/TestApplicationBuilderExtensions.cs
 // MSTest can implement the internal IInternalVSTestBridgeTrxReportCapability (it is on the bridge's
 // InternalsVisibleTo list); external adapters cannot, so we implement the public ITrxReportCapability.
 type internal ExpectoTestFrameworkCapabilities() =
