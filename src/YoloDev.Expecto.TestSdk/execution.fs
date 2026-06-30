@@ -80,8 +80,13 @@ module private PrinterAdapter =
       result.Outcome <- TestOutcome.Skipped
       result.EndTime <- DateTimeOffset.Now
 
-      result.Messages.Add
-      <| TestResultMessage(TestResultMessage.AdditionalInfoCategory, sprintf "Skipped: %s" reason)
+      // Surface the skip reason via ErrorMessage rather than a TestResultMessage with
+      // AdditionalInfoCategory. The Microsoft.Testing.Platform VSTest bridge only knows how to
+      // convert StandardError/StandardOut/DebugTrace message categories when building the TRX
+      // report and throws UnreachableException on any other category, so an AdditionalInfo message
+      // crashes the MTP run. For skipped tests the bridge maps ErrorMessage to
+      // SkippedTestNodeStateProperty, and the legacy VSTest runner also shows it as the skip reason.
+      result.ErrorMessage <- sprintf "Skipped: %s" reason
 
       recordEnd result
 
