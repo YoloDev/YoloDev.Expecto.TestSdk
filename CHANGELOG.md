@@ -1,5 +1,30 @@
 # Changelog
 
+## [0.16.0](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/compare/YoloDev.Expecto.TestSdk-v0.15.6...YoloDev.Expecto.TestSdk-v0.16.0) (2026-07-08)
+
+
+### ⚠ BREAKING CHANGES
+
+* Depending on your version of .NET, this may require setting `test.runner` to `Microsoft.Testing.Platform` in `global.json`.
+
+### Features
+
+* change Expecto package version range ([#292](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/issues/292)) ([09e925c](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/commit/09e925c76b3b367f007669129dd8de626c945e9d))
+* emit public TestMethodIdentifierProperty and stop advertising vstestProvider ([#284](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/issues/284)) ([4597e35](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/commit/4597e35bf7995b910c1b309529aa7f8c3163ed10))
+
+
+### Dependencies
+
+* update dependency expecto to [10.2.3,) ([#295](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/issues/295)) ([5df4572](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/commit/5df45726bc0049339ae1f27ab33e04108d0f417d))
+* update dependency expecto to v11 ([#281](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/issues/281)) ([3e5e527](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/commit/3e5e52707bd55406d16bca7d6afc12a30c2a8ff0))
+* update dependency expecto to v11 ([#285](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/issues/285)) ([719730c](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/commit/719730cf59db7b95850137270075c17459586b0e))
+* update mstest monorepo to 2.3.0 ([#293](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/issues/293)) ([972cb8a](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/commit/972cb8a8db60de41c48cc4e552b8fedf978bcb25))
+* update mstest monorepo to v2 and run platform tests in MTP mode ([#290](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/issues/290)) ([81a245f](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/commit/81a245f2470a54e0f5dcb33415cc65242b35e94a))
+* update vstest monorepo to 18.5.1 ([#273](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/issues/273)) ([83224cf](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/commit/83224cfc80939787d65525e10a4fd9a11c3cafd0))
+* update vstest monorepo to 18.6.0 ([#276](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/issues/276)) ([2abe904](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/commit/2abe9045b0cc88482fc3ee5cff7ab5c470e27421))
+* update vstest monorepo to 18.7.0 ([#288](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/issues/288)) ([4bd0de1](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/commit/4bd0de13640014068ffc61d0e2fe6fbd187e9d7c))
+* update vstest monorepo to v18 (major) ([#264](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/issues/264)) ([0272e85](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/commit/0272e85cc6eedf11ce7a4c49e10042f3efd139c8))
+
 ## [0.15.6](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/compare/YoloDev.Expecto.TestSdk-v0.15.5...YoloDev.Expecto.TestSdk-v0.15.6) (2026-04-14)
 
 
