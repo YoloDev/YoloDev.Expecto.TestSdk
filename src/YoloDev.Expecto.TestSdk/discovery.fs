@@ -1,8 +1,6 @@
 [<AutoOpen>]
 module YoloDev.Expecto.TestSdk.Discovery
 
-#nowarn "3261"
-
 open Expecto
 open Expecto.Impl
 open System.Reflection
@@ -64,8 +62,7 @@ module internal Discovery =
     let source = Guard.argNotNull "source" source
 
     // Logger.send Info (Some source) "Finding tests in assembly" logger
-    Expecto.Impl.testFromAssemblyWithFilter (fun _ -> true) assembly
-    |> Option.map (fun test -> ExpectoTest.create source assembly test)
+    Expecto.Impl.testFromAssembly assembly |> Option.map (ExpectoTest.create source assembly)
 
   let internal getTestCasesFromTest logger (settings: RunSettings) (test: ExpectoTest) =
     Expecto.Test.toTestCodeList test.test |> List.map (ExpectoTestCase.create settings test)
