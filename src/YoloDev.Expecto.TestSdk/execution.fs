@@ -48,7 +48,22 @@ module private LogAdapter =
 
 module private PrinterAdapter =
   open System
+  open Microsoft.FSharp.Reflection
   type private TestPrinters = Expecto.Impl.TestPrinters
+
+  let private makeFunction functionType invoke =
+    let rec loop functionType args =
+      if FSharpType.IsFunction functionType then
+        let _, range = FSharpType.GetFunctionElements functionType
+
+        FSharpValue.MakeFunction(
+          functionType,
+          fun arg -> loop range (arg :: args)
+        )
+      else
+        invoke (List.rev args)
+
+    loop functionType []
 
   let create (cases: Map<string, TestCase>) (frameworkHandle: IFrameworkHandle) =
     let results = Map.map (fun _ -> TestResult) cases
@@ -107,12 +122,45 @@ module private PrinterAdapter =
       result.Duration <- duration
       recordEnd result
 
-    TestPrinters.silent
-    |> TestPrinters.withBeforeEach beforeEach
-    |> TestPrinters.withPassed passed
-    |> TestPrinters.withIgnored ignored
-    |> TestPrinters.withFailed failed
-    |> TestPrinters.withExn exn
+    let basePrinters = TestPrinters.silent
+    let fields = FSharpType.GetRecordFields typeof<TestPrinters>
+    let values = FSharpValue.GetRecordFields basePrinters
+
+    let overrideField fieldName fieldType =
+      match fieldName with
+      | "beforeEach" ->
+        makeFunction fieldType (function
+          | [ name ] -> box (beforeEach (unbox name))
+          | [ name; _ ] -> box (beforeEach (unbox name))
+          | _ -> invalidOp "Unexpected beforeEach arguments")
+      | "passed" ->
+        makeFunction fieldType (function
+          | [ name; duration ] -> box (passed (unbox name) (unbox duration))
+          | _ -> invalidOp "Unexpected passed arguments")
+      | "ignored" ->
+        makeFunction fieldType (function
+          | [ name; reason ] -> box (ignored (unbox name) (unbox reason))
+          | _ -> invalidOp "Unexpected ignored arguments")
+      | "failed" ->
+        makeFunction fieldType (function
+          | [ name; reason; duration ] -> box (failed (unbox name) (unbox reason) (unbox duration))
+          | _ -> invalidOp "Unexpected failed arguments")
+      | "exn" ->
+        makeFunction fieldType (function
+          | [ name; error; duration ] -> box (exn (unbox name) (unbox error) (unbox duration))
+          | _ -> invalidOp "Unexpected exn arguments")
+      | _ -> invalidOp $"Unexpected printer override field '{fieldName}'"
+
+    Array.zip fields values
+    |> Array.map (fun (field, value) ->
+      match field.Name with
+      | "beforeEach"
+      | "passed"
+      | "ignored"
+      | "failed"
+      | "exn" -> overrideField field.Name field.PropertyType
+      | _ -> value)
+    |> fun values -> FSharpValue.MakeRecord(typeof<TestPrinters>, values) :?> TestPrinters
 
 [<RequireQualifiedAccess>]
 module internal Execution =
