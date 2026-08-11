@@ -16,11 +16,11 @@ clean:
 
 test-platform: pack
   cd test/mtp && dotnet clean ../Sample.Test/Sample.Test.fsproj -v:quiet
-  cd test/mtp && dotnet test ../Sample.Test/Sample.Test.fsproj -p:EnableExpectoTestingPlatformIntegration=true -p:IncludeFailingTests=false
+  cd test/mtp && dotnet test --project ../Sample.Test/Sample.Test.fsproj -p:EnableExpectoTestingPlatformIntegration=true -p:IncludeFailingTests=false
 
 test-platform-failing: pack
   cd test/mtp && dotnet clean ../Sample.Test/Sample.Test.fsproj -v:quiet
-  cd test/mtp && dotnet test ../Sample.Test/Sample.Test.fsproj -p:EnableExpectoTestingPlatformIntegration=true -p:IncludeFailingTests=true
+  cd test/mtp && dotnet test --project ../Sample.Test/Sample.Test.fsproj -p:EnableExpectoTestingPlatformIntegration=true -p:IncludeFailingTests=true
 
 test-legacy: pack
   dotnet clean ./test/Sample.Test/Sample.Test.fsproj -v:quiet

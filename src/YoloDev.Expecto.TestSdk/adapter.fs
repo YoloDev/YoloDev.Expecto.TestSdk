@@ -67,8 +67,7 @@ type VsTestAdapter() =
       let logger = Logger(frameworkHandle, stopwatch)
 
       let runSettings =
-        Option.ofObj runContext
-        |> Option.bind (fun c -> Option.ofObj c.RunSettings)
+        runContext.RunSettings |> Option.ofObj
         |> Option.map (RunSettings.read logger)
         |> Option.defaultValue RunSettings.defaultSettings
 
@@ -85,8 +84,8 @@ type VsTestAdapter() =
       let logger = Logger(frameworkHandle, stopwatch)
 
       let runSettings =
-        Option.ofObj runContext
-        |> Option.bind (fun c -> Option.ofObj c.RunSettings)
+        runContext.RunSettings
+        |> Option.ofObj
         |> Option.map (RunSettings.read logger)
         |> Option.map (RunSettings.filter runContext)
         |> Option.defaultValue RunSettings.defaultSettings

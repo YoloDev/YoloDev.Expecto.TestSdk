@@ -3,10 +3,10 @@ module internal YoloDev.Expecto.TestSdk.Helpers
 
 [<RequireQualifiedAccess>]
 module internal Guard =
-  let inline argNotNull (name: string) (arg: 'a) =
+  let inline argNotNull (name: string) (arg: 'a | null) : 'a =
     match arg with
     | null -> nullArg name
-    | _ -> arg
+    | notNull -> notNull
 
 [<RequireQualifiedAccess>]
 module internal Seq =
