@@ -4,9 +4,12 @@ on:
   - push
   - pull_request
 
+permissions:
+  contents: read
+
 jobs:
   test:
-    name: Test
+    name: Test (${{ matrix.os }}, Expecto ${{ matrix.expecto }})
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
@@ -15,11 +18,23 @@ jobs:
           - macos-latest
           - windows-latest
           - ubuntu-latest
+        expecto:
+          - "10"
+          - "11"
+        include:
+          - expecto: "10"
+            expecto_version: 10.2.3
+          - expecto: "11"
+            expecto_version: 11.0.0
+          - expecto: "10"
+            os: ubuntu-latest
+            publish: true
 
     env:
       DOTNET_NOLOGO: "true"
       DOTNET_CLI_TELEMETRY_OPTOUT: "true"
       DOTNET_SKIP_FIRST_TIME_EXPERIENCE: "true"
+      EXPECTO_VERSION: ${{ matrix.expecto_version }}
 
     steps:
       - name: ⏬ Checkout
@@ -45,14 +60,14 @@ jobs:
 
       - name: 🔼 Upload packages as artifact
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
-        if: ${{ matrix.os == 'ubuntu-latest' }}
+        if: ${{ matrix.publish }}
         with:
           name: nuget
           path: artifacts/nuget/
 
       - name: 🔼 Upload global.json as artifact
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
-        if: ${{ matrix.os == 'ubuntu-latest' }}
+        if: ${{ matrix.publish }}
         with:
           name: global-json
           path: global.json
