@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.16.2](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/compare/YoloDev.Expecto.TestSdk-v0.16.1...YoloDev.Expecto.TestSdk-v0.16.2) (2026-09-10)
+
+
+### Dependencies
+
+* update dependency fantomas to v7.0.6 ([#311](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/issues/311)) ([b9552a2](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/commit/b9552a2d8c504f2c56ee004df61a7657abaa50a0))
+* update mstest monorepo to 2.4.0 ([#312](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/issues/312)) ([d0b5426](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/commit/d0b54265cbcc81d3dcefaecfbdae59c69547bf5a))
+* update vstest monorepo to 18.10.0 ([#314](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/issues/314)) ([0026209](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/commit/002620936b338a40a34e7ea679774060ca76bfc6))
+* update vstest monorepo to 18.9.0 ([#308](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/issues/308)) ([b0b504c](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/commit/b0b504c4730be0cf83942d324b033662806d1617))
+
 ## [0.16.1](https://github.com/YoloDev/YoloDev.Expecto.TestSdk/compare/YoloDev.Expecto.TestSdk-v0.16.0...YoloDev.Expecto.TestSdk-v0.16.1) (2026-08-12)
 
 
