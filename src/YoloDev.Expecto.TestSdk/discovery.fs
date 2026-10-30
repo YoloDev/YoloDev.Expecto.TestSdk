@@ -11,6 +11,10 @@ open Microsoft.VisualStudio.TestPlatform.ObjectModel.Logging
 module private TestCase =
   let create (test: FlatTest) (assembly: Assembly) (source: string) (fullName: string) =
     let case = TestCase(fullName, Constants.executorUri, source)
+    // TestCase.Id is derived lazily from ExecutorUri. The Microsoft.Testing.Platform VSTest bridge replaces
+    // ExecutorUri before it first reads Id, so without pinning it here the uids reported at discovery never
+    // match the test cases built at execution, and running tests by uid (as IDEs do) runs nothing.
+    case.Id <- case.Id
     let location = getLocation assembly test.test
     case.LineNumber <- location.lineNumber
     if location.sourcePath <> "" then
