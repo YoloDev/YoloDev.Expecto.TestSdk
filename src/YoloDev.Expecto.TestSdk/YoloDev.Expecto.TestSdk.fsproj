@@ -23,6 +23,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <InternalsVisibleTo Include="YoloDev.Expecto.TestSdk.Tests" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="build/net8.0/YoloDev.Expecto.TestSdk.props" Pack="true" PackagePath="build\net8.0\" />
     <None Include="build/net8.0/YoloDev.Expecto.TestSdk.targets" Pack="true" PackagePath="build\net8.0\" />
     <None Include="build/net8.0/_._" Pack="true" PackagePath="lib\net8.0\" Visible="false" />
