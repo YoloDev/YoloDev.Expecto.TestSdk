@@ -89,8 +89,9 @@ module TestFilter =
   module private Properties =
     let fullyQualifiedName = TestCaseProperties.FullyQualifiedName
     let name = TestCaseProperties.DisplayName
+    let id = TestCaseProperties.Id
 
-    let private all = [ fullyQualifiedName; name ]
+    let private all = [ fullyQualifiedName; name; id ]
     let names = all |> List.map (fun p -> p.Label)
     let dict = all |> Seq.map (fun p -> (p.Label, p)) |> readOnlyDict
 
