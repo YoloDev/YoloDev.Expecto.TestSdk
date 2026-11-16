@@ -1,0 +1,31 @@
+<Project Sdk="YoloDev.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <!-- Runs as a plain Expecto console app; the adapter under test discovers Fixture.fs from this assembly -->
+    <GenerateProgramFile>false</GenerateProgramFile>
+    <IsTestingPlatformApplication>false</IsTestingPlatformApplication>
+    <GenerateTestingPlatformEntryPoint>false</GenerateTestingPlatformEntryPoint>
+    <Nullable>enable</Nullable>
+    <!-- test/NuGet.config restores into test/.packages, so this build would load a second copy of the
+         SourceLink git task alongside the one the referenced src project uses -->
+    <EnableSourceControlManagerQueries>false</EnableSourceControlManagerQueries>
+    <EnableSourceLink>false</EnableSourceLink>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="Fixture.fs" />
+    <Compile Include="Fakes.fs" />
+    <Compile Include="IdTests.fs" />
+    <Compile Include="FilterTests.fs" />
+    <Compile Include="ExecutionTests.fs" />
+    <Compile Include="ServerModeClient.fs" />
+    <Compile Include="ServerModeTests.fs" />
+    <Compile Include="Main.fs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\YoloDev.Expecto.TestSdk\YoloDev.Expecto.TestSdk.fsproj" />
+  </ItemGroup>
+
+</Project>

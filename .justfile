@@ -22,6 +22,11 @@ test-platform-failing: pack
   cd test/mtp && dotnet clean ../Sample.Test/Sample.Test.fsproj -v:quiet
   cd test/mtp && dotnet test --project ../Sample.Test/Sample.Test.fsproj -p:EnableExpectoTestingPlatformIntegration=true -p:IncludeFailingTests=true
 
+# Unit tests for the adapter, plus end-to-end tests that drive the platform sample over the IDE (server-mode) protocol
+test-adapter: pack
+  cd test/mtp && dotnet build ../Sample.Test/Sample.Test.fsproj -p:EnableExpectoTestingPlatformIntegration=true -p:IncludeFailingTests=false
+  EXPECTO_SAMPLE_TEST_APP="{{justfile_directory()}}/test/Sample.Test/bin/Debug/net8.0/Sample.Test.dll" dotnet run --project test/YoloDev.Expecto.TestSdk.Tests --configuration Release
+
 test-legacy: pack
   dotnet clean ./test/Sample.Test/Sample.Test.fsproj -v:quiet
   dotnet test ./test/Sample.Test/Sample.Test.fsproj -p:EnableExpectoTestingPlatformIntegration=false  -p:IncludeFailingTests=false
@@ -70,4 +75,4 @@ test-legacy-failing: pack
 
   echo "Test run worked as expected"
 
-@test: check-platform check-legacy
+@test: check-platform check-legacy test-adapter
